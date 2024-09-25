@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\User; // Pastikan model User diimpor
 use Faker\Factory as Faker;
 
 class CommentSeeder extends Seeder
@@ -13,17 +14,19 @@ class CommentSeeder extends Seeder
         $faker = Faker::create();
 
         // Ambil semua ID resep yang ada di tabel recipes
-        $recipeIds = DB::table('recipes')->pluck('id')->toArray();
-        
-        // Jika tidak ada resep, jangan lanjutkan
-        if (empty($recipeIds)) {
+        // Ambil ID pengguna secara acak
+        $userIds = User::pluck('id')->toArray();
+
+        // Jika tidak ada pengguna, jangan lanjutkan
+        if (empty($userIds)) {
             return;
         }
 
-        foreach (range(1, 10) as $index) {
+        // Misalkan kita ingin membuat 50 komentar
+        foreach (range(1, 50) as $index) {
             DB::table('comments')->insert([
-                'user_id' => $faker->numberBetween(1, 10), // Asumsi ada 10 pengguna
-                'recipe_id' => $faker->randomElement($recipeIds), // Pilih ID resep acak dari yang ada
+                'user_id' => $faker->randomElement($userIds),  // Mengambil user_id acak dari pengguna
+                'recipe_id' => DB::table('recipes')->inRandomOrder()->first()->id, // Mengambil recipe_id acak dari resep
                 'content' => $faker->sentence,
                 'created_at' => now(),
                 'updated_at' => now(),

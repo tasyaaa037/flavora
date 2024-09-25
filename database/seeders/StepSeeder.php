@@ -18,9 +18,9 @@ class StepSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        foreach (range(1, 10) as $index) {
+        foreach (range(1, 20) as $index) {
             DB::table('steps')->insert([
-                'recipe_id' => $faker->numberBetween(1, 10), // Asumsi ada 10 resep
+                'recipe_id' => DB::table('recipes')->inRandomOrder()->first()->id, // Mengambil recipe_id acak dari resep
                 'step_number' => $index,
                 'description' => $faker->sentence,
                 'created_at' => now(),

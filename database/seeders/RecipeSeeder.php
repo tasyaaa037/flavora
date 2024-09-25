@@ -3,9 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Recipe;  // Pastikan model Recipe sudah ada
-use App\Models\Category; // Pastikan ini diimpor
-use App\Models\User; // Pastikan ini diimpor
+use App\Models\Recipe;
+use App\Models\User;
 use Faker\Factory as Faker;
 
 class RecipeSeeder extends Seeder
@@ -14,6 +13,15 @@ class RecipeSeeder extends Seeder
     {
         // Buat instance faker
         $faker = Faker::create();
+
+        // Daftar kategori manual
+        $categories = [
+            'Breakfast',
+            'Lunch',
+            'Dinner',
+            'Snack',
+            'Dessert'
+        ];
 
         // Loop untuk membuat beberapa recipe
         for ($i = 0; $i < 10; $i++) {
@@ -25,7 +33,8 @@ class RecipeSeeder extends Seeder
                 'prep_time' => $faker->numberBetween(5, 120),
                 'cook_time' => $faker->numberBetween(5, 120),
                 'servings' => $faker->numberBetween(1, 10),
-                'category_id' => Category::inRandomOrder()->first()->id,
+                // Pilih kategori acak dari daftar tetap
+                'category_id' => array_search($faker->randomElement($categories), $categories) + 1,
                 'user_id' => User::inRandomOrder()->first()->id,
             ]);
         }

@@ -3,27 +3,25 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Ingredient;
+use Illuminate\Support\Facades\DB; // Tambahkan ini
 use Faker\Factory as Faker;
 
 class IngredientSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         $faker = Faker::create();
 
+        // Buat loop untuk membuat beberapa ingredients
         foreach (range(1, 50) as $index) {
-            Ingredient::create([
+            DB::table('ingredients')->insert([
                 'name' => $faker->word,
                 'quantity' => $faker->randomNumber(2),
                 'unit' => $faker->randomElement(['grams', 'liters', 'pieces']),
                 'description' => $faker->sentence,
-                'recipe_id' => $faker->numberBetween(1, 10), // Pastikan ID resep valid
+                'recipe_id' => DB::table('recipes')->inRandomOrder()->first()->id, // Mengambil recipe_id acak dari resep
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
     }
