@@ -1,5 +1,4 @@
 <?php
-
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -7,25 +6,22 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Recipe;
 use App\Models\Category;
 
+// RecipeCategorySeeder.php
 class RecipeCategorySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
-        $recipes = Recipe::all();
-        $categories = Category::all();
+        DB::table('recipe_category')->truncate();
+
+        // Buat kategori
+        $categories = Category::factory()->count(5)->create();
+
+        // Buat resep
+        $recipes = Recipe::factory()->count(10)->create(); // Pastikan factory sudah benar
 
         foreach ($recipes as $recipe) {
-            foreach ($categories as $category) {
-                DB::table('recipe_category')->insert([
-                    'recipe_id' => $recipe->id,
-                    'category_id' => $category->id,
-                ]);
-            }
+            $categoriesToAttach = $categories->random(rand(1, 3))->pluck('id');
+            $recipe->categories()->attach($categoriesToAttach);
         }
     }
 }
