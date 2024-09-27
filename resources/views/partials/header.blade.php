@@ -1,31 +1,43 @@
-<header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class="hero_area" style="position: relative;">
+  <!-- header section starts -->
+  <header class="header_section" style="position: relative;">
+    <img src="{{ asset('delfood-1.0.0/images/hero-bg.jpg') }}" alt="Delfood" style="width: 100%; height: auto; position: absolute; top: 0; left: 0; z-index: 0;">
+    <div class="container-fluid" style="position: relative; z-index: 1;">
+      <nav class="navbar navbar-expand-lg custom_nav-container">
         <a class="navbar-brand" href="{{ url('/') }}">
-            <img src="{{ asset('template/images/logo.png') }}" alt="Delfood">
+          <span>
+            Delfood
+          </span>
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url('/') }}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Testimonial</a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-outline-primary" href="{{ route('login') }}">
-                        <i class="fa fa-user"></i> Login
-                    </a>
-                </li>
-            </ul>
+        <div class="navbar-collapse" id="">
+          <div class="User_option">
+            <a href="">
+              <i class="fa fa-user" aria-hidden="true"></i>
+              <span>Login</span>
+            </a>
+            <form class="form-inline">
+              <input type="search" placeholder="Search" />
+              <button class="btn nav_search-btn" type="submit">
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </button>
+            </form>
+          </div>
+          <div class="custom_menu-btn">
+            <button onclick="openNav()">
+              <img src="{{ asset('delfood-1.0.0/images/menu.png') }}" alt="Menu">
+            </button>
+          </div>
+          <div id="myNav" class="overlay">
+            <div class="overlay-content">
+              <a href="index.html">Home</a>
+              <a href="about.html">About</a>
+              <a href="blog.html">Blog</a>
+              <a href="testimonial.html">Testimonial</a>
+            </div>
+          </div>
         </div>
-    </nav>
-</header>
+      </nav>
+    </div>
+  </header>
+  <!-- end header section -->
+</div>

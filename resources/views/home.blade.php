@@ -6,70 +6,96 @@
     <!-- Slider -->
     @include('partials.slider')
 
-    <!-- Search Bar -->
-    @include('partials.search')
-
     <!-- Popular Recipes -->
-    <section class="popular-recipes py-5">
-        <div class="container">
-            <h2 class="text-center mb-4">Popular Recipes</h2>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card">
-                        <img src="{{ asset('template/images/breakfast.jpg') }}" class="card-img-top" alt="Breakfast">
-                        <div class="card-body">
-                            <h5 class="card-title">Breakfast</h5>
-                            <p class="card-text">Start your day with our delicious breakfast options.</p>
-                            <a href="#" class="btn btn-primary">Order Now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <img src="{{ asset('template/images/lunch.jpg') }}" class="card-img-top" alt="Lunch">
-                        <div class="card-body">
-                            <h5 class="card-title">Lunch</h5>
-                            <p class="card-text">Satisfy your hunger with our amazing lunch dishes.</p>
-                            <a href="#" class="btn btn-primary">Order Now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <img src="{{ asset('template/images/dinner.jpg') }}" class="card-img-top" alt="Dinner">
-                        <div class="card-body">
-                            <h5 class="card-title">Dinner</h5>
-                            <p class="card-text">Finish your day with a tasty dinner from our menu.</p>
-                            <a href="#" class="btn btn-primary">Order Now</a>
-                        </div>
-                    </div>
-                </div>
+    <section class="recipe_section layout_padding-top">
+    <div class="container">
+      <div class="heading_container heading_center">
+        <h2>
+          Our Best Popular Recipes
+        </h2>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 col-md-4 mx-auto">
+          <div class="box">
+            <div class="img-box">
+              <img src="delfood-1.0.0/images/r1.jpg" class="box-img" alt="">
             </div>
+            <div class="detail-box">
+              <h4>
+                Breakfast
+              </h4>
+              <a href="">
+                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
         </div>
-    </section>
+        <div class="col-sm-6 col-md-4 mx-auto">
+          <div class="box">
+            <div class="img-box">
+              <img src="delfood-1.0.0/images/r2.jpg" class="box-img" alt="">
+            </div>
+            <div class="detail-box">
+              <h4>
+                Lunch
+              </h4>
+              <a href="">
+                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4 mx-auto">
+          <div class="box">
+            <div class="img-box">
+              <img src="delfood-1.0.0/images/r3.jpg" class="box-img" alt="">
+            </div>
+            <div class="detail-box">
+              <h4>
+                Dinner
+              </h4>
+              <a href="">
+                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <!-- Latest News -->
-    <section class="latest-news py-5 bg-light">
+    <!-- Blog Section -->
+    <section class="news_section layout_padding">
         <div class="container">
-            <h2 class="text-center mb-4">Latest News</h2>
+            <div class="heading_container heading_center">
+                <h2>Latest News</h2>
+            </div>
             <div class="row">
                 <div class="col-md-6">
-                    <div class="card mb-3">
-                        <img src="{{ asset('template/images/news1.jpg') }}" class="card-img-top" alt="News 1">
-                        <div class="card-body">
-                            <h5 class="card-title">New Restaurant Opens</h5>
-                            <p class="card-text">Discover our new restaurant in your area.</p>
-                            <a href="#" class="btn btn-primary">Read More</a>
+                    <div class="box">
+                        <div class="img-box">
+                            <img src="{{ asset('delfood-1.0.0/images/n1.jpg') }}" class="box-img" alt="Tasty Food For You">
+                        </div>
+                        <div class="detail-box">
+                            <h4>Tasty Food For You</h4>
+                            <p>There isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined.</p>
+                            <a href="#">
+                                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="card mb-3">
-                        <img src="{{ asset('template/images/news2.jpg') }}" class="card-img-top" alt="News 2">
-                        <div class="card-body">
-                            <h5 class="card-title">New Recipe Added</h5>
-                            <p class="card-text">Try our latest recipe added to the menu.</p>
-                            <a href="#" class="btn btn-primary">Read More</a>
+                    <div class="box">
+                        <div class="img-box">
+                            <img src="{{ asset('delfood-1.0.0/images/n2.jpg') }}" class="box-img" alt="Breakfast For You">
+                        </div>
+                        <div class="detail-box">
+                            <h4>Breakfast For You</h4>
+                            <p>There isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined.</p>
+                            <a href="#">
+                                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                            </a>
                         </div>
                     </div>
                 </div>

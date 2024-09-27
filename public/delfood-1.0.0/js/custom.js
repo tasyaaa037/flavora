@@ -1,24 +1,25 @@
-// to get current year
 function getYear() {
     var currentDate = new Date();
     var currentYear = currentDate.getFullYear();
-    document.querySelector("#displayYear").innerHTML = currentYear;
+    var yearElement = document.querySelector("#displayYear");
+
+    if (yearElement) {
+        yearElement.innerHTML = currentYear;
+    } else {
+        console.error('Element with ID "displayYear" not found.');
+    }
 }
 
-getYear();
-
-// toggle overlay menu
 function openNav() {
     document.getElementById("myNav").classList.toggle("menu_width");
-    document.querySelector(".custom_menu-btn").classList.toggle("menu_btn-style");
+    document
+        .querySelector(".custom_menu-btn")
+        .classList.toggle("menu_btn-style");
 }
 
-// nice select
 $(document).ready(function () {
-    $('select').niceSelect();
+    $("select").niceSelect();
 });
-
-// slick slider
 
 $(".slider_container").slick({
     autoplay: true,
@@ -30,7 +31,8 @@ $(".slider_container").slick({
     draggable: false,
     prevArrow: '<button class="slick-prev"> </button>',
     nextArrow: '<button class="slick-next"></button>',
-    responsive: [{
+    responsive: [
+        {
             breakpoint: 991,
             settings: {
                 slidesToShow: 3,
@@ -58,6 +60,10 @@ $(".slider_container").slick({
                 slidesToShow: 1,
                 slidesToScroll: 1,
             },
-        }
-    ]
+        },
+    ],
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    getYear();
 });
