@@ -25,6 +25,7 @@
     <!-- Include header -->
     @include('partials.header')
 
+
     <!-- Main Content -->
     <div class="container">
         @yield('content')

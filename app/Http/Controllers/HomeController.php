@@ -13,7 +13,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('delfood-1.0.0.index');
+        return view('home');
     }
 
     /**
