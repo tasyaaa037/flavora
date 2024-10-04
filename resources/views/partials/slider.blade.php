@@ -4,10 +4,10 @@
           <div class="col-lg-10 mx-auto">
             <div class="detail-box">
               <h1>
-                Discover Restuarant And Food
+                Temukan Resep dan Kuliner
               </h1>
               <p>
-                when looking at its layout. The point of using Lorem Ipsum
+              Jelajahi berbagai resep masakan dari seluruh dunia dan temukan inspirasi kuliner baru setiap hari. Apakah Anda mencari masakan khas daerah, hidangan sehat, atau tips memasak praktis? Kami menyediakan semua yang Anda butuhkan untuk membuat pengalaman memasak Anda menyenangkan dan bermanfaat.
               </p>
             </div>
             <div class="find_container ">
@@ -17,13 +17,7 @@
                     <form>
                       <div class="form-row ">
                         <div class="form-group col-lg-5">
-                          <input type="text" class="form-control" id="inputHotel" placeholder="Restaurant Name" fdprocessedid="650v0q">
-                        </div>
-                        <div class="form-group col-lg-3">
-                          <input type="text" class="form-control" id="inputLocation" placeholder="All Locations" fdprocessedid="n6m7s1m">
-                          <span class="location_icon">
-                            <i class="fa fa-map-marker" aria-hidden="true"></i>
-                          </span>
+                          <input type="text" class="form-control" id="inputHotel" placeholder="Cari Resep" fdprocessedid="650v0q">
                         </div>
                         <div class="form-group col-lg-3">
                           <div class="btn-box">

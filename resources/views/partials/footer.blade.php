@@ -30,7 +30,7 @@
                 </ul>
             </div>
             <div class="container text-center ">
-                <p>© <span id="displayYear"></span> Delfood - All rights reserved.</p>
+                <p>© <span id="displayYear"></span> Flavora - All rights reserved.</p>
                 <ul class="list-inline">
                     <li class="list-inline-item"><a href="#" class="text-white"><i class="fa fa-facebook"></i></a></li>
                     <li class="list-inline-item"><a href="#" class="text-white"><i class="fa fa-twitter"></i></a></li>

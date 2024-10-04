@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Delfood - Home')
+@section('title', 'Flavora - Home')
 
 @section('content')
     <!-- Slider -->
@@ -11,7 +11,7 @@
     <div class="container">
       <div class="heading_container heading_center">
         <h2>
-          Our Best Popular Recipes
+        Resep Populer Terbaik Kami
         </h2>
       </div>
       <div class="row">
@@ -68,7 +68,7 @@
     <section class="news_section layout_padding">
         <div class="container">
             <div class="heading_container heading_center">
-                <h2>Latest News</h2>
+                <h2>Resep Terbaru</h2>
             </div>
             <div class="row">
                 <div class="col-md-6">
