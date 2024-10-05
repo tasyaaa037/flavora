@@ -8,10 +8,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-<div class="container">
+    <div class="container">
         <div class="logo">Flavora</div>
         <div class="register-container">
             <div class="register-header">Daftar</div>
+
+            <!-- Tempat untuk menampilkan pesan sukses -->
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
             <form action="{{ route('register') }}" method="POST">
                 @csrf
                 <div class="input-group">
@@ -32,6 +40,7 @@
                 </div>
                 <button type="submit" class="register-button">Daftar</button>
             </form>
+
             <div class="login-prompt">
                 Sudah memiliki akun? <a class="login-link" href="{{ route('login') }}">Masuk</a>
             </div>

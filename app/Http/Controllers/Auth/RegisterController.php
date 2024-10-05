@@ -1,31 +1,53 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
+    // Redirect users after registration
+    protected $redirectTo = '/home'; // Atur ulang jika tidak digunakan
 
+    // Show registration form
     public function showRegistrationForm()
     {
-        return view('auth.register'); // Pastikan Anda memiliki view ini
+        return view('auth.register');
     }
 
-    // Mengolah pendaftaran (tambahkan metode ini jika belum ada)
+    // Handle registration request
     public function register(Request $request)
     {
-        // Validasi data pendaftaran
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+        // Validasi data
+        $this->validator($request->all())->validate();
+
+        // Buat pengguna baru
+        $user = $this->create($request->all());
+
+        // Setelah berhasil membuat akun, arahkan ke halaman login
+        return redirect()->route('login')->with('success', 'Akun berhasil dibuat, silakan login.');
+    }
+
+    // Validator function
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
+    }
 
-        // Logika untuk membuat pengguna baru
-        // User::create([...]);
-
-        return redirect()->route('home')->with('success', 'Pendaftaran berhasil!'); // Ganti 'home' dengan route yang sesuai
+    // Create a new user instance after a valid registration.
+    protected function create(array $data)
+    {
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
     }
 }

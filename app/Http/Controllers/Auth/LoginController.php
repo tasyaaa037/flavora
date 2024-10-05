@@ -38,7 +38,14 @@ class LoginController extends Controller
     // Mengolah logout
     public function logout(Request $request)
     {
+        // Logout pengguna
         Auth::logout();
-        return redirect('/login'); // Ganti dengan route login Anda
+
+        // Menghapus semua sesi pengguna
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        // Redirect ke halaman home atau login
+        return redirect()->route('home'); // Ganti dengan route home atau login Anda
     }
 }
