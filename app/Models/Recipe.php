@@ -18,6 +18,9 @@ class Recipe extends Model
         'prep_time',
         'cook_time',
         'servings',
+        'category_id', 
+        'subcategory_id', 
+        'purpose_id', 
     ];
 
     /**
@@ -33,7 +36,7 @@ class Recipe extends Model
      */
     public function ingredients()
     {
-        return $this->hasMany(Ingredient::class);
+        return $this->belongsToMany(Ingredient::class);
     }
 
     /**
@@ -59,4 +62,15 @@ class Recipe extends Model
     {
         return $this->belongsToMany(Category::class, 'recipe_category');
     }
+
+    public function subcategory()
+    {
+        return $this->belongsTo(Subcategory::class);
+    }
+
+    public function purpose()
+    {
+        return $this->belongsTo(Purpose::class);
+    }
+
 }

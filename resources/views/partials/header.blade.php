@@ -43,7 +43,7 @@
           <div class="overlay-content">
             <a href="{{ url('/') }}">Beranda</a>
             <a href="{{ url('/recipes') }}">Resep</a>
-            <a href="{{ url('/blog') }}">Kategori Resep</a>
+            <a href="{{ url('/subcategories') }}">Kategori Resep</a>
             <a href="{{ url('/tips') }}">Tips & Trik</a>
           </div>
         </div>

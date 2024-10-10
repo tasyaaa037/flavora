@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SubcategoryController;
 
 // Rute untuk halaman utama (home)
 Route::get('/', function () {
@@ -28,8 +29,17 @@ Route::post('login', [LoginController::class, 'login']);
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 // Rute untuk Recipe dan Category menggunakan resource controller
-Route::resource('recipes', RecipeController::class);
-Route::resource('categories', CategoryController::class);
+Route::get('/subcategories', [SubCategoryController::class, 'index'])->name('subcategories.index');
+Route::get('/subcategories/{id}', [SubCategoryController::class, 'show'])->name('subcategories.show');
+Route::get('/recipes', [RecipeController::class, 'index'])->name('recipes.index');
+Route::get('/recipes/{id}', [RecipeController::class, 'show'])->name('recipes.show');
+//Route::resource('recipes', RecipeController::class);
+Route::get('/recipes/type/{type}', [RecipeController::class, 'byType'])->name('recipes.byType');
+Route::get('/recipes/method/{method}', [RecipeController::class, 'showByMethod'])->name('recipes.byMethod');
+Route::get('/recipes/by-cuisine/{cuisine}', [RecipeController::class, 'byCuisine'])->name('recipes.byCuisine');
+Route::get('/recipes/by-ingredient/{ingredient}', [RecipeController::class, 'byIngredient'])->name('recipes.byIngredient');
+Route::get('/recipes/purpose/{purpose}', [RecipeController::class, 'byPurpose'])->name('recipes.byPurpose');
+
 
 // Rute untuk menyimpan komentar dan favorit pada recipe
 Route::post('recipes/{recipe}/comments', [CommentController::class, 'store'])->name('comments.store');
