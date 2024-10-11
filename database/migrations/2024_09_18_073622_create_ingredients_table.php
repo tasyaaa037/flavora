@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('unit');
             $table->text('description')->nullable();
             $table->foreignId('recipe_id')->constrained();
+            $table->foreignId('ingredient_id')->constrained()->onDelete('cascade'); // Relasi ke tabel ingredients
+            $table->foreignId('recipe_id')->constrained()->onDelete('cascade'); // Relasi ke tabel recipes
             $table->timestamps();
         });
     

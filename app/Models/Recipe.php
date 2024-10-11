@@ -72,5 +72,4 @@ class Recipe extends Model
     {
         return $this->belongsTo(Purpose::class);
     }
-
 }

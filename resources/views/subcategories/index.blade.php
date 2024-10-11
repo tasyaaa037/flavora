@@ -46,5 +46,13 @@
         <li><a href="{{ route('recipes.byPurpose', 'Makanan Diet/Sehat') }}">Makanan Diet/Sehat</a></li>
         <li><a href="{{ route('recipes.byPurpose', 'Makanan Anak') }}">Makanan Anak</a></li>
     </ul>
+
+    <h3>Rekomendasi Resep</h3>
+    <ul>
+        <li><a href="{{ route('recipes.byRecommendation', 'Resep Populer') }}">Resep Populer</a></li>
+        <li><a href="{{ route('recipes.byRecommendation', 'Resep favorit') }}">Resep Favorit</a></li>
+        <li><a href="{{ route('recipes.byRecommendation', 'Resep Terbaru') }}">Resep Terbaru</a></li>
+    </ul>
+
 </div>
 @endsection

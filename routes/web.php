@@ -39,7 +39,7 @@ Route::get('/recipes/method/{method}', [RecipeController::class, 'showByMethod']
 Route::get('/recipes/by-cuisine/{cuisine}', [RecipeController::class, 'byCuisine'])->name('recipes.byCuisine');
 Route::get('/recipes/by-ingredient/{ingredient}', [RecipeController::class, 'byIngredient'])->name('recipes.byIngredient');
 Route::get('/recipes/purpose/{purpose}', [RecipeController::class, 'byPurpose'])->name('recipes.byPurpose');
-
+Route::get('/recipes/recommendation/{type}', [RecipeController::class, 'byRecommendation'])->name('recipes.byRecommendation');
 
 // Rute untuk menyimpan komentar dan favorit pada recipe
 Route::post('recipes/{recipe}/comments', [CommentController::class, 'store'])->name('comments.store');
