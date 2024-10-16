@@ -1,15 +1,14 @@
-<div class="hero_area" style="position: relative;">
-  <!-- header section starts -->
-  <header class="header_section" style="position: relative;">
-    <img src="{{ asset('delfood-1.0.0/images/hero-bg.jpg') }}" alt="Delfood" style="width: 100%; height: auto; position: absolute; top: 0; left: 0; z-index: 0;">
-    
-    <div class="container-fluid" style="position: relative; z-index: 1;">
-      <nav class="navbar navbar-expand-lg custom_nav-container">
-        <a class="navbar-brand" href="{{ url('/') }}">
-          <span>Flavora</span>
-        </a>
-        
-        <div class="User_option">
+<body class="sub_page">
+
+  <div class="hero_area">
+    <!-- header section starts -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container">
+          <a class="navbar-brand" href="{{ url('/') }}">
+            <span>Flavora</span>
+          </a>
+          <div class="User_option">
           @auth
           <a href="{{ route('profile.show') }}" class="text-teal-500">
               {{ Auth::user()->name }}

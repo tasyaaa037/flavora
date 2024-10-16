@@ -19,13 +19,13 @@
                         <a href="{{ url('/') }}" class="text-decoration-none">Beranda</a>
                     </li>
                     <li class="list-inline-item">
-                        <a href="{{ url('/about') }}" class="text-decoration-none">Resep</a>
+                        <a href="{{ url('/recipes') }}" class="text-decoration-none">Resep</a>
                     </li>
                     <li class="list-inline-item">
-                        <a href="{{ url('/blog') }}" class="text-decoration-none">Kategori Resep</a>
+                        <a href="{{ url('/subcategories') }}" class="text-decoration-none">Kategori Resep</a>
                     </li>
                     <li class="list-inline-item">
-                        <a href="{{ url('/testimonial') }}" class="text-decoration-none">Tips&Trik</a>
+                        <a href="{{ url('/tips') }}" class="text-decoration-none">Tips&Trik</a>
                     </li>
                 </ul>
             </div>

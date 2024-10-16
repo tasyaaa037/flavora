@@ -5,87 +5,91 @@
     <header class="header_section">
       <div class="container-fluid">
         <nav class="navbar navbar-expand-lg custom_nav-container">
-          <a class="navbar-brand" href="{{ url('/recipes') }}">
+          <a class="navbar-brand" href="{{ url('/') }}">
             <span>Flavora</span>
           </a>
 
-          <!-- Navbar bagian Kategori Makanan, Bahan, Tips, dll -->
+          <style>
+            .navbar-toggler {
+              border-color: rgba(255, 255, 255, 0.1); /* Warna border tombol */
+            }
+
+            .navbar-toggler-icon {
+              background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+              /* Warna ikon hamburger */
+            }
+          </style>
+
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
+              <ul class="navbar-nav">
+                  <!-- Dropdown Resep Makanan -->
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Resep Makanan
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <div class="d-flex flex-row justify-content-between flex-wrap"> <!-- Gunakan flex-wrap untuk layout responsif -->
+                              <div class="mr-3">
+                                  <h6 class="dropdown-header">Jenis Hidangan</h6>
+                                  <a class="dropdown-item" href="{{ route('recipes.byType', 'Makanan Utama') }}">Makanan Utama</a>
+                                  <a class="dropdown-item" href="{{ route('recipes.byType', 'Makanan Pembuka') }}">Makanan Pembuka</a>
+                                  <a class="dropdown-item" href="{{ route('recipes.byType', 'Makanan Pendamping') }}">Makanan Pendamping</a>
+                                  <a class="dropdown-item" href="{{ route('recipes.byType', 'Makanan Penutup') }}">Makanan Penutup</a>
+                              </div>
 
-              <!-- Dropdown Resep Makanan -->
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Resep Makanan
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <!-- Kategori Makanan -->
-                  <a class="dropdown-item" href="{{ url('/recipes/category/makanan-utama') }}">Makanan Utama</a>
-                  <a class="dropdown-item" href="{{ url('/recipes/category/makanan-pembuka') }}">Makanan Pembuka</a>
-                  <a class="dropdown-item" href="{{ url('/recipes/category/makanan-penutup') }}">Makanan Penutup</a>
+                    <div class="mr-3">
+                      <h6 class="dropdown-header">Cara Memasak</h6>
+                      <a class="dropdown-item" href="{{ route('recipes.byMethod', 'Serba Goreng') }}">Serba Goreng</a>
+                      <a class="dropdown-item" href="{{ route('recipes.byMethod', 'Serba Rebus') }}">Serba Rebus</a>
+                      <a class="dropdown-item" href="{{ route('recipes.byMethod', 'Serba Panggang & Bakar') }}">Serba Panggang & Bakar</a>
+                      <a class="dropdown-item" href="{{ route('recipes.byMethod', 'Serba Kukus') }}">Serba Kukus</a>
+                      <a class="dropdown-item" href="{{ route('recipes.byMethod', 'Serba Tumis') }}">Serba Tumis</a>
+                    </div>
 
-                  <!-- Cara Memasak -->
-                  <div class="dropdown-divider"></div>
-                  <h6 class="dropdown-header">Cara Memasak</h6>
-                  <a class="dropdown-item" href="{{ url('/recipes/cara-memasak/goreng') }}">Goreng</a>
-                  <a class="dropdown-item" href="{{ url('/recipes/cara-memasak/rebus') }}">Rebus</a>
-                  <a class="dropdown-item" href="{{ url('/recipes/cara-memasak/panggang') }}">Panggang</a>
+                    <div class="mr-3">
+                      <h6 class="dropdown-header">Bahan Makanan</h6>
+                      <a class="dropdown-item" href="{{ route('recipes.byIngredient', 'Ayam') }}">Ayam</a>
+                      <a class="dropdown-item" href="{{ route('recipes.byIngredient', 'Daging') }}">Daging</a>
+                      <a class="dropdown-item" href="{{ route('recipes.byIngredient', 'Sayuran') }}">Sayuran</a>
+                      <a class="dropdown-item" href="{{ route('recipes.byIngredient', 'Jamur') }}">Jamur</a>
+                      <a class="dropdown-item" href="{{ route('recipes.byIngredient', 'Ikan & Seafood') }}">Ikan & Seafood</a>
+                      <a class="dropdown-item" href="{{ route('recipes.byIngredient', 'Bebek') }}">Bebek</a>
+                      <a class="dropdown-item" href="{{ route('recipes.byIngredient', 'Nasi & Karbohidrat') }}">Nasi & Karbohidrat</a>
+                    </div>
 
-                  <!-- Bahan Makanan -->
-                  <div class="dropdown-divider"></div>
-                  <h6 class="dropdown-header">Bahan Makanan</h6>
-                  <a class="dropdown-item" href="{{ url('/recipes/bahan/ayam') }}">Ayam</a>
-                  <a class="dropdown-item" href="{{ url('/recipes/bahan/daging') }}">Daging</a>
-                  <a class="dropdown-item" href="{{ url('/recipes/bahan/sayuran') }}">Sayuran</a>
+                    <div class="mr-3">
+                      <h6 class="dropdown-header">Kategori Khas</h6>
+                      <a class="dropdown-item" href="{{ route('recipes.byCuisine', 'Makanan Tradisional') }}">Makanan Tradisional</a>
+                      <a class="dropdown-item" href="{{ route('recipes.byCuisine', 'Makanan Internasional') }}">Makanan Internasional</a>
+                      <a class="dropdown-item" href="{{ route('recipes.byCuisine', 'Makanan Cepat Saji') }}">Makanan Cepat Saji</a>
+                    </div>
 
-                  <!-- Rekomendasi -->
-                  <div class="dropdown-divider"></div>
-                  <h6 class="dropdown-header">Rekomendasi</h6>
-                  <a class="dropdown-item" href="{{ url('/recipes/populer') }}">Resep Populer</a>
-                  <a class="dropdown-item" href="{{ url('/recipes/favorit') }}">Resep Favorit</a>
-                  <a class="dropdown-item" href="{{ url('/recipes/terbaru') }}">Resep Terbaru</a>
-                  <a class="dropdown-item" href="{{ url('/recipes/teruji') }}">Resep Teruji</a>
+                    <div class="mr-3">
+                      <h6 class="dropdown-header">Tujuan Makanan</h6>
+                      <a class="dropdown-item" href="{{ route('recipes.byPurpose', 'Makanan Diet/Sehat') }}">Makanan Diet/Sehat</a>
+                      <a class="dropdown-item" href="{{ route('recipes.byPurpose', 'Makanan Anak') }}">Makanan Anak</a>
+                    </div>
+
+                    <div class="mr-3">
+                      <h6 class="dropdown-header">Rekomendasi Resep</h6>
+                      <a class="dropdown-item" href="{{ route('recipes.byRecommendation', 'Resep Populer') }}">Resep Populer</a>
+                      <a class="dropdown-item" href="{{ route('recipes.byRecommendation', 'Resep Favorit') }}">Resep Favorit</a>
+                      <a class="dropdown-item" href="{{ route('recipes.byRecommendation', 'Resep Terbaru') }}">Resep Terbaru</a>
+                    </div>
+                  </div>
                 </div>
               </li>
 
               <!-- Bahan Makanan -->
               <li class="nav-item">
-                <a class="nav-link" href="{{ url('/bahan') }}">Bahan Makanan</a>
+                <a class="nav-link text-white" href="{{ url('/bahan') }}">Bahan Makanan</a>
               </li>
 
-              <!-- Kuliner -->
+              <!-- Tips&Trik -->
               <li class="nav-item">
-                <a class="nav-link" href="{{ url('/kuliner') }}">Kuliner</a>
-              </li>
-
-              <!-- Nutrisi -->
-              <li class="nav-item">
-                <a class="nav-link" href="{{ url('/nutrisi') }}">Nutrisi</a>
+                <a class="nav-link text-white" href="{{ url('/tipsandtrik') }}">Tips & Triks</a>
               </li>
             </ul>
-          </div>
-          <!-- End Navbar bagian Kategori -->
-
-          <!-- Pencarian dan menu lainnya -->
-          <div class="d-flex align-items-center">
-            <!-- Form pencarian -->
-            <div class="search-container" style="display: none;">
-              <form class="form-inline">
-                <input type="search" placeholder="Search" class="form-control mr-2" />
-                <button class="btn nav_search-btn" type="submit">
-                  <i class="fa fa-search" aria-hidden="true"></i>
-                </button>
-              </form>
-            </div>
-            <button class="btn nav_search-toggle" onclick="toggleSearch()">
-              <i class="fa fa-search" aria-hidden="true" id="searchIcon"></i>
-            </button>
-
-            <div class="custom_menu-btn">
-              <button onclick="openNav()">
-                <img src="{{ asset('delfood-1.0.0/images/menu.png') }}" alt="Menu">
-              </button>
-            </div>
           </div>
 
           <!-- User Option -->
@@ -94,13 +98,11 @@
               <span class="navbar-text" style="color: white;">
                 {{ Auth::user()->name }}
               </span>
-              
-              <!-- Tambahkan form logout dengan metode POST -->
+
               <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf
               </form>
 
-              <!-- Tombol logout yang menggunakan form POST -->
               <a href="#" class="btn btn-outline-danger ml-2" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 Keluar
               </a>
@@ -113,14 +115,10 @@
             @endauth
           </div>
 
-          <div id="myNav" class="overlay">
-            <div class="overlay-content">
-              <a href="{{ url('/') }}">Beranda</a>
-              <a href="{{ url('/recipes') }}">Resep</a>
-              <a href="{{ url('/kategoriresep') }}">Kategori Resep</a>
-              <a href="{{ url('/tips') }}">Tips & Trik</a>
-            </div>
-          </div>
+          <!-- Tombol Hamburger untuk Mobile -->
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
         </nav>
       </div>
     </header>
@@ -132,15 +130,14 @@
       const searchContainer = document.querySelector('.search-container');
       const searchIcon = document.getElementById('searchIcon');
 
-      // Tampilkan atau sembunyikan kotak pencarian
       if (searchContainer.style.display === 'none' || searchContainer.style.display === '') {
         searchContainer.style.display = 'flex';
-        searchIcon.classList.remove('fa-search'); // Hapus ikon pencarian
-        searchIcon.classList.add('fa-times'); // Ganti dengan ikon close
+        searchIcon.classList.remove('fa-search');
+        searchIcon.classList.add('fa-times');
       } else {
         searchContainer.style.display = 'none';
-        searchIcon.classList.remove('fa-times'); // Hapus ikon close
-        searchIcon.classList.add('fa-search'); // Kembali ke ikon pencarian
+        searchIcon.classList.remove('fa-times');
+        searchIcon.classList.add('fa-search');
       }
     }
   </script>

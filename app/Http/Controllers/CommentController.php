@@ -2,21 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Comment;
-use App\Models\Recipe;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    // Menyimpan komentar baru untuk resep
-    public function store(Request $request, $recipeId)
+    public function index()
     {
-        $request->validate(['content' => 'required|string']);
+        $user = auth()->user(); 
+        $comments = $user->comments; 
 
-        $comment = new Comment($request->all());
-        $comment->recipe_id = $recipeId;
-        $comment->save();
-
-        return redirect()->route('recipes.show', $recipeId)->with('success', 'Comment added successfully.');
+        return view('comments.index', compact('user', 'comments')); // Kirim data user dan favorites ke view
     }
 }

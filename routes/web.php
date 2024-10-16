@@ -10,6 +10,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SubcategoryController;
+use App\Http\Controllers\ProfileController;
 
 // Rute untuk halaman utama (home)
 Route::get('/', function () {
@@ -27,6 +28,7 @@ Route::post('login', [LoginController::class, 'login']);
 
 // Rute Logout (hanya metode POST)
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show')->middleware('auth');
 
 // Rute untuk Recipe dan Category menggunakan resource controller
 Route::get('/subcategories', [SubCategoryController::class, 'index'])->name('subcategories.index');
@@ -41,7 +43,8 @@ Route::get('/recipes/by-ingredient/{ingredient}', [RecipeController::class, 'byI
 Route::get('/recipes/purpose/{purpose}', [RecipeController::class, 'byPurpose'])->name('recipes.byPurpose');
 Route::get('/recipes/recommendation/{type}', [RecipeController::class, 'byRecommendation'])->name('recipes.byRecommendation');
 
-// Rute untuk menyimpan komentar dan favorit pada recipe
-Route::post('recipes/{recipe}/comments', [CommentController::class, 'store'])->name('comments.store');
-Route::post('recipes/{recipe}/favorites', [FavoriteController::class, 'store'])->name('favorites.store');
-Route::delete('recipes/{recipe}/favorites', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
+// Rute untuk menampilkan semua resep favorit pengguna
+Route::get('/favorite-recipes', [FavoriteController::class, 'index'])->name('favorite.recipes');
+
+// Rute untuk menampilkan semua komentar/diskusi pengguna
+Route::get('/user-comments', [CommentController::class, 'index'])->name('user.comments');

@@ -2,23 +2,48 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Flavora')</title>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
 
-    <!-- Fonts and Styles -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ asset('delfood-1.0.0/css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('delfood-1.0.0/css/bootstrap.css') }}">
-    <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css" integrity="sha256-UK1EiopXIL+KVhfbFa8xrmAWPeBjMVdvYMYkTAEv/HI=" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css" integrity="undefined" crossorigin="anonymous" />
+  <title>Flavora</title>
 
-    @stack('styles')
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="delfood-1.0.0/css/bootstrap.css" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet">
+
+  <!-- font awesome style -->
+  <link href="delfood-1.0.0/css/font-awesome.min.css" rel="stylesheet" />
+  <!-- nice select -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous" />
+  <!-- slidck slider -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css" integrity="sha256-UK1EiopXIL+KVhfbFa8xrmAWPeBjMVdvYMYkTAEv/HI=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css.map" integrity="undefined" crossorigin="anonymous" />
+
+
+  <!-- Custom styles for this template -->
+  <link href="delfood-1.0.0/css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="delfood-1.0.0/css/responsive.css" rel="stylesheet" />
+    <style>
+    .dropdown-menu {
+      min-width: 150px; /* Mengubah lebar dropdown */
+    }
+
+    .dropdown-item {
+      font-size: 14px; /* Mengubah ukuran font item */
+      padding: 8px 12px; /* Mengubah padding item */
+    }
+  </style>
 </head>
 
 <body>
@@ -34,13 +59,15 @@
     <!-- Include footer -->
     @include('partials.footer')
 
-    <!-- Scripts -->
-    <script src="{{ asset('delfood-1.0.0/js/jquery-3.4.1.min.js') }}"></script>
-    <script src="{{ asset('delfood-1.0.0/js/bootstrap.js') }}"></script>
-    <script src="{{ asset('delfood-1.0.0/js/custom.js') }}"></script>
+    <!-- jQery -->
+    <script src="delfood-1.0.0/js/jquery-3.4.1.min.js"></script>
+    <!-- bootstrap js -->
+    <script src="delfood-1.0.0/js/bootstrap.js"></script>
+    <!-- slick  slider -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.js"></script>
+    <!-- nice select -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js" integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo=" crossorigin="anonymous"></script>
-
-    @stack('scripts')
+    <!-- custom js -->
+    <script src="delfood-1.0.0/js/custom.js"></script>
 </body>
 </html>
