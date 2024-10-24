@@ -7,6 +7,7 @@
                 Temukan Resep dan Kuliner
               </h1>
               <p>
+                
               Jelajahi berbagai resep masakan dari seluruh dunia dan temukan inspirasi kuliner baru setiap hari. Apakah Anda mencari masakan khas daerah, hidangan sehat, atau tips memasak praktis? Kami menyediakan semua yang Anda butuhkan untuk membuat pengalaman memasak Anda menyenangkan dan bermanfaat.
               </p>
             </div>
@@ -17,11 +18,11 @@
                     <form>
                       <div class="form-row ">
                         <div class="form-group col-lg-5">
-                          <input type="text" class="form-control" id="inputHotel" placeholder="Cari Resep" fdprocessedid="650v0q">
+                          <input type="text" class="form-control" id="inputHotel" placeholder="Nama Resep">
                         </div>
                         <div class="form-group col-lg-3">
                           <div class="btn-box">
-                            <button type="submit" class="btn " fdprocessedid="3vqyek">Search</button>
+                            <button type="submit" class="btn ">Cari</button>
                           </div>
                         </div>
                       </div>
@@ -33,182 +34,46 @@
           </div>
         </div>
       </div>
-      <div class="slider_container slick-initialized slick-slider">
-        <button class="slick-prev slick-arrow" style="" fdprocessedid="tavdnp"></button>
-        <div class="slick-list">
-          <div class="slick-track" style="opacity: 1; width: 4028px; transform: translate3d(-2332px, 0px, 0px); transition: transform 600ms;">
-            <div class="slick-slide slick-cloned" data-slick-index="-3" aria-hidden="true" tabindex="-1" style="width: 212px;">
-              <div>
-                <div class="item" style="width: 100%; display: inline-block;">
+      <div class="slider_container">
+        <div class="item">
           <div class="img-box">
-            <img src="delfood-1.0.0/images/slider-img2.png" alt="">
+            <img src="delfood-1.0.0/images/slider-img1.png" alt="" />
+          </div>
+        </div>
+        <div class="item">
+          <div class="img-box">
+            <img src="delfood-1.0.0/images/slider-img2.png" alt="" />
+          </div>
+        </div>
+        <div class="item">
+          <div class="img-box">
+            <img src="delfood-1.0.0/images/slider-img3.png" alt="" />
+          </div>
+        </div>
+        <div class="item">
+          <div class="img-box">
+            <img src="delfood-1.0.0/images/slider-img4.png" alt="" />
+          </div>
+        </div>
+        <div class="item">
+          <div class="img-box">
+            <img src="delfood-1.0.0/images/slider-img1.png" alt="" />
+          </div>
+        </div>
+        <div class="item">
+          <div class="img-box">
+            <img src="delfood-1.0.0/images/slider-img2.png" alt="" />
+          </div>
+        </div>
+        <div class="item">
+          <div class="img-box">
+            <img src="delfood-1.0.0/images/slider-img3.png" alt="" />
+          </div>
+        </div>
+        <div class="item">
+          <div class="img-box">
+            <img src="delfood-1.0.0/images/slider-img4.png" alt="" />
           </div>
         </div>
       </div>
-    </div>
-    <div class="slick-slide slick-cloned" data-slick-index="-2" aria-hidden="true" tabindex="-1" style="width: 212px;">
-      <div>
-        <div class="item" style="width: 100%; display: inline-block;">
-          <div class="img-box">
-            <img src="delfood-1.0.0/images/slider-img3.png" alt="">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="slick-slide slick-cloned" data-slick-index="-1" aria-hidden="true" tabindex="-1" style="width: 212px;">
-      <div>
-        <div class="item" style="width: 100%; display: inline-block;">
-          <div class="img-box">
-            <img src="delfood-1.0.0/images/slider-img4.png" alt="">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="slick-slide slick-current slick-active" data-slick-index="0" aria-hidden="false" style="width: 212px;" tabindex="-1">
-      <div>
-        <div class="item" style="width: 100%; display: inline-block;">
-          <div class="img-box">
-            <img src="delfood-1.0.0/images/slider-img1.png" alt="">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="slick-slide slick-active" data-slick-index="1" aria-hidden="false" style="width: 212px;" tabindex="-1">
-      <div>
-        <div class="item" style="width: 100%; display: inline-block;">
-          <div class="img-box">
-            <img src="delfood-1.0.0/images/slider-img2.png" alt="">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="slick-slide slick-active" data-slick-index="2" aria-hidden="false" style="width: 212px;" tabindex="-1">
-      <div>
-        <div class="item" style="width: 100%; display: inline-block;">
-          <div class="img-box">
-            <img src="delfood-1.0.0/images/slider-img3.png" alt="">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="slick-slide" data-slick-index="3" aria-hidden="true" style="width: 212px;" tabindex="-1">
-      <div>
-        <div class="item" style="width: 100%; display: inline-block;">
-          <div class="img-box">
-            <img src="delfood-1.0.0/images/slider-img4.png" alt="">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="slick-slide" data-slick-index="4" aria-hidden="true" style="width: 212px;" tabindex="-1">
-      <div>
-        <div class="item" style="width: 100%; display: inline-block;">
-          <div class="img-box">
-            <img src="delfood-1.0.0/images/slider-img1.png" alt="">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="slick-slide" data-slick-index="5" aria-hidden="true" style="width: 212px;" tabindex="-1">
-      <div>
-        <div class="item" style="width: 100%; display: inline-block;">
-          <div class="img-box">
-            <img src="delfood-1.0.0/images/slider-img2.png" alt="">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="slick-slide" data-slick-index="6" aria-hidden="true" style="width: 212px;" tabindex="-1">
-      <div>
-        <div class="item" style="width: 100%; display: inline-block;">
-          <div class="img-box">
-            <img src="delfood-1.0.0/images/slider-img3.png" alt="">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="slick-slide" data-slick-index="7" aria-hidden="true" style="width: 212px;">
-      <div>
-        <div class="item" style="width: 100%; display: inline-block;">
-          <div class="img-box">
-            <img src="delfood-1.0.0/images/slider-img4.png" alt="">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="slick-slide slick-cloned" data-slick-index="8" aria-hidden="true" tabindex="-1" style="width: 212px;">
-      <div>
-        <div class="item" style="width: 100%; display: inline-block;">
-          <div class="img-box">
-            <img src="delfood-1.0.0/images/slider-img1.png" alt="">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="slick-slide slick-cloned" data-slick-index="9" aria-hidden="true" tabindex="-1" style="width: 212px;">
-      <div>
-        <div class="item" style="width: 100%; display: inline-block;">
-          <div class="img-box">
-            <img src="delfood-1.0.0/images/slider-img2.png" alt="">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="slick-slide slick-cloned" data-slick-index="10" aria-hidden="true" tabindex="-1" style="width: 212px;">
-      <div>
-        <div class="item" style="width: 100%; display: inline-block;">
-          <div class="img-box">
-            <img src="delfood-1.0.0/images/slider-img3.png" alt="">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="slick-slide slick-cloned" data-slick-index="11" aria-hidden="true" tabindex="-1" style="width: 212px;">
-      <div>
-        <div class="item" style="width: 100%; display: inline-block;">
-          <div class="img-box">
-            <img src="delfood-1.0.0/images/slider-img4.png" alt="">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="slick-slide slick-cloned" data-slick-index="12" aria-hidden="true" tabindex="-1" style="width: 212px;">
-      <div>
-        <div class="item" style="width: 100%; display: inline-block;">
-          <div class="img-box">
-            <img src="delfood-1.0.0/images/slider-img1.png" alt="">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="slick-slide slick-cloned" data-slick-index="13" aria-hidden="true" tabindex="-1" style="width: 212px;">
-      <div>
-        <div class="item" style="width: 100%; display: inline-block;">
-          <div class="img-box">
-            <img src="delfood-1.0.0/images/slider-img2.png" alt="">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="slick-slide slick-cloned" data-slick-index="14" aria-hidden="true" tabindex="-1" style="width: 212px;">
-      <div>
-        <div class="item" style="width: 100%; display: inline-block;">
-          <div class="img-box">
-            <img src="delfood-1.0.0/images/slider-img3.png" alt="">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="slick-slide slick-cloned" data-slick-index="15" aria-hidden="true" tabindex="-1" style="width: 212px;">
-      <div>
-        <div class="item" style="width: 100%; display: inline-block;">
-          <div class="img-box">
-            <img src="delfood-1.0.0/images/slider-img4.png" alt="">
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<button class="slick-next slick-arrow" style="" fdprocessedid="pq50pf"></button></div>
     </section>

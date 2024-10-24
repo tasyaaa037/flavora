@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
   <!-- Basic -->
@@ -34,40 +34,42 @@
   <link href="delfood-1.0.0/css/style.css" rel="stylesheet" />
   <!-- responsive style -->
   <link href="delfood-1.0.0/css/responsive.css" rel="stylesheet" />
-    <style>
-    .dropdown-menu {
-      min-width: 150px; /* Mengubah lebar dropdown */
-    }
 
-    .dropdown-item {
-      font-size: 14px; /* Mengubah ukuran font item */
-      padding: 8px 12px; /* Mengubah padding item */
-    }
-  </style>
 </head>
 
 <body>
-    <!-- Include header -->
+
+  <div class="hero_area">
+    <!-- header section strats -->
     @include('partials.header')
+    <!-- end header section -->
+
+    <!-- slider section -->
+    @include('partials.slider')
+    <!-- end slider section -->
+  </div>
 
 
-    <!-- Main Content -->
-    <div class="container">
-        @yield('content')
-    </div>
+  <!-- recipe section -->
+  <div class="container">
+    @yield('content')
+  </div>
+  <!-- end recipe section -->
 
-    <!-- Include footer -->
     @include('partials.footer')
 
-    <!-- jQery -->
-    <script src="delfood-1.0.0/js/jquery-3.4.1.min.js"></script>
-    <!-- bootstrap js -->
-    <script src="delfood-1.0.0/js/bootstrap.js"></script>
-    <!-- slick  slider -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.js"></script>
-    <!-- nice select -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js" integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo=" crossorigin="anonymous"></script>
-    <!-- custom js -->
-    <script src="delfood-1.0.0/js/custom.js"></script>
+  <!-- jQery -->
+  <script src="delfood-1.0.0/js/jquery-3.4.1.min.js"></script>
+  <!-- bootstrap js -->
+  <script src="delfood-1.0.0/js/bootstrap.js"></script>
+  <!-- slick  slider -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.js"></script>
+  <!-- nice select -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js" integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo=" crossorigin="anonymous"></script>
+  <!-- custom js -->
+  <script src="delfood-1.0.0/js/custom.js"></script>
+
+
 </body>
+
 </html>

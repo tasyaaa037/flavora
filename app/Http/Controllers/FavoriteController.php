@@ -2,16 +2,37 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Favorite; // Model untuk resep favorit
+use Illuminate\Support\Facades\Auth;
+use App\Models\Recipe;
+use App\Models\Favorite; // Import the Favorite model
 
 class FavoriteController extends Controller
 {
-    public function index()
+    // Menyimpan resep ke favorit
+    public function store($id)
     {
-        $user = auth()->user(); // Mengambil user yang sedang login
-        $favorites = $user->favorites; // Ambil data favorit user
+        $user = Auth::user();
 
-        return view('favorites.index', compact('user', 'favorites')); // Kirim data user dan favorites ke view
+        // Check if the recipe is already in the user's favorites
+        if ($user->favorites()->where('recipe_id', $id)->exists()) {
+            return response()->json(['success' => false, 'message' => 'Resep sudah ada di favorit']);
+        }
+
+        // Add the recipe to the user's favorites
+        $favorite = new Favorite();
+        $favorite->user_id = $user->id;
+        $favorite->recipe_id = $id;
+        $favorite->save();
+
+        return response()->json(['success' => true, 'message' => 'Resep berhasil ditambahkan ke favorit']);
     }
 
+    // Menampilkan daftar favorit pengguna
+    public function index()
+    {
+        $user = Auth::user();
+        $favorites = $user->favorites()->with('recipe')->get();
+
+        return view('favorites.index', compact('favorites'));
+    }
 }

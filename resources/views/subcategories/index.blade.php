@@ -43,7 +43,7 @@
 
     <h3>Tujuan Makanan</h3>
     <ul>
-        <li><a href="{{ route('recipes.byPurpose', 'Makanan Diet/Sehat') }}">Makanan Diet/Sehat</a></li>
+        <li><a href="{{ route('recipes.byPurpose', 'Makanan Diet/Sehat') }}">Makanan Sehat</a></li>
         <li><a href="{{ route('recipes.byPurpose', 'Makanan Anak') }}">Makanan Anak</a></li>
     </ul>
 

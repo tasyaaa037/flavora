@@ -30,7 +30,17 @@
             </div>
         </div>
         <h1 class="text-2xl font-bold mb-4">Tersimpan</h1>
-        <p class="text-gray-500">Belum ada yang tersimpan. Tap <i class="far fa-bookmark"></i> untuk menyimpan resep dan promo pertama Anda.</p>
+        @if($favorites->isEmpty())
+            <p class="text-gray-500">Belum ada yang tersimpan. Tap <i class="far fa-bookmark"></i> untuk menyimpan resep dan promo pertama Anda.</p>
+        @else
+            <ul>
+                @foreach($favorites as $favorite)
+                    <li class="py-2">
+                        <a href="{{ route('recipes.show', $favorite->recipe_id) }}" class="text-blue-500 hover:underline">{{ $favorite->recipe->name }}</a>
+                    </li>
+                @endforeach
+            </ul>
+        @endif
     </div>
 </div>
 @endsection

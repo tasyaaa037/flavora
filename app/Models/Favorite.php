@@ -30,4 +30,6 @@ class Favorite extends Model
     {
         return $this->belongsTo(Recipe::class);
     }
+
+
 }

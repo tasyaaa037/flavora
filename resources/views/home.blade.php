@@ -3,15 +3,13 @@
 @section('title', 'Flavora - Home')
 
 @section('content')
-    <!-- Slider -->
-    @include('partials.slider')
 
     <!-- Popular Recipes -->
     <section class="recipe_section layout_padding-top">
     <div class="container">
       <div class="heading_container heading_center">
         <h2>
-        Resep Populer Terbaik Kami
+          Resep Populer Terbaik Kami
         </h2>
       </div>
       <div class="row">
@@ -22,7 +20,7 @@
             </div>
             <div class="detail-box">
               <h4>
-                Breakfast
+                Makan Pagi
               </h4>
               <a href="">
                 <i class="fa fa-arrow-right" aria-hidden="true"></i>
@@ -37,7 +35,7 @@
             </div>
             <div class="detail-box">
               <h4>
-                Lunch
+                Makan Siang
               </h4>
               <a href="">
                 <i class="fa fa-arrow-right" aria-hidden="true"></i>
@@ -52,7 +50,7 @@
             </div>
             <div class="detail-box">
               <h4>
-                Dinner
+                Makan Malam
               </h4>
               <a href="">
                 <i class="fa fa-arrow-right" aria-hidden="true"></i>
@@ -77,7 +75,7 @@
                             <img src="{{ asset('delfood-1.0.0/images/n1.jpg') }}" class="box-img" alt="Tasty Food For You">
                         </div>
                         <div class="detail-box">
-                            <h4>Tasty Food For You</h4>
+                            <h4>Makanan Lezat Untuk Anda</h4>
                             <p>There isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined.</p>
                             <a href="#">
                                 <i class="fa fa-arrow-right" aria-hidden="true"></i>
@@ -91,7 +89,7 @@
                             <img src="{{ asset('delfood-1.0.0/images/n2.jpg') }}" class="box-img" alt="Breakfast For You">
                         </div>
                         <div class="detail-box">
-                            <h4>Breakfast For You</h4>
+                            <h4>Sarapan Untuk Anda</h4>
                             <p>There isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined.</p>
                             <a href="#">
                                 <i class="fa fa-arrow-right" aria-hidden="true"></i>
