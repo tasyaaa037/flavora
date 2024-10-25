@@ -201,7 +201,7 @@ class RecipeController extends Controller
     {
         // Ambil data resep berdasarkan tipe yang diberikan
         $recipes = Recipe::where('type', '=', $type)->get();
-        
+
         // Tampilkan view dengan data resep yang sesuai
         return view('recipes.index', ['recipes' => $recipes]);
     }
@@ -250,13 +250,13 @@ class RecipeController extends Controller
         if (!auth()->check()) {
             return redirect()->route('login'); // Alihkan ke login jika tidak terautentikasi
         }
-    
+
         $user = auth()->user(); // Menambahkan pengguna saat ini
         $favorites = $user->favorites;
-    
+
         return view('favorites.index', compact('user', 'favorites'));
     }
-    
+
 
 
      // Fungsi untuk menambahkan resep ke favorit
@@ -264,28 +264,28 @@ class RecipeController extends Controller
      {
          $user = Auth::user();
          $recipe = Recipe::find($id);
- 
+
          if ($recipe) {
              // Cek apakah sudah ada di favorit
              if (!$user->favorites()->where('recipe_id', $recipe->id)->exists()) {
                  // Tambahkan ke favorit
                  $user->favorites()->attach($recipe->id);
- 
+
                  return response()->json(['success' => true, 'message' => 'Resep berhasil ditambahkan ke favorit.']);
              } else {
                  return response()->json(['success' => false, 'message' => 'Resep sudah ada di daftar favorit.']);
              }
          }
- 
+
          return response()->json(['success' => false, 'message' => 'Resep tidak ditemukan.']);
      }
- 
+
      // Fungsi untuk menampilkan halaman favorit
      public function showFavorites()
      {
          $user = Auth::user();
          $favorites = $user->favorites; // Ambil semua favorit user
- 
+
          return view('favorites.index', compact('favorites'));
      }
 }

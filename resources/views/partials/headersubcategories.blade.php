@@ -101,7 +101,7 @@
 
               <!-- Kuliner -->
               <li class="nav-item">
-                <a class="nav-link text-white" href="{{ url('/tipsandtrik') }}">Tips & Triks</a>
+                <a class="nav-link text-white" href="{{ url('/tips') }}">Tips & Triks</a>
               </li>
             </ul>
           </div>
@@ -112,7 +112,7 @@
               <a href="{{ route('profile.show') }}" class="text-teal-500">
                   {{ Auth::user()->name }}
               </a>
-                  
+
                 <!-- Tambahkan form logout dengan metode POST -->
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                   @csrf

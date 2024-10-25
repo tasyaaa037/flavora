@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TipController;
 use Illuminate\Http\Request;
 
 // Rute untuk halaman utama (home)
@@ -34,6 +35,7 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show')->middleware('auth');
 
 // Rute untuk Recipe dan Subcategory
+Route::resource('recipes', RecipeController::class);
 Route::get('/subcategories', [SubCategoryController::class, 'index'])->name('subcategories.index');
 Route::get('/subcategories/{id}', [SubCategoryController::class, 'show'])->name('subcategories.show');
 Route::get('/recipes', [RecipeController::class, 'index'])->name('recipes.index');
@@ -45,7 +47,6 @@ Route::get('/recipes/by-ingredient/{ingredient}', [RecipeController::class, 'byI
 Route::get('/recipes/purpose/{purpose}', [RecipeController::class, 'byPurpose'])->name('recipes.byPurpose');
 Route::get('/recipes/recommendation/{type}', [RecipeController::class, 'byRecommendation'])->name('recipes.byRecommendation');
 Route::get('/recipes/{id}/edit', [RecipeController::class, 'edit'])->name('recipes.edit');
-Route::resource('recipes', RecipeController::class);
 
 // Rute untuk menambah dan menampilkan favorit
 Route::post('/favorites/{id}', [FavoriteController::class, 'store'])->middleware('auth')->name('favorites.store');
@@ -66,3 +67,15 @@ Route::get('/user-comments', [CommentController::class, 'index'])->name('user.co
 
 // Rute untuk menyimpan URL redirect setelah login
 Route::post('/set-redirect-url', [LoginController::class, 'setRedirectUrl'])->name('set.redirect.url');
+
+// rute tip
+Route::resource('tips', TipController::class);
+Route::get('/tips', [TipController::class, 'index'])->name('tips.index');
+Route::get('/tips/{id}', [TipController::class, 'show'])->name('tips.show');
+Route::get('/tips/create', [TipController::class, 'create'])->name('tips.create');
+
+// rute bahan
+Route::get('/bahan', function () {
+    return view('bahan');
+});
+
