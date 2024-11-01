@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css" integrity="undefined" crossorigin="anonymous" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <link href="{{ asset('css/responsive.css') }}" rel="stylesheet" />
+    <link href="{{ asset('delfood-1.0.0/css/responsive.css') }}" rel="stylesheet" />
     @stack('styles')
     <style>
         .dropdown-menu {

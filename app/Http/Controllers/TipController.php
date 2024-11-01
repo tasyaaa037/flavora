@@ -29,30 +29,37 @@ class TipController extends Controller
 
     // Menampilkan form untuk mengedit tips yang sudah ada
     public function edit($id)
-    {
-        $tip = Tip::find($id);
-        return view('tips.edit', compact('tip'));
+{
+    $tip = Tip::findOrFail($id);  // Ambil data berdasarkan ID
+    return view('tips.edit', compact('tip'));  // Tampilkan halaman edit
+}
+
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'required|string',
+        'steps' => 'required|string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',  // Gambar bersifat opsional
+    ]);
+
+    $tip = Tip::findOrFail($id);
+    $tip->title = $request->input('title');
+    $tip->description = $request->input('description');
+    $tip->steps = $request->input('steps');
+    
+    if ($request->hasFile('image')) {
+        $file = $request->file('image');
+        $imageName = time() . '_' . $file->getClientOriginalName();
+        $file->move(public_path('images'), $imageName);
+        $tip->image_url = '/images/' . $imageName; 
     }
 
-    // Menyimpan perubahan yang diupdate ke database
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'steps' => 'required|string',
-            'image_url' => 'required|url',
-        ]);
+    $tip->save();
 
-        $tip = Tip::findOrFail($id);
-        $tip->title = $request->input('title');
-        $tip->description = $request->input('description');
-        $tip->steps = $request->input('steps');
-        $tip->image_url = $request->input('image_url');
-        $tip->save();
+    return redirect()->route('tips.index')->with('success', 'Tips berhasil diperbarui.');
+}
 
-        return redirect()->route('tips.index')->with('success', 'Tips berhasil diperbarui.');
-    }
 
     public function store(Request $request)
     {
@@ -80,5 +87,17 @@ class TipController extends Controller
         }
 
         return redirect()->route('tips.index')->with('success', 'Tips berhasil ditambahkan.');
+    }
+
+     public function destroy($id)
+    {
+        // Cari tips berdasarkan ID
+        $tip = Tip::findOrFail($id);
+
+        // Hapus data
+        $tip->delete();
+
+        // Redirect kembali ke halaman daftar tips dengan pesan sukses
+        return redirect()->route('tips.index')->with('success', 'Tips berhasil dihapus.');
     }
 }

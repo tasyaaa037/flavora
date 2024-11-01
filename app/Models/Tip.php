@@ -14,10 +14,12 @@ class Tip extends Model
 
     // Tentukan kolom-kolom yang dapat diisi (fillable)
     protected $fillable = [
-        'title',       // Sesuaikan dengan migration dan controller
-        'description', // Sesuaikan
-        'image_url'    // Sesuaikan
+        'title',
+        'description',
+        'steps',
+        'image_url',
     ];
+
 
     // Jika ingin menonaktifkan timestamps (created_at, updated_at)
     // public $timestamps = false;

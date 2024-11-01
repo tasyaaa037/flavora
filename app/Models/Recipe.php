@@ -4,15 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Recipe;
-use App\Models\Ingredient; 
-use App\Models\Step;       
-use App\Models\Comment;    
-use App\Models\User;       
-use App\Models\Category;   
-use App\Models\Subcategory; 
-use App\Models\Purpose;    
-use App\Models\Favorite;    
+use App\Models\Ingredient;
+use App\Models\Step;
+use App\Models\Comment;
+use App\Models\User;
+use App\Models\Category;
+use App\Models\Subcategory;
+use App\Models\Purpose;
 
 class Recipe extends Model
 {
@@ -50,7 +48,7 @@ class Recipe extends Model
      */
     public function ingredients()
     {
-        return $this->hasMany(Ingredient::class);
+        return $this->belongsToMany(Ingredient::class, 'ingredient_recipe');
     }
 
     /**
@@ -77,24 +75,34 @@ class Recipe extends Model
         return $this->belongsToMany(Category::class, 'recipe_category');
     }
 
+    /**
+     * Get the subcategory for the recipe.
+     */
     public function subcategory()
     {
         return $this->belongsTo(Subcategory::class);
     }
 
+    /**
+     * Get the purpose for the recipe.
+     */
     public function purpose()
     {
         return $this->belongsTo(Purpose::class);
     }
 
+    /**
+     * Get users who favorited the recipe.
+     */
     public function favoritedBy()
     {
         return $this->belongsToMany(User::class, 'favorites');
     }
-     
+
     protected static function booted()
     {
         static::saved(function ($recipe) {
+            // Process instructions into steps
             $instructions = explode("\n", $recipe->instructions);
             $recipe->steps()->delete(); 
             foreach ($instructions as $index => $instruction) {
@@ -104,6 +112,8 @@ class Recipe extends Model
                     'step_number' => $index + 1,
                 ]);
             }
+
+            // Process ingredients
             $ingredients = explode(",", $recipe->ingredients);
             $recipe->ingredients()->delete(); 
             foreach ($ingredients as $ingredient) {
@@ -114,5 +124,31 @@ class Recipe extends Model
                 ]);
             }
         });
+    }
+
+    /**
+     * Scope a query to only include recipes with a specific ingredient.
+     */
+    public function scopeWithIngredient($query, $ingredientName)
+    {
+        return $query->whereHas('ingredients', function ($query) use ($ingredientName) {
+            $query->where('name', 'LIKE', "%{$ingredientName}%");
+        });
+    }
+
+    /**
+     * Get recipes by the specified ingredient from the request.
+     */
+    public function getRecipesByIngredient(Request $request) 
+    {
+        $ingredientName = $request->input('ingredient'); // selected ingredient name
+        
+        // Query to get recipes based on the selected ingredient
+        $recipesQuery = Recipe::withIngredient($ingredientName);
+        
+        $total = $recipesQuery->count(); // Total matching recipes
+        $recipes = $recipesQuery->paginate(15); // Paginate for display
+    
+        return view('recipes.index', compact('recipes', 'total', 'ingredientName'));
     }
 }

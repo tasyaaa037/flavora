@@ -47,6 +47,7 @@ Route::get('/recipes/by-ingredient/{ingredient}', [RecipeController::class, 'byI
 Route::get('/recipes/purpose/{purpose}', [RecipeController::class, 'byPurpose'])->name('recipes.byPurpose');
 Route::get('/recipes/recommendation/{type}', [RecipeController::class, 'byRecommendation'])->name('recipes.byRecommendation');
 Route::get('/recipes/{id}/edit', [RecipeController::class, 'edit'])->name('recipes.edit');
+Route::get('/recipe/{id}', [RecipeController::class, 'show'])->name('recipe.show');
 
 // Rute untuk menambah dan menampilkan favorit
 Route::post('/favorites/{id}', [FavoriteController::class, 'store'])->middleware('auth')->name('favorites.store');
@@ -69,13 +70,17 @@ Route::get('/user-comments', [CommentController::class, 'index'])->name('user.co
 Route::post('/set-redirect-url', [LoginController::class, 'setRedirectUrl'])->name('set.redirect.url');
 
 // rute tip
-Route::resource('tips', TipController::class);
+Route::resource('tips', TipController::class)->except(['edit', 'destroy', 'update']);
 Route::get('/tips', [TipController::class, 'index'])->name('tips.index');
 Route::get('/tips/{id}', [TipController::class, 'show'])->name('tips.show');
-Route::get('/tips/create', [TipController::class, 'create'])->name('tips.create');
+Route::get('/tips/create', [TipController::class, 'create'])->name('tips.create')->middleware('auth');
+Route::put('/tips/{id}', [TipController::class, 'update'])->name('tips.update')->middleware('auth');
+Route::get('/tips/{id}/edit', [TipController::class, 'edit'])->name('tips.edit')->middleware('auth');
+Route::put('/tips/{id}', [TipController::class, 'update'])->name('tips.update')->middleware('auth');
+Route::delete('/tips/{id}', [TipController::class, 'destroy'])->name('tips.destroy')->middleware('auth');
 
 // rute bahan
-Route::get('/bahan', function () {
-    return view('bahan');
-});
+Route::get('/bahan', [RecipeController::class, 'showIngredients'])->name('bahan.index');
+Route::post('/recipes', [RecipeController::class, 'showRecipes'])->name('recipes.show');
+
 

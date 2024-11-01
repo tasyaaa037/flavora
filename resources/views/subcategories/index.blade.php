@@ -19,9 +19,9 @@
 
     <h3>Jenis Hidangan</h3>
     <ul>
-        <li><a href="{{ route('recipes.byType', 'Makanan Pembuka') }}">Makanan Pembuka</a></li>
-        <li><a href="{{ route('recipes.byType', 'Makanan Pendamping') }}">Makanan Pendamping</a></li>
-        <li><a href="{{ route('recipes.byType', 'Makanan Penutup') }}">Makanan Penutup</a></li>
+        <li><a href="{{ route('recipes.byType', 'Hidangan Makan Pagi') }}">Hidangan Makan Pagi</a></li>
+        <li><a href="{{ route('recipes.byType', 'Hidangan Makan Siang') }}">Hidangan Makan Siang</a></li>
+        <li><a href="{{ route('recipes.byType', 'Hidangan Makan Malam') }}">Hidangan Makan Malam</a></li>
     </ul>
 
     <h3>Kategori Khas</h3>
@@ -43,7 +43,7 @@
 
     <h3>Tujuan Makanan</h3>
     <ul>
-        <li><a href="{{ route('recipes.byPurpose', 'Makanan Diet/Sehat') }}">Makanan Sehat</a></li>
+        <li><a href="{{ route('recipes.byPurpose', 'Makanan Sehat') }}">Makanan Sehat</a></li>
         <li><a href="{{ route('recipes.byPurpose', 'Makanan Anak') }}">Makanan Anak</a></li>
     </ul>
 

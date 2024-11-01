@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\Recipe;
 use App\Models\Category;
 use App\Models\Subcategory;
@@ -20,6 +21,13 @@ class RecipeController extends Controller
     public function index()
     {
         $recipes = Recipe::with(['categories', 'subcategory', 'purpose'])->get();
+        $selectedIngredients = $request->input('ingredients', []);
+        $recipes = Recipe::where(function($query) use ($selectedIngredients) {
+            foreach ($selectedIngredients as $ingredient) {
+                $query->orWhere('ingredients', 'LIKE', '%' . $ingredient . '%');
+            }
+        })->get();
+
         return view('recipes.index', compact('recipes'));
     }
 
@@ -187,7 +195,13 @@ class RecipeController extends Controller
          $recipes = Recipe::where('subcategory_id', $subcategory)->get();
          return view('recipes.index', compact('recipes'));
     }
+    
+    public function showByMethod($method)
+    {
+        $recipes = Recipe::where('cook_method', $method)->get();
 
+        return view('recipes.index', compact('recipes'));
+    }
      // Menampilkan resep berdasarkan tujuan
      public function byPurpose($purpose)
      {
@@ -197,11 +211,11 @@ class RecipeController extends Controller
 
        // Menampilkan resep berdasarkan bahan
 
-    public function byType($type)
+       public function byType($type)
     {
         // Ambil data resep berdasarkan tipe yang diberikan
         $recipes = Recipe::where('type', '=', $type)->get();
-
+        
         // Tampilkan view dengan data resep yang sesuai
         return view('recipes.index', ['recipes' => $recipes]);
     }
@@ -288,4 +302,24 @@ class RecipeController extends Controller
 
          return view('favorites.index', compact('favorites'));
      }
+
+     public function showIngredients(Request $request)
+    {
+        // Get the recipes that do not have any ingredients
+        $recipes = Recipe::whereNotExists(function ($query) {
+            $query->select(DB::raw(1))
+                ->from('ingredients')
+                ->join('ingredient_recipe', 'ingredients.id', '=', 'ingredient_recipe.ingredient_id')
+                ->whereRaw('recipes.id = ingredient_recipe.recipe_id');
+        })->paginate(15);
+
+        $total = $recipes->total(); // Total count of recipes
+        $ingredientName = $request->input('ingredient'); // Get the ingredient name from the request
+
+        // Fetch all ingredients from the database
+        $ingredients = Ingredient::all(); // Make sure to import the Ingredient model at the top
+
+        return view('bahan.index', compact('recipes', 'total', 'ingredientName', 'ingredients'));
+    }
+
 }
