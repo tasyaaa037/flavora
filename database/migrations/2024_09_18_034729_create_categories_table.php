@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('nama');
+            $table->foreignId('categorie_type_id')->constrained('categorie_types')->onDelete('cascade');
             $table->timestamps();
         });
     }

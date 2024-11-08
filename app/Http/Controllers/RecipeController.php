@@ -18,19 +18,24 @@ use App\Models\Step;
 class RecipeController extends Controller
 {
     // Menampilkan daftar semua resep
-    public function index()
+    public function index(Request $request)
     {
         $recipes = Recipe::with(['categories', 'subcategory', 'purpose'])->get();
+        
         $selectedIngredients = $request->input('ingredients', []);
-        $recipes = Recipe::where(function($query) use ($selectedIngredients) {
-            foreach ($selectedIngredients as $ingredient) {
-                $query->orWhere('ingredients', 'LIKE', '%' . $ingredient . '%');
-            }
-        })->get();
+        
+        if (!empty($selectedIngredients)) {
+            $recipes = Recipe::where(function ($query) use ($selectedIngredients) {
+                foreach ($selectedIngredients as $ingredient) {
+                    $query->orWhere('ingredients', 'LIKE', '%' . $ingredient . '%');
+                }
+            })->get();
+        }
 
         return view('recipes.index', compact('recipes'));
     }
 
+    // Menampilkan detail resep
     // Menampilkan detail resep
     public function show($id)
     {
@@ -41,145 +46,82 @@ class RecipeController extends Controller
     // Menampilkan formulir untuk menambahkan resep baru
     public function create()
     {
-        $categories = Category::all();
-        $subcategories = Subcategory::all();
-        $purposes = Purpose::all();
-        return view('recipes.create', compact('categories', 'subcategories', 'purposes'));
+        return view('recipes.create');
     }
 
-    // Menyimpan resep baru ke database
     public function store(Request $request)
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'ingredients' => 'required|array',
-            'ingredients.*' => 'required|string',
-            'steps' => 'required|array',
-            'steps.*' => 'required|string',
-            'category_id' => 'required|exists:categories,id',
-            'subcategory_id' => 'nullable|exists:subcategories,id',
-            'purpose_id' => 'nullable|exists:purposes,id',
-            'prep_time' => 'required|integer',
-            'cook_time' => 'required|integer',
+            'description' => 'required|string',
+            'image' => 'required|image',
+            'time' => 'required|integer',
+            'price' => 'required|numeric',
             'servings' => 'required|integer',
-            'description' => 'nullable|string',
+            'ingredients' => 'required|string',
+            'steps' => 'required|string',
         ]);
 
-        $recipe = new Recipe();
-        $recipe->title = $request->title;
-        $recipe->prep_time = $request->prep_time;
-        $recipe->cook_time = $request->cook_time;
-        $recipe->servings = $request->servings;
-        $recipe->description = $request->description;
-        $recipe->category_id = $request->category_id;
-        $recipe->subcategory_id = $request->subcategory_id;
-        $recipe->purpose_id = $request->purpose_id;
+        try {
+            // Assuming you have the Recipe model to save data
+            $recipe = new Recipe();
+            $recipe->title = $request->title;
+            $recipe->description = $request->description;
+            $recipe->time = $request->time;
+            $recipe->price = $request->price;
+            $recipe->servings = $request->servings;
+            $recipe->ingredients = $request->ingredients;
+            $recipe->steps = $request->steps;
+            
+            // Handle file upload
+            if ($request->hasFile('image')) {
+                $imagePath = $request->file('image')->store('images', 'public');
+                $recipe->image = $imagePath;
+            }
+            
+            $recipe->save();
 
-        // Mengelola upload gambar
-        if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('images');
-            $recipe->image = $path;
+            return redirect()->route('recipes.index')->with('success', 'Resep berhasil disimpan!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan saat menyimpan resep. Silakan coba lagi.');
         }
-
-        $recipe->save();
-
-        // Menyimpan ingredients dan steps
-        foreach ($request->ingredients as $ingredientName) {
-            $ingredient = new Ingredient();
-            $ingredient->name = $ingredientName;
-            $ingredient->recipe_id = $recipe->id;
-            $ingredient->save();
-        }
-
-        foreach ($request->steps as $stepDescription) {
-            $step = new Step();
-            $step->description = $stepDescription;
-            $step->recipe_id = $recipe->id;
-            $step->save();
-        }
-
-        return redirect()->route('recipes.index')->with('success', 'Recipe created successfully.');
     }
 
-    // Menampilkan formulir untuk mengedit resep
-    public function edit($id)
+
+    public function edit(Recipe $recipe)
     {
-        $recipe = Recipe::with('ingredients', 'steps')->findOrFail($id);
-        $categories = Category::all();
-        $recipe->subcategory_id = $request->subcategory_id;
-        $recipe->purpose_id = $request->purpose_id;
+        return view('recipes.edit', compact('recipe'));
     }
 
-    // Memperbarui resep di database
-    public function update(Request $request, $id)
+    public function update(Request $request, Recipe $recipe)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'ingredients' => 'required|array',
-            'ingredients.*' => 'required|string',
-            'steps' => 'required|array',
-            'steps.*' => 'required|string',
-            'category_id' => 'required|exists:categories,id',
-            'subcategory_id' => 'nullable|exists:subcategories,id',
-            'purpose_id' => 'nullable|exists:purposes,id',
+            'title' => 'required',
+            'description' => 'required',
+            'image' => 'image|mimes:jpg,png,jpeg|max:2048',
             'prep_time' => 'required|integer',
-            'cook_time' => 'required|integer',
+            'price' => 'required|numeric',
             'servings' => 'required|integer',
-            'description' => 'nullable|string',
         ]);
 
-        $recipe = Recipe::findOrFail($id);
-        $recipe->title = $request->title;
-        $recipe->prep_time = $request->prep_time;
-        $recipe->cook_time = $request->cook_time;
-        $recipe->servings = $request->servings;
-        $recipe->description = $request->description;
-        $recipe->category_id = $request->category_id;
-        $recipe->subcategory_id = $request->subcategory_id;
-        $recipe->purpose_id = $request->purpose_id;
-
-        // Mengelola upload gambar
         if ($request->hasFile('image')) {
-            if ($recipe->image) {
-                Storage::delete($recipe->image);
-            }
-            $path = $request->file('image')->store('images');
-            $recipe->image = $path;
+            $imagePath = $request->file('image')->store('images', 'public');
+            $recipe->image = $imagePath;
         }
 
-        $recipe->save();
-
-        // Memperbarui ingredients dan steps
-        $recipe->ingredients()->delete();
-        foreach ($request->ingredients as $ingredientName) {
-            $ingredient = new Ingredient();
-            $ingredient->name = $ingredientName;
-            $ingredient->recipe_id = $recipe->id;
-            $ingredient->save();
-        }
-
-        $recipe->steps()->delete();
-        foreach ($request->steps as $stepDescription) {
-            $step = new Step();
-            $step->description = $stepDescription;
-            $step->recipe_id = $recipe->id;
-            $step->save();
-        }
+        $recipe->update($request->all());
 
         return redirect()->route('recipes.index')->with('success', 'Recipe updated successfully.');
     }
 
-    // Menghapus resep dari database
+
+
     public function destroy($id)
     {
         $recipe = Recipe::findOrFail($id);
-        if ($recipe->image) {
-            Storage::delete($recipe->image); // Hapus gambar jika ada
-        }
         $recipe->delete();
-        return redirect()->route('recipes.index')->with('success', 'Recipe deleted successfully.');
+
+        return redirect()->route('recipes.index');
     }
 
     // Menampilkan resep berdasarkan kategori

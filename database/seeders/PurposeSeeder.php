@@ -10,7 +10,7 @@ class PurposeSeeder extends Seeder
     public function run()
     {
         $purposes = [
-            ['id' => 1, 'name' => 'Makanan Sehat / Diet'],
+            ['id' => 1, 'name' => 'Makanan Sehat'],
             ['id' => 2, 'name' => 'Makanan Anak'],
             ['id' => 3, 'name' => 'Cemilan'],
         ];

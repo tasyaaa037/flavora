@@ -14,17 +14,10 @@ return new class extends Migration
             $table->text('description');
             $table->text('instructions'); 
             $table->text('ingredient'); 
-            $table->string('cook_method')->nullable();
+            $table->integer('cook_time')->nullable();
             $table->string('image')->nullable();
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
-            $table->integer('prep_time')->nullable();
-            $table->integer('cook_time')->nullable();
-            $table->decimal('price')->nullable();
-            $table->integer('time')->nullable();
-            $table->integer('servings')->nullable();
-            $table->string('cuisine')->nullable();
-            $table->unsignedBigInteger('purpose_id')->nullable();
             $table->timestamps();
         });
     }

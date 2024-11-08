@@ -1,131 +1,178 @@
 @extends('layouts.resep')
-@section('title', 'Tambah Resep Baru')
+
 @section('content')
-<div class="container mt-5">
-    <div class="card shadow-sm rounded-lg">
-        <div class="card-body">
-            <h3 class="mb-4">Tambah Resep Baru</h3>
+<style>
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+    }
 
-            <!-- Form Tambah Resep -->
-            <form action="{{ route('recipes.store') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="form-group">
-                    <label for="title">Judul Resep</label>
-                    <input type="text" class="form-control" id="title" name="title" placeholder="Masukkan judul resep" required>
-                </div>
+    .form-container {
+        width: 100%;
+        max-width: 800px;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+    }
 
-                <div class="form-group">
-                    <label for="description">Deskripsi</label>
-                    <textarea class="form-control" id="description" name="description" rows="4" placeholder="Deskripsi resep" required></textarea>
-                </div>
+    .form-group {
+        margin-bottom: 20px;
+    }
 
-                <div class="form-group">
-                    <label for="ingredients">Bahan-Bahan</label>
-                    <div id="ingredients-container">
-                        <input type="text" class="form-control mb-2" name="ingredients[]" placeholder="Bahan 1" required>
-                        <input type="text" class="form-control mb-2" name="ingredients[]" placeholder="Bahan 2" required>
-                        <input type="text" class="form-control mb-2" name="ingredients[]" placeholder="Bahan 3" required>
-                        <input type="text" class="form-control mb-2" name="ingredients[]" placeholder="Bahan 4" required>
-                    </div>
-                    <button type="button" class="btn btn-secondary mt-2" id="add-ingredient">Tambah Bahan</button>
-                </div>
+    .form-group label {
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: block;
+    }
 
-                <div class="form-group">
-                    <label for="instructions">Instruksi Memasak</label>
-                    <textarea class="form-control" id="instructions" name="instructions" rows="4" placeholder="Langkah-langkah memasak" required></textarea>
-                </div>
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+        font-size: 14px;
+    }
 
-                <div class="form-group">
-                    <label for="prep_time">Waktu Persiapan (menit)</label>
-                    <input type="number" class="form-control" id="prep_time" name="prep_time" required>
-                </div>
+    .form-group textarea {
+        resize: vertical;
+    }
 
-                <div class="form-group">
-                    <label for="cook_time">Waktu Memasak (menit)</label>
-                    <input type="number" class="form-control" id="cook_time" name="cook_time" required>
-                </div>
+    .form-group input[type="file"] {
+        padding: 5px;
+    }
 
-                <div class="form-group">
-                    <label for="price">Harga (Rp)</label>
-                    <input type="number" class="form-control" id="price" name="price" required>
-                </div>
+    .form-group button {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 100%;
+        transition: all 0.3s ease;
+    }
 
-                <div class="form-group">
-                    <label for="servings">Jumlah Porsi</label>
-                    <input type="number" class="form-control" id="servings" name="servings" required>
-                </div>
+    .form-group button:hover {
+        background-color: #218838;
+    }
 
-                <div class="form-group">
-                    <label for="recipe_category">Kategori Resep</label>
-                    <select id="recipe_category" class="form-control" name="recipe_category" required>
-                        <option value="" disabled selected>Pilih kategori resep</option>
-                        <option value="goreng">Serba Goreng</option>
-                        <option value="rebus">Serba Rebus</option>
-                        <option value="panggang">Serba Panggang & Bakar</option>
-                        <option value="kukus">Serba Kukus</option>
-                        <option value="tumis">Serba Tumis</option>
-                    </select>
-                </div>
+    .form-group .error {
+        color: red;
+        font-size: 12px;
+    }
 
-                <div class="form-group">
-                    <label for="food_category">Kategori Makanan</label>
-                    <select id="food_category" class="form-control" name="food_category" required>
-                        <option value="" disabled selected>Pilih kategori makanan</option>
-                        <option value="pendamping">Makanan Pendamping</option>
-                        <option value="utama">Makanan Utama</option>
-                        <option value="pembuka">Makanan Pembuka</option>
-                        <option value="penutup">Makanan Penutup</option>
-                    </select>
-                </div>
+    .alert {
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 5px;
+    }
 
-                <div class="form-group">
-                    <label for="cuisine">Masakan Apa</label>
-                    <select id="cuisine" class="form-control" name="cuisine" required>
-                        <option value="" disabled selected>Pilih jenis masakan</option>
-                        <option value="cepat_saji">Makanan Cepat Saji</option>
-                        <option value="internasional">Makanan Internasional</option>
-                        <option value="tradisional">Makanan Tradisional</option>
-                    </select>
-                </div>
+    .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
 
-                <div class="form-group">
-                    <label for="purpose">Tujuan</label>
-                    <select id="purpose" class="form-control" name="purpose" required>
-                        <option value="" disabled selected>Pilih tujuan</option>
-                        <option value="sehat">Makanan Sehat / Diet</option>
-                        <option value="anak">Makanan Anak</option>
-                    </select>
-                </div>
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+    }
+</style>
 
-                <div class="form-group">
-                    <label for="image">Upload Gambar</label>
-                    <input type="file" class="form-control-file" id="image" name="image" required>
-                </div>
+<div class="container">
+    <div class="form-container">
+        <h1>Tambah Resep</h1>
 
-                <button type="submit" class="btn btn-primary">Simpan Resep</button>
-            </form>
-        </div>
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <form action="{{ route('recipes.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+
+            <div class="form-group">
+                <label for="title">Judul Resep</label>
+                <input type="text" id="title" name="title" value="{{ old('title') }}" required>
+                @error('title')
+                    <div class="error">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label for="description">Deskripsi</label>
+                <textarea id="description" name="description" rows="4" required>{{ old('description') }}</textarea>
+                @error('description')
+                    <div class="error">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label for="image">Gambar Resep</label>
+                <input type="file" id="image" name="image" accept="image/*" required>
+                @error('image')
+                    <div class="error">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label for="time">Waktu (menit)</label>
+                <input type="number" id="time" name="time" value="{{ old('time') }}" required>
+                @error('time')
+                    <div class="error">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label for="price">Harga (Rp)</label>
+                <input type="number" id="price" name="price" value="{{ old('price') }}" required>
+                @error('price')
+                    <div class="error">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label for="servings">Porsi</label>
+                <input type="number" id="servings" name="servings" value="{{ old('servings') }}" required>
+                @error('servings')
+                    <div class="error">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label for="ingredients">Bahan-bahan (Pisahkan dengan koma)</label>
+                <textarea id="ingredients" name="ingredients" rows="4" required>{{ old('ingredients') }}</textarea>
+                @error('ingredients')
+                    <div class="error">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label for="steps">Cara Memasak (Pisahkan dengan koma)</label>
+                <textarea id="steps" name="steps" rows="4" required>{{ old('steps') }}</textarea>
+                @error('steps')
+                    <div class="error">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <button type="submit">Simpan Resep</button>
+            </div>
+        </form>
     </div>
 </div>
-
-@section('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('add-ingredient').addEventListener('click', function() {
-            console.log('Tombol "Tambah Bahan" diklik'); // Umpan balik ke konsol
-            const ingredientsContainer = document.getElementById('ingredients-container');
-            const newIngredient = document.createElement('input');
-            newIngredient.type = 'text';
-            newIngredient.className = 'form-control mb-2';
-            newIngredient.name = 'ingredients[]';
-            newIngredient.placeholder = 'Bahan ' + (ingredientsContainer.children.length + 1);
-            newIngredient.required = true; // Pastikan input baru juga required
-            
-            // Tambahkan input baru ke kontainer
-            ingredientsContainer.appendChild(newIngredient);
-            console.log('Input baru ditambahkan: ' + newIngredient.placeholder); // Umpan balik untuk input baru
-        });
-    });
-</script>
-@endsection
 @endsection
