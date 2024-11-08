@@ -12,13 +12,15 @@ class IngredientSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        // Buat loop untuk membuat beberapa ingredients
-        foreach (range(1, 50) as $index) {
+        // Fetch all recipe IDs from the recipes table
+        $recipeIds = DB::table('recipes')->pluck('id');
+
+        foreach (range(1, 20) as $index) {
             DB::table('ingredients')->insert([
-                'name' => $faker->word,
-                'quantity' => $faker->randomFloat(2, 1, 100),
-                'ingredient' => $faker->sentence, 
-                'recipe_id' => DB::table('recipes')->inRandomOrder()->first()->id,
+                'name' => $faker->word, // Nama bahan
+                'quantity' => rand(1, 100), // Kuantitas
+                'unit' => $faker->randomElement(['grams', 'ml', 'pieces', 'cups']), // Unit bahan
+                'recipe_id' => $faker->randomElement($recipeIds), // Random recipe_id from the recipes table
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

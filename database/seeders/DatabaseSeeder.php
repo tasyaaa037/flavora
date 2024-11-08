@@ -15,13 +15,12 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             UserSeeder::class,
-            CategorySeeder::class,
+            CategorieTypeSeeder::class, 
+            CategorieSeeder::class,
             RecipeSeeder::class,
             IngredientSeeder::class,
-            StepSeeder::class,
             CommentSeeder::class,
             FavoriteSeeder::class,
-            RecipeCategorySeeder::class, 
         ]);
     }
 }

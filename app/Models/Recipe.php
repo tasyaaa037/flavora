@@ -5,12 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Ingredient;
-use App\Models\Step;
 use App\Models\Comment;
 use App\Models\User;
-use App\Models\Category;
-use App\Models\Subcategory;
-use App\Models\Purpose;
+use App\Models\Categorie;
+use App\Models\CategorieType;
 
 class Recipe extends Model
 {
@@ -22,17 +20,9 @@ class Recipe extends Model
         'description',
         'instructions',
         'ingredients',
-        'cook_method',
         'image',
-        'category_id',
-        'subcategory_id',
-        'prep_time',
+        'categorie_id',
         'cook_time',
-        'price',
-        'time',
-        'servings',
-        'cuisine',
-        'purpose_id',
     ];
 
     /**
@@ -52,14 +42,6 @@ class Recipe extends Model
     }
 
     /**
-     * Get the steps for the recipe.
-     */
-    public function steps()
-    {
-        return $this->hasMany(Step::class);
-    }
-
-    /**
      * Get the comments for the recipe.
      */
     public function comments()
@@ -72,23 +54,7 @@ class Recipe extends Model
      */
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'recipe_category');
-    }
-
-    /**
-     * Get the subcategory for the recipe.
-     */
-    public function subcategory()
-    {
-        return $this->belongsTo(Subcategory::class);
-    }
-
-    /**
-     * Get the purpose for the recipe.
-     */
-    public function purpose()
-    {
-        return $this->belongsTo(Purpose::class);
+        return $this->belongsToMany(Categorie::class, 'Categorie_Type');
     }
 
     /**
@@ -102,18 +68,7 @@ class Recipe extends Model
     protected static function booted()
     {
         static::saved(function ($recipe) {
-            // Process instructions into steps
-            $instructions = explode("\n", $recipe->instructions);
-            $recipe->steps()->delete(); 
-            foreach ($instructions as $index => $instruction) {
-                Step::create([
-                    'recipe_id' => $recipe->id,
-                    'instruction' => trim($instruction),
-                    'step_number' => $index + 1,
-                ]);
-            }
-
-            // Process ingredients
+            // Process ingredients only
             $ingredients = explode(",", $recipe->ingredients);
             $recipe->ingredients()->delete(); 
             foreach ($ingredients as $ingredient) {
