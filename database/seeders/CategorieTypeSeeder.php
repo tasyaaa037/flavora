@@ -13,11 +13,11 @@ class CategorieTypeSeeder extends Seeder
     public function run()
     {
         $types = [
-            ['nama' => 'cara_memasak'],
-            ['nama' => 'jenis_hidangan'],
-            ['nama' => 'kategori_khas'],
-            ['nama' => 'bahan_utama'],
-            ['nama' => 'tujuan_makanan'],
+            ['nama' => 'Cara Memasak'],
+            ['nama' => 'Jenis Hidangan'],
+            ['nama' => 'Kategori Khas'],
+            ['nama' => 'Bahan Utama'],
+            ['nama' => 'Tujuan Makanan'],
         ];
 
         foreach ($types as $type) {

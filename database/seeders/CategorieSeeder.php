@@ -21,12 +21,15 @@ class CategorieSeeder extends Seeder
             ['nama' => 'Serba Kukus', 'categorie_type_id' => 1],
             ['nama' => 'Serba Bakar', 'categorie_type_id' => 1],
             ['nama' => 'Serba Panggang', 'categorie_type_id' => 1],
+            ['nama' => 'Serba Rebus', 'categorie_type_id' => 1],
 
             // Tipe Kategori: Jenis Hidangan (tipe_kategori_id = 2)
             ['nama' => 'Makanan Pembuka', 'categorie_type_id' => 2],
             ['nama' => 'Makanan Penutup', 'categorie_type_id' => 2],
             ['nama' => 'Hidangan Utama', 'categorie_type_id' => 2],
             ['nama' => 'Sarapan', 'categorie_type_id' => 2],
+            ['nama' => 'Hidangan Makan Siang', 'categorie_type_id' => 2],
+            ['nama' => 'Hidangan Makan Malam', 'categorie_type_id' => 2],
 
             // Tipe Kategori: Kategori Khas (tipe_kategori_id = 3)
             ['nama' => 'Makanan Tradisional', 'categorie_type_id' => 3],
@@ -37,7 +40,15 @@ class CategorieSeeder extends Seeder
             ['nama' => 'Daging Sapi', 'categorie_type_id' => 4],
             ['nama' => 'Ikan', 'categorie_type_id' => 4],
             ['nama' => 'Sayuran', 'categorie_type_id' => 4],
-            ['nama' => 'Tahu dan Tempe', 'categorie_type_id' => 4],
+            ['nama' => 'Telur', 'categorie_type_id' => 4],
+            ['nama' => 'Daging Kambing', 'categorie_type_id' => 4],
+            ['nama' => 'Cumi-cumi', 'categorie_type_id' => 4],
+            ['nama' => 'Udang', 'categorie_type_id' => 4],
+            ['nama' => 'Kepiting', 'categorie_type_id' => 4],
+            ['nama' => 'Nasi', 'categorie_type_id' => 4],
+            ['nama' => 'Mie', 'categorie_type_id' => 4],
+            ['nama' => 'Bihun', 'categorie_type_id' => 4],
+            ['nama' => 'Susu', 'categorie_type_id' => 4],
 
             // Tipe Kategori: Tujuan Makanan (tipe_kategori_id = 5)
             ['nama' => 'Makanan Sehat', 'categorie_type_id' => 5],

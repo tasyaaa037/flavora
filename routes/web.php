@@ -20,20 +20,27 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 // Profile route with auth middleware
 Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show')->middleware('auth');
 
-// Recipes and Subcategory routes
+// Recipes and Categories routes
 Route::resource('recipes', RecipeController::class)->except(['show']);
 Route::get('/recipes/{id}', [RecipeController::class, 'show'])->name('recipes.show');
 Route::post('/recipes', [RecipeController::class, 'store'])->name('recipes.store'); // Explicitly adding store route
-Route::get('/subcategories', [SubcategoryController::class, 'index'])->name('subcategories.index');
-Route::get('/subcategories/{id}', [SubcategoryController::class, 'show'])->name('subcategories.show');
+Route::get('/recipes/by-type', [RecipeController::class, 'byType'])->name('recipes.byType');
+Route::get('/recipes/recommendation', [RecipeController::class, 'byRecommendation'])->name('recipes.byRecommendation');
+Route::get('recipes/by-method/{method}', [RecipeController::class, 'showByMethod'])->name('recipes.byMethod');
+Route::get('recipes/by-type/{type}', [RecipeController::class, 'showByType'])->name('recipes.byType');
+Route::get('recipes/by-cuisine/{cuisine}', [RecipeController::class, 'showByCuisine'])->name('recipes.byCuisine');
+Route::get('recipes/by-ingredient/{ingredient}', [RecipeController::class, 'showByIngredient'])->name('recipes.byIngredient');
+Route::get('recipes/by-purpose/{purpose}', [RecipeController::class, 'showByPurpose'])->name('recipes.byPurpose');
+Route::get('recipes/by-recommendation/{recommendation}', [RecipeController::class, 'showByRecommendation'])->name('recipes.byRecommendation');
+Route::get('recipes/by-categorie/{categorie}', [RecipeController::class, 'showByCategorie'])->name('recipes.byCategorie');
 
-// Additional Recipe filtering routes
-Route::get('/recipes/type/{type}', [RecipeController::class, 'byType'])->name('recipes.byType');
-Route::get('/recipes/method/{method}', [RecipeController::class, 'showByMethod'])->name('recipes.byMethod');
-Route::get('/recipes/by-cuisine/{cuisine}', [RecipeController::class, 'byCuisine'])->name('recipes.byCuisine');
-Route::get('/recipes/by-ingredient/{ingredient}', [RecipeController::class, 'byIngredient'])->name('recipes.byIngredient');
-Route::get('/recipes/purpose/{purpose}', [RecipeController::class, 'byPurpose'])->name('recipes.byPurpose');
-Route::get('/recipes/recommendation/{type}', [RecipeController::class, 'byRecommendation'])->name('recipes.byRecommendation');
+// Kategori routes
+Route::get('/kategori', [RecipeController::class, 'showCategories'])->name('kategori.index'); // Menampilkan kategori
+Route::get('/kategori/{categorie}', [RecipeController::class, 'showByCategorie'])->name('kategori.show'); // Menampilkan kategori spesifik
+
+
+// Subcategory routes (Jika dibutuhkan)
+Route::get('/kategori-resep/{type}/{categorie}', [RecipeController::class, 'showByCategorie'])->name('recipes.showByCategorie');
 
 // Favorite routes with auth middleware
 Route::post('/favorites/{id}', [FavoriteController::class, 'store'])->middleware('auth')->name('favorites.store');

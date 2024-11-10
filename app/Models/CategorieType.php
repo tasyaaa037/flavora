@@ -18,6 +18,6 @@ class CategorieType extends Model
      */
     public function categories()
     {
-        return $this->hasMany(Categorie::class);
+        return $this->hasMany(Categorie::class, 'categorie_type_id');
     }
 }

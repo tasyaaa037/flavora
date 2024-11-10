@@ -9,16 +9,18 @@ class Categorie extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name', // Nama kategori
-        'categorie_type_id', // ID Tipe Kategori
-    ];
+    protected $fillable = ['nama', 'categorie_type_id']; // Pastikan kolom yang dapat diisi
 
     /**
-     * Define a relationship with the CategorieType model.
+     * Relasi ke CategorieType.
      */
     public function categorieType()
     {
-        return $this->belongsTo(CategorieType::class);
+        return $this->belongsTo(CategorieType::class, 'categorie_type_id');
+    }
+
+    public function recipes()
+    {
+        return $this->hasMany(Recipe::class);
     }
 }

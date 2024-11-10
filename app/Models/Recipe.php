@@ -49,6 +49,43 @@ class Recipe extends Model
         return $this->hasMany(Comment::class);
     }
 
+    // Relasi dengan kategori metode
+    public function method()
+    {
+        return $this->belongsTo(Categorie::class, 'method_id');
+    }
+
+    // Relasi dengan kategori jenis hidangan
+    public function type()
+    {
+        return $this->belongsTo(Categorie::class, 'type_id');
+    }
+
+    // Relasi dengan kategori makanan khas
+    public function cuisine()
+    {
+        return $this->belongsTo(Categorie::class, 'cuisine_id');
+    }
+
+    // Relasi dengan kategori bahan utama
+    public function ingredient()
+    {
+        return $this->belongsTo(Categorie::class, 'ingredient_id');
+    }
+
+    // Relasi dengan kategori tujuan makanan
+    public function purpose()
+    {
+        return $this->belongsTo(Categorie::class, 'purpose_id');
+    }
+
+    // Relasi dengan kategori umum
+    public function categorie()
+    {
+        return $this->belongsTo(Categorie::class, 'categorie_id');
+    }
+
+
     /**
      * Get the categories for the recipe.
      */

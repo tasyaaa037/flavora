@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1>{{ $category->name }}</h1>
+        <h1>{{ $categorie->name }}</h1>
 
         <div class="row mb-4">
             @foreach($recipes as $recipe)
