@@ -2,136 +2,143 @@
 
 @section('content')
 <style>
-    .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        padding: 20px;
-        box-sizing: border-box;
-    }
-
-    .form-container {
-        width: 100%;
-        max-width: 800px;
-        padding: 20px;
-        background-color: #fff;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-    }
-
     .form-group {
         margin-bottom: 20px;
     }
 
     .form-group label {
         font-weight: bold;
-        margin-bottom: 10px;
-        display: block;
     }
 
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
+    .form-control {
         width: 100%;
         padding: 10px;
-        border: 1px solid #ced4da;
         border-radius: 5px;
-        font-size: 14px;
+        border: 1px solid #ced4da;
     }
 
-    .form-group textarea {
-        resize: vertical;
-    }
-
-    .form-group input[type="file"] {
-        padding: 5px;
-    }
-
-    .form-group button {
-        background-color: #28a745;
+    .btn-submit {
+        background-color: #007bff;
         color: white;
+        padding: 10px 20px;
         border: none;
-        padding: 10px 15px;
-        font-size: 16px;
         border-radius: 5px;
         cursor: pointer;
-        width: 100%;
-        transition: all 0.3s ease;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
     }
 
-    .form-group button:hover {
-        background-color: #218838;
-    }
-
-    .form-group .error {
-        color: red;
-        font-size: 12px;
-    }
-
-    .alert {
-        padding: 15px;
-        margin: 10px 0;
-        border-radius: 5px;
-    }
-
-    .alert-danger {
-        background-color: #f8d7da;
-        color: #721c24;
-    }
-
-    .alert-success {
-        background-color: #d4edda;
-        color: #155724;
+    .btn-submit:hover {
+        background-color: #0056b3;
     }
 </style>
 
 <div class="container">
-    <div class="form-container">
-        <h1>Tambah Resep</h1>
+    <h1>Tambah Resep Baru</h1>
 
-        @if(session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
+    <form action="{{ route('recipes.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
 
-        @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
+        <!-- Title -->
+        <div class="form-group">
+            <label for="title">Judul Resep</label>
+            <input type="text" name="title" id="title" class="form-control" required>
+        </div>
 
-        <form action="{{ route('recipes.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
+        <!-- Description -->
+        <div class="form-group">
+            <label for="description">Deskripsi</label>
+            <textarea name="description" id="description" class="form-control" rows="3" required></textarea>
+        </div>
+
+        <!-- Instructions -->
+        <div class="form-group">
+            <label for="instructions">Instruksi Memasak</label>
+            <textarea name="instructions" id="instructions" class="form-control" rows="4" placeholder="Langkah-langkah memasak" required></textarea>
+        </div>
+
+        <!-- Time -->
+        <div class="form-group">
+            <label for="time">Waktu Masak (menit)</label>
+            <input type="number" name="time" id="time" class="form-control" required>
+        </div>
+
+        <!-- Image Upload -->
+        <div class="form-group">
+            <label for="image">Upload Gambar</label>
+            <input type="file" name="image" id="image" class="form-control" required>
+        </div>
+
+        <!-- Ingredients Selection -->
+        <!-- Bahan-bahan -->
+        <div class="form-group">
+            <label for="ingredients">Bahan-bahan</label>
+            <textarea name="ingredients" id="ingredients" class="form-control" rows="3" placeholder="Masukkan bahan-bahan, pisahkan dengan koma" required></textarea>
+            <small>Pisahkan dengan koma.</small>
+        </div>
+
+
+        <!-- Category Selection -->
+        <div class="form-group">
+            <label for="categorie_type">Kategori Resep</label>
+
+            <!-- Cooking Method Category -->
             <div class="form-group">
-                <label for="title">Judul Resep</label>
-                <input type="text" class="form-control" id="title" name="title" required>
-            </div>
-
-            <div class="form-group">
-                <label for="category">Kategori</label>
-                <select class="form-control" id="category" name="categorie_id" required>
-                    <option value="">Pilih Kategori</option>
-                    @foreach($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                <label for="cooking_method">Cara Memasak</label>
+                <select name="categories[cooking_method]" id="cooking_method" class="form-control">
+                    <option value="">Pilih Cara Memasak</option>
+                    @foreach ($cookingMethods as $categorie)
+                        <option value="{{ $categorie->id }}">{{ $categorie->nama }}</option>
                     @endforeach
                 </select>
             </div>
 
+            <!-- Dish Type Category -->
             <div class="form-group">
-                <label for="image">Gambar</label>
-                <input type="file" class="form-control" id="image" name="image" required>
+                <label for="dish_type">Jenis Hidangan</label>
+                <select name="categories[dish_type]" id="dish_type" class="form-control">
+                    <option value="">Pilih Jenis Hidangan</option>
+                    @foreach ($dishTypes as $categorie)
+                        <option value="{{ $categorie->id }}">{{ $categorie->nama }}</option>
+                    @endforeach
+                </select>
             </div>
 
+            <!-- Specialty Category -->
             <div class="form-group">
-                <label for="prep_time">Waktu Persiapan (menit)</label>
-                <input type="number" class="form-control" id="prep_time" name="prep_time" required>
+                <label for="specialty">Kategori Khas</label>
+                <select name="categories[specialty]" id="specialty" class="form-control">
+                    <option value="">Pilih Kategori Khas</option>
+                    @foreach ($specialties as $categorie)
+                        <option value="{{ $categorie->id }}">{{ $categorie->nama }}</option>
+                    @endforeach
+                </select>
             </div>
 
-            <button type="submit" class="btn btn-primary">Simpan Resep</button>
-        </form>
+            <!-- Main Ingredient Category -->
+            <div class="form-group">
+                <label for="main_ingredient">Bahan Utama</label>
+                <select name="categories[main_ingredient]" id="main_ingredient" class="form-control">
+                    <option value="">Pilih Bahan Utama</option>
+                    @foreach ($mainIngredients as $categorie)
+                        <option value="{{ $categorie->id }}">{{ $categorie->nama }}</option>
+                    @endforeach
+                </select>
+            </div>
 
-    </div>
+            <!-- Purpose Category -->
+            <div class="form-group">
+                <label for="purpose">Tujuan Makanan</label>
+                <select name="categories[purpose]" id="purpose" class="form-control">
+                    <option value="">Pilih Tujuan Makanan</option>
+                    @foreach ($purposes as $categorie)
+                        <option value="{{ $categorie->id }}">{{ $categorie->nama }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <button type="submit" class="btn-submit">Simpan Resep</button>
+    </form>
 </div>
 @endsection

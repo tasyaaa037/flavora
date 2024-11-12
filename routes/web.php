@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\{
-    RecipeController, CategoryController, CommentController, FavoriteController,
+    RecipeController, CategorieController, CommentController, FavoriteController,
     Auth\LoginController, SearchController, Auth\RegisterController,
     HomeController, SubcategoryController, ProfileController, TipController
 };
@@ -29,7 +29,7 @@ Route::prefix('recipes')->name('recipes.')->group(function () {
         Route::get('/{recipe}/edit', [RecipeController::class, 'edit'])->name('edit');
     });
     Route::get('/{recipe}', [RecipeController::class, 'show'])->name('show');
-    Route::get('/by-type', [RecipeController::class, 'byType'])->name('byType');
+    Route::get('/by-type/{type}', [RecipeController::class, 'showByType'])->name('byType');
     Route::get('/recommendation', [RecipeController::class, 'byRecommendation'])->name('byRecommendation');
     Route::get('/by-method/{method}', [RecipeController::class, 'showByMethod'])->name('byMethod');
     Route::get('/by-cuisine/{cuisine}', [RecipeController::class, 'showByCuisine'])->name('byCuisine');
@@ -40,8 +40,8 @@ Route::prefix('recipes')->name('recipes.')->group(function () {
 
 // Categories and Subcategories routes
 Route::prefix('kategori')->name('kategori.')->group(function () {
-    Route::get('/', [CategoryController::class, 'index'])->name('index');
-    Route::get('/{category}', [CategoryController::class, 'show'])->name('show');
+    Route::get('/', [CategorieController::class, 'index'])->name('index');
+    Route::get('/{categorie}', [CategorieController::class, 'show'])->name('show');
 });
 
 // Favorites routes with auth middleware

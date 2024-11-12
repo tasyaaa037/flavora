@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,9 +20,11 @@ class CategorieType extends Model
         return $this->hasMany(Categorie::class, 'categorie_type_id');
     }
 
-    public function recipe()
+    /**
+     * Define a many-to-many relationship with the Recipe model.
+     */
+    public function recipes()
     {
-        return $this->belongsTo(Recipe::class);
+        return $this->belongsToMany(Recipe::class, 'categorie_type_recipe', 'categorie_type_id', 'recipe_id');
     }
-
 }

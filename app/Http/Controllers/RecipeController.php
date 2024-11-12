@@ -31,6 +31,7 @@ class RecipeController extends Controller
         return view('recipes.index', compact('recipes'));
     }
 
+
     public function show(Categorie $categorie, $id)  // Pass $id here
     {
         // Find the recipe by ID
@@ -48,57 +49,53 @@ class RecipeController extends Controller
         return view('recipes.show', compact('recipes', 'categorie', 'recipe'));
     }
 
-
-
     // Menampilkan formulir untuk menambahkan resep baru
     public function create()
     {
         // Mengambil semua kategori beserta jenis kategorinya
-        $categories = Categorie::with('categoryTypes')->get(); 
-
-        return view('recipes.create', compact('categories'));
+        $categories = Categorie::with('categorieTypes')->get();
+        $recipe = Recipe::all();
+        $ingredients = Ingredient::all();
+        $cookingMethods = Categorie::where('categorie_type_id', 1)->get();
+        $dishTypes = Categorie::where('categorie_type_id', 2)->get();
+        $specialties = Categorie::where('categorie_type_id', 3)->get();
+        $mainIngredients = Categorie::where('categorie_type_id', 4)->get();
+        $purposes = Categorie::where('categorie_type_id', 5)->get();
+        
+        return view('recipes.create', compact('recipe', 'ingredients', 'cookingMethods', 'dishTypes', 'specialties', 'mainIngredients', 'purposes'));
     }
 
-
-
+    // Menambahkan resep baru
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|max:255',
-            'description' => 'required',
-            'categorie_id' => 'required|exists:categories,id',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'time' => 'required|numeric|min:1',
-            'price' => 'required|numeric|min:1',
-            'servings' => 'required|numeric|min:1',
-            'ingredients' => 'required',
-            'steps' => 'required',
+        // Validasi input
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'instructions' => 'required|string',
+            'cook_time' => 'required|numeric',
+            'image' => 'required|image|max:2048', // jika ada gambar
+            'ingredients' => 'required|string', // bahan
         ]);
 
-        // Menyimpan resep setelah validasi
+        // Menyimpan data ke database
         $recipe = new Recipe();
-        $recipe->title = $validated['title'];
-        $recipe->description = $validated['description'];
-        $recipe->categorie_id = $validated['categorie_id'];
-        
-        // Menyimpan gambar jika ada
+        $recipe->title = $request->title;
+        $recipe->description = $request->description;
+        $recipe->instructions = $request->instructions;
+        $recipe->cook_time = $request->time;
+        $recipe->ingredients = $request->ingredients; // simpan bahan
+
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images', 'public');
             $recipe->image = $imagePath;
         }
 
-        $recipe->time = $validated['time'];
-        $recipe->price = $validated['price'];
-        $recipe->servings = $validated['servings'];
-        $recipe->ingredients = $validated['ingredients'];
-        $recipe->steps = $validated['steps'];
-
         $recipe->save();
 
-        // Memberikan feedback berhasil
-        return redirect()->route('recipes.create')->with('success', 'Resep berhasil disimpan!');
+        // Redirect ke halaman index setelah berhasil
+        return redirect()->route('recipes.index')->with('success', 'Resep berhasil ditambahkan!');
     }
-
 
 
     public function edit(Recipe $recipe)
