@@ -104,75 +104,34 @@
 
         <form action="{{ route('recipes.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
-
             <div class="form-group">
                 <label for="title">Judul Resep</label>
-                <input type="text" id="title" name="title" value="{{ old('title') }}" required>
-                @error('title')
-                    <div class="error">{{ $message }}</div>
-                @enderror
+                <input type="text" class="form-control" id="title" name="title" required>
             </div>
 
             <div class="form-group">
-                <label for="description">Deskripsi</label>
-                <textarea id="description" name="description" rows="4" required>{{ old('description') }}</textarea>
-                @error('description')
-                    <div class="error">{{ $message }}</div>
-                @enderror
+                <label for="category">Kategori</label>
+                <select class="form-control" id="category" name="categorie_id" required>
+                    <option value="">Pilih Kategori</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
             </div>
 
             <div class="form-group">
-                <label for="image">Gambar Resep</label>
-                <input type="file" id="image" name="image" accept="image/*" required>
-                @error('image')
-                    <div class="error">{{ $message }}</div>
-                @enderror
+                <label for="image">Gambar</label>
+                <input type="file" class="form-control" id="image" name="image" required>
             </div>
 
             <div class="form-group">
-                <label for="time">Waktu (menit)</label>
-                <input type="number" id="time" name="time" value="{{ old('time') }}" required>
-                @error('time')
-                    <div class="error">{{ $message }}</div>
-                @enderror
+                <label for="prep_time">Waktu Persiapan (menit)</label>
+                <input type="number" class="form-control" id="prep_time" name="prep_time" required>
             </div>
 
-            <div class="form-group">
-                <label for="price">Harga (Rp)</label>
-                <input type="number" id="price" name="price" value="{{ old('price') }}" required>
-                @error('price')
-                    <div class="error">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="form-group">
-                <label for="servings">Porsi</label>
-                <input type="number" id="servings" name="servings" value="{{ old('servings') }}" required>
-                @error('servings')
-                    <div class="error">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="form-group">
-                <label for="ingredients">Bahan-bahan (Pisahkan dengan koma)</label>
-                <textarea id="ingredients" name="ingredients" rows="4" required>{{ old('ingredients') }}</textarea>
-                @error('ingredients')
-                    <div class="error">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="form-group">
-                <label for="steps">Cara Memasak (Pisahkan dengan koma)</label>
-                <textarea id="steps" name="steps" rows="4" required>{{ old('steps') }}</textarea>
-                @error('steps')
-                    <div class="error">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="form-group">
-                <button type="submit">Simpan Resep</button>
-            </div>
+            <button type="submit" class="btn btn-primary">Simpan Resep</button>
         </form>
+
     </div>
 </div>
 @endsection

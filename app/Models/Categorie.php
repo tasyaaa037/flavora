@@ -14,13 +14,14 @@ class Categorie extends Model
     /**
      * Relasi ke CategorieType.
      */
-    public function categorieType()
+    public function categoryTypes()
     {
-        return $this->belongsTo(CategorieType::class, 'categorie_type_id');
+        return $this->hasMany(CategoryType::class);
     }
-
+    
     public function recipes()
     {
-        return $this->hasMany(Recipe::class);
+        return $this->belongsToMany(Recipe::class, 'categorie_types', 'categorie_id', 'recipe_id');
     }
+
 }

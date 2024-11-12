@@ -16,7 +16,7 @@ class RecipeController extends Controller
     // Menampilkan daftar semua resep
     public function index(Request $request)
     {
-        $recipes = Recipe::with(['categories', 'subcategory', 'purpose'])->get();
+        $recipes = Recipe::with(['categories', 'purpose'])->get();
         
         $selectedIngredients = $request->input('ingredients', []);
         
@@ -31,54 +31,75 @@ class RecipeController extends Controller
         return view('recipes.index', compact('recipes'));
     }
 
-    public function show(Categorie $categorie, Recipe $recipe)
+    public function show(Categorie $categorie, $id)  // Pass $id here
     {
+        // Find the recipe by ID
+        $recipe = Recipe::findOrFail($id);
+
+        // Fetch the recipes related to the category
         $recipes = Recipe::where('categorie_id', $categorie->id)->get();
-        return view('recipes.show', compact('recipes', 'categorie'));
+
+        // Check if the recipe exists
+        if (!$recipe) {
+            // Handle the case when the recipe is not found
+            return redirect()->route('recipes.index')->with('error', 'Recipe not found');
+        }
+
+        return view('recipes.show', compact('recipes', 'categorie', 'recipe'));
     }
+
+
 
     // Menampilkan formulir untuk menambahkan resep baru
     public function create()
     {
-        return view('recipes.create');
+        // Mengambil semua kategori beserta jenis kategorinya
+        $categories = Categorie::with('categoryTypes')->get(); 
+
+        return view('recipes.create', compact('categories'));
     }
+
+
 
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'image' => 'required|image',
-            'time' => 'required|integer',
-            'price' => 'required|numeric',
-            'servings' => 'required|integer',
-            'ingredients' => 'required|string',
-            'steps' => 'required|string',
+        $validated = $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required',
+            'categorie_id' => 'required|exists:categories,id',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'time' => 'required|numeric|min:1',
+            'price' => 'required|numeric|min:1',
+            'servings' => 'required|numeric|min:1',
+            'ingredients' => 'required',
+            'steps' => 'required',
         ]);
 
-        try {
-            $recipe = new Recipe();
-            $recipe->title = $request->title;
-            $recipe->description = $request->description;
-            $recipe->time = $request->time;
-            $recipe->price = $request->price;
-            $recipe->servings = $request->servings;
-            $recipe->ingredients = $request->ingredients;
-            $recipe->steps = $request->steps;
-            
-            // Handle file upload
-            if ($request->hasFile('image')) {
-                $imagePath = $request->file('image')->store('images', 'public');
-                $recipe->image = $imagePath;
-            }
-
-            $recipe->save();
-
-            return redirect()->route('recipes.index')->with('success', 'Resep berhasil disimpan!');
-        } catch (\Exception $e) {
-            return back()->with('error', 'Terjadi kesalahan saat menyimpan resep. Silakan coba lagi.');
+        // Menyimpan resep setelah validasi
+        $recipe = new Recipe();
+        $recipe->title = $validated['title'];
+        $recipe->description = $validated['description'];
+        $recipe->categorie_id = $validated['categorie_id'];
+        
+        // Menyimpan gambar jika ada
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+            $recipe->image = $imagePath;
         }
+
+        $recipe->time = $validated['time'];
+        $recipe->price = $validated['price'];
+        $recipe->servings = $validated['servings'];
+        $recipe->ingredients = $validated['ingredients'];
+        $recipe->steps = $validated['steps'];
+
+        $recipe->save();
+
+        // Memberikan feedback berhasil
+        return redirect()->route('recipes.create')->with('success', 'Resep berhasil disimpan!');
     }
+
+
 
     public function edit(Recipe $recipe)
     {
@@ -142,7 +163,7 @@ class RecipeController extends Controller
     public function showByMethod($method)
     {
         // Get the category based on the method name (assuming 'method' corresponds to a category name)
-        $categorie = Categorie::findOrFail($method); // Use Categorie model here
+        $categorie = Categorie::where('nama', $method)->firstOrFail(); // Use Categorie model here
 
         // Fetch recipes related to that categorie
         $recipes = Recipe::where('categorie_id', $categorie->id)->get();
@@ -156,7 +177,7 @@ class RecipeController extends Controller
     public function showByType($type)
     {
         // Fetch the categorie by the provided type (assuming 'type' corresponds to categorie id)
-        $categorie = Categorie::findOrFail($type); // Use Categorie model here
+        $categorie = Categorie::where('nama', $type)->firstOrFail(); // Use Categorie model here
 
         // Fetch recipes related to that categorie
         $recipes = Recipe::where('categorie_id', $categorie->id)->get();
@@ -169,7 +190,7 @@ class RecipeController extends Controller
     public function showByCuisine($cuisine)
     {
         // Find the cuisine or fail if not found
-        $categorie = Categorie::findOrFail($cuisine); // Use Categorie model here
+        $categorie = Categorie::where('nama', $cuisine)->firstOrFail(); // Use Categorie model here
 
         // Fetch recipes related to that categorie
         $recipes = Recipe::where('categorie_id', $categorie->id)->get();
@@ -181,7 +202,7 @@ class RecipeController extends Controller
     public function showByIngredient($ingredient)
     {
         // Find the cuisine or fail if not found
-        $categorie = Categorie::findOrFail($ingredient); // Use Categorie model here
+        $categorie = Categorie::where('nama', $ingredient)->firstOrFail(); // Use Categorie model here
 
         // Fetch recipes related to that categorie
         $recipes = Recipe::where('categorie_id', $categorie->id)->get();
@@ -194,7 +215,7 @@ class RecipeController extends Controller
     public function showByPurpose($purpose)
     {
         // Find the cuisine or fail if not found
-        $categorie = Categorie::findOrFail($purpose); // Use Categorie model here
+        $categorie = Categorie::where('nama', $purpose)->firstOrFail(); // Use Categorie model here
 
         // Fetch recipes related to that categorie
         $recipes = Recipe::where('categorie_id', $categorie->id)->get();

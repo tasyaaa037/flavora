@@ -214,9 +214,7 @@
 
             <!-- Bagian tombol aksi -->
             <div class="action-buttons">
-                <a href="{{ route('recipes.edit', $recipe->id) }}" class="action-button">
-                    <i class="fa fa-pencil"></i> Edit Resep
-                </a>
+            <a href="{{ route('recipes.edit', ['recipe' => $recipe->id]) }}">Edit Recipe</a>
 
                 <form action="{{ route('recipes.destroy', $recipe->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus resep ini?');">
                     @csrf
@@ -252,12 +250,9 @@
                     </div>
                     <div class="tab-pane fade" id="cara-memasak">
                         <h2>Cara Memasak</h2>
-                        <ul class="list-group">
-                            @foreach($recipe->steps as $step)
-                                <li class="list-group-item">{{ $step->description }}</li>
-                            @endforeach
-                        </ul>
+                        <p>{{ $recipe->instructions }}</p> <!-- Menampilkan instructions sebagai langkah memasak -->
                     </div>
+
 
                     <div class="tab-pane fade" id="diskusi">
                         <h2>Komentar</h2>

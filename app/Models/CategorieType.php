@@ -20,4 +20,10 @@ class CategorieType extends Model
     {
         return $this->hasMany(Categorie::class, 'categorie_type_id');
     }
+
+    public function recipe()
+    {
+        return $this->belongsTo(Recipe::class);
+    }
+
 }

@@ -91,7 +91,7 @@ class Recipe extends Model
      */
     public function categories()
     {
-        return $this->belongsToMany(Categorie::class, 'Categorie_Type');
+        return $this->belongsToMany(Categorie::class, 'categorie_types', 'recipe_id', 'categorie_id');
     }
 
     /**
