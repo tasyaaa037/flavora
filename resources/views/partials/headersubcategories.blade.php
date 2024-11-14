@@ -96,7 +96,7 @@
 
               <!-- Bahan Makanan -->
               <li class="nav-item">
-                <a class="nav-link text-white" href="{{ url('/bahan') }}">Bahan Makanan</a>
+                <a class="nav-link text-white" href="{{ url('/ingredients') }}">Bahan Makanan</a>
               </li>
 
               <!-- Kuliner -->

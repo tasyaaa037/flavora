@@ -52,77 +52,104 @@ class RecipeController extends Controller
     // Menampilkan formulir untuk menambahkan resep baru
     public function create()
     {
-        // Mengambil semua kategori beserta jenis kategorinya
-        $categories = Categorie::with('categorieTypes')->get();
-        $recipe = Recipe::all();
-        $ingredients = Ingredient::all();
-        $cookingMethods = Categorie::where('categorie_type_id', 1)->get();
-        $dishTypes = Categorie::where('categorie_type_id', 2)->get();
-        $specialties = Categorie::where('categorie_type_id', 3)->get();
-        $mainIngredients = Categorie::where('categorie_type_id', 4)->get();
-        $purposes = Categorie::where('categorie_type_id', 5)->get();
-        
-        return view('recipes.create', compact('recipe', 'ingredients', 'cookingMethods', 'dishTypes', 'specialties', 'mainIngredients', 'purposes'));
+        // Mengambil semua kategori
+        $categories = Categorie::all();
+
+        return view('recipes.create', compact('categories'));
     }
 
-    // Menambahkan resep baru
+
     public function store(Request $request)
     {
-        // Validasi input
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'instructions' => 'required|string',
-            'cook_time' => 'required|numeric',
-            'image' => 'required|image|max:2048', // jika ada gambar
-            'ingredients' => 'required|string', // bahan
+            'ingredient' => 'required|string',
+            'cook_time' => 'nullable|integer',
+            'image' => 'nullable|image',
+            'cara_memasak_id' => 'required|exists:categories,id',
+            'jenis_hidangan_id' => 'required|exists:categories,id',
+            'kategori_khas_id' => 'required|exists:categories,id',
+            'bahan_utama_id' => 'required|exists:categories,id',
+            'tujuan_makanan_id' => 'required|exists:categories,id',
         ]);
 
-        // Menyimpan data ke database
-        $recipe = new Recipe();
-        $recipe->title = $request->title;
-        $recipe->description = $request->description;
-        $recipe->instructions = $request->instructions;
-        $recipe->cook_time = $request->time;
-        $recipe->ingredients = $request->ingredients; // simpan bahan
-
+        // Handle image upload
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
-            $recipe->image = $imagePath;
+            $imagePath = $request->file('image')->store('recipes', 'public');
+        } else {
+            $imagePath = null;
         }
 
-        $recipe->save();
+        // Create the recipe
+        Recipe::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'instructions' => $request->instructions,
+            'ingredient' => $request->ingredient,
+            'cook_time' => $request->cook_time,
+            'image' => $imagePath,
+            'cara_memasak_id' => $request->cara_memasak_id,
+            'jenis_hidangan_id' => $request->jenis_hidangan_id,
+            'kategori_khas_id' => $request->kategori_khas_id,
+            'bahan_utama_id' => $request->bahan_utama_id,
+            'tujuan_makanan_id' => $request->tujuan_makanan_id,
+            'user_id' => auth()->id(),
+        ]);
 
-        // Redirect ke halaman index setelah berhasil
-        return redirect()->route('recipes.index')->with('success', 'Resep berhasil ditambahkan!');
+        return redirect()->route('recipes.index')->with('success', 'Recipe created successfully');
     }
 
 
-    public function edit(Recipe $recipe)
-    {
-        return view('recipes.edit', compact('recipe'));
-    }
+    
 
-    public function update(Request $request, Recipe $recipe)
+
+   // Fungsi untuk menampilkan form edit resep
+   public function edit($id)
+   {
+       $recipe = Recipe::findOrFail($id);
+   
+       // Check if ingredients and instructions are already arrays; if not, decode them.
+       $recipe->ingredients = is_string($recipe->ingredients) ? json_decode($recipe->ingredients) : $recipe->ingredients;
+       $recipe->instructions = is_string($recipe->instructions) ? json_decode($recipe->instructions) : $recipe->instructions;
+   
+       $categories = Categorie::all();
+   
+       return view('recipes.edit', compact('recipe', 'categories'));
+   }
+   
+
+
+   // Fungsi untuk mengupdate resep
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'image' => 'image|mimes:jpg,png,jpeg|max:2048',
-            'prep_time' => 'required|integer',
-            'price' => 'required|numeric',
-            'servings' => 'required|integer',
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'cook_time' => 'nullable|integer',
+            'image' => 'nullable|url',
+            'categorie_id' => 'required|exists:categories,id',
+            'ingredients' => 'required|array',
+            'instructions' => 'required|array',
         ]);
 
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
-            $recipe->image = $imagePath;
-        }
+        $recipe = Recipe::findOrFail($id);
 
-        $recipe->update($request->all());
+        // Update recipe data with JSON-encoded instructions and ingredients
+        $recipe->title = $request->title;
+        $recipe->description = $request->description;
+        $recipe->cook_time = $request->cook_time;
+        $recipe->image = $request->image;
+        $recipe->categorie_id = $request->categorie_id;
+        $recipe->ingredients = json_encode($request->ingredients);
+        $recipe->instructions = json_encode($request->instructions);
+        $recipe->save();
 
-        return redirect()->route('recipes.index')->with('success', 'Recipe updated successfully.');
+        return redirect()->route('recipes.show', $recipe->id)->with('success', 'Recipe updated successfully!');
     }
+
+
 
     public function destroy($id)
     {
@@ -290,6 +317,6 @@ class RecipeController extends Controller
         $ingredientName = $request->input('ingredient');
         $ingredients = Ingredient::all();
 
-        return view('bahan.index', compact('recipes', 'total', 'ingredientName', 'ingredients'));
+        return view('ingredients.index', compact('recipes', 'total', 'ingredientName', 'ingredients'));
     }
 }

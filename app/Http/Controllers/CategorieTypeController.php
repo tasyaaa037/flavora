@@ -1,12 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Category; // Pastikan Anda mengimpor model Subcategory
 use Illuminate\Http\Request;
 
-class SubcategoryController extends Controller
+class CategorieTypeController extends Controller
 {
+
+    public function create()
+    {
+        $categorieTypes = CategorieType::with('categories')->get();
+        return view('recipes.create', compact('categorieTypes'));
+    }
+
     public function index() {
         $categories = Category::all(); // Assuming you have a Category model
         return view('subcategories.index', compact('categories'));

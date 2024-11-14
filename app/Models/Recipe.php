@@ -25,6 +25,10 @@ class Recipe extends Model
         'cook_time',
     ];
 
+    protected $casts = [
+        'ingredients' => 'array',
+    ]; 
+
     /**
      * Get the user that owns the recipe.
      */
@@ -36,9 +40,15 @@ class Recipe extends Model
     /**
      * Get the ingredients for the recipe.
      */
+   
     public function ingredients()
     {
-        return $this->belongsToMany(Ingredient::class, 'ingredient_recipe');
+        return $this->hasMany(Ingredient::class);
+    }
+
+    public function instructions()
+    {
+        return $this->hasMany(Instruction::class);
     }
 
     /**

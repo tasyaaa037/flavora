@@ -22,7 +22,6 @@
 
     .recipe-image {
         flex: 0 0 100%;
-        margin-right: 20px;
         margin-top: 20px;
     }
 
@@ -49,26 +48,6 @@
         justify-content: flex-start;
         margin-top: 10px;
         gap: 10px;
-    }
-
-    .icon-section div {
-        display: flex;
-        align-items: center;
-    }
-
-    .icon-section img {
-        width: 30px;
-        height: 30px;
-        margin-right: 5px;
-    }
-
-    .icon-section .badge {
-        background-color: #007bff;
-        color: white;
-        padding: 5px 10px;
-        border-radius: 20px;
-        font-size: 14px;
-        margin-right: 10px;
     }
 
     .action-buttons {
@@ -103,16 +82,6 @@
         background-color: #dc3545;
     }
 
-    .rating {
-        display: flex;
-        align-items: center;
-    }
-
-    .star {
-        color: gold;
-        margin-right: 5px;
-    }
-
     .tabs {
         width: 100%;
         margin-top: 20px;
@@ -120,22 +89,6 @@
 
     .tab-content {
         margin-top: 20px;
-    }
-
-    .comment {
-        border: 1px solid #dcdcdc;
-        padding: 15px;
-        border-radius: 10px;
-        background-color: #fff3cd;
-        margin-bottom: 15px;
-    }
-
-    .comment p {
-        margin: 0;
-    }
-
-    .comment strong {
-        color: #007bff;
     }
 
     .list-group {
@@ -153,37 +106,13 @@
         margin-bottom: 5px;
         border-radius: 5px;
         text-align: center;
-        min-height: 80px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         background-color: #f9f9f9;
+        cursor: pointer;
     }
 
-    @media (min-width: 768px) {
-        .list-group {
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .list-group-item {
-            flex: 0 0 48%;
-        }
-
-        .list-group-item:nth-child(2n) {
-            margin-right: 0;
-        }
-    }
-
-    @media (min-width: 1200px) {
-        .list-group-item {
-            flex: 0 0 30%;
-            margin-right: 2%;
-        }
-
-        .list-group-item:nth-child(3n) {
-            margin-right: 0;
-        }
+    .list-group-item:hover {
+        background-color: #007bff;
+        color: white;
     }
 </style>
 
@@ -197,24 +126,10 @@
             <div class="description">
                 <p>{{ $recipe->description }}</p>
             </div>
-            <div class="icon-section">
-                <div>
-                    <img src="{{ asset('delfood-1.0.0/images/jam.png') }}" alt="Waktu">
-                    <span>{{ $recipe->time }} menit</span>
-                </div>
-                <div>
-                    <img src="{{ asset('delfood-1.0.0/images/wang.png') }}" alt="Harga">
-                    <span>Rp {{ number_format($recipe->price, 0, ',', '.') }}</span>
-                </div>
-                <div>
-                    <img src="{{ asset('delfood-1.0.0/images/prsi.png') }}" alt="Porsi">
-                    <span>{{ $recipe->servings }} Porsi</span>
-                </div>
-            </div>
 
-            <!-- Bagian tombol aksi -->
+            <!-- Action Buttons -->
             <div class="action-buttons">
-            <a href="{{ route('recipes.edit', ['recipe' => $recipe->id]) }}">Edit Recipe</a>
+                <a href="{{ route('recipes.edit', ['recipe' => $recipe->id]) }}">Edit Recipe</a>
 
                 <form action="{{ route('recipes.destroy', $recipe->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus resep ini?');">
                     @csrf
@@ -225,7 +140,7 @@
                 </form>
             </div>
 
-            <!-- Bagian Bahan, Cara Memasak, dan Diskusi -->
+            <!-- Tabs for Bahan, Cara Memasak, and Diskusi -->
             <div class="tabs">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
@@ -242,17 +157,12 @@
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="bahan">
                         <h2>Bahan-bahan</h2>
-                        <ul class="list-group">
-                            @foreach($recipe->ingredients as $ingredient)
-                                <li class="list-group-item">{{ $ingredient->description }}</li>
-                            @endforeach
-                        </ul>
+                        <p>{{ $recipe->ingredient }}</p>
                     </div>
                     <div class="tab-pane fade" id="cara-memasak">
                         <h2>Cara Memasak</h2>
-                        <p>{{ $recipe->instructions }}</p> <!-- Menampilkan instructions sebagai langkah memasak -->
+                        <p>{{ $recipe->instructions }}</p> <!-- Displaying instructions directly without a separate table -->
                     </div>
-
 
                     <div class="tab-pane fade" id="diskusi">
                         <h2>Komentar</h2>
@@ -270,4 +180,4 @@
         </div>
     </div>
 </div>
-@endsection
+@endsection 

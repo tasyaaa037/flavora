@@ -1,131 +1,90 @@
 @extends('layouts.resep')
-@section('title', 'Edit Resep')
+
 @section('content')
-<div class="container mt-5">
-    <div class="card shadow-sm rounded-lg">
-        <div class="card-body">
-            <h3 class="mb-4">Edit Resep</h3>
+<div class="container">
+    <h2>Edit Recipe</h2>
 
-            <!-- Form Edit Resep -->
-            <form action="{{ route('recipes.update', $recipe->id) }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-                
-                <div class="form-group">
-                    <label for="title">Judul Resep</label>
-                    <input type="text" class="form-control" id="title" name="title" value="{{ $recipe->title }}" placeholder="Masukkan judul resep" required>
-                </div>
+    <form action="{{ route('recipes.update', $recipe->id) }}" method="POST" class="recipe-form">
+        @csrf
+        @method('PUT')
 
-                <div class="form-group">
-                    <label for="description">Deskripsi</label>
-                    <textarea class="form-control" id="description" name="description" rows="4" placeholder="Deskripsi resep" required>{{ $recipe->description }}</textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="ingredients">Bahan-Bahan</label>
-                    <div id="ingredients-container">
-                        @foreach($recipe->ingredients as $ingredient)
-                            <input type="text" class="form-control mb-2" name="ingredients[]" value="{{ $ingredient->description }}" placeholder="Bahan" required>
-                        @endforeach
-                    </div>
-                    <button type="button" class="btn btn-secondary mt-2" id="add-ingredient">Tambah Bahan</button>
-                </div>
-
-                <div class="form-group">
-                    <label for="instructions">Instruksi Memasak</label>
-                    <textarea class="form-control" id="instructions" name="instructions" rows="4" placeholder="Langkah-langkah memasak" required>{{ $recipe->instructions }}</textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="prep_time">Waktu Persiapan (menit)</label>
-                    <input type="number" class="form-control" id="prep_time" name="prep_time" value="{{ $recipe->prep_time }}" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="cook_time">Waktu Memasak (menit)</label>
-                    <input type="number" class="form-control" id="cook_time" name="cook_time" value="{{ $recipe->cook_time }}" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="price">Harga (Rp)</label>
-                    <input type="number" class="form-control" id="price" name="price" value="{{ $recipe->price }}" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="servings">Jumlah Porsi</label>
-                    <input type="number" class="form-control" id="servings" name="servings" value="{{ $recipe->servings }}" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="recipe_category">Kategori Resep</label>
-                    <select id="recipe_category" class="form-control" name="recipe_category" required>
-                        <option value="" disabled>Pilih kategori resep</option>
-                        <option value="goreng" {{ $recipe->recipe_category == 'goreng' ? 'selected' : '' }}>Serba Goreng</option>
-                        <option value="rebus" {{ $recipe->recipe_category == 'rebus' ? 'selected' : '' }}>Serba Rebus</option>
-                        <option value="panggang" {{ $recipe->recipe_category == 'panggang' ? 'selected' : '' }}>Serba Panggang & Bakar</option>
-                        <option value="kukus" {{ $recipe->recipe_category == 'kukus' ? 'selected' : '' }}>Serba Kukus</option>
-                        <option value="tumis" {{ $recipe->recipe_category == 'tumis' ? 'selected' : '' }}>Serba Tumis</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="food_category">Kategori Makanan</label>
-                    <select id="food_category" class="form-control" name="food_category" required>
-                        <option value="" disabled>Pilih kategori makanan</option>
-                        <option value="pendamping" {{ $recipe->food_category == 'pendamping' ? 'selected' : '' }}>Makanan Pendamping</option>
-                        <option value="utama" {{ $recipe->food_category == 'utama' ? 'selected' : '' }}>Makanan Utama</option>
-                        <option value="pembuka" {{ $recipe->food_category == 'pembuka' ? 'selected' : '' }}>Makanan Pembuka</option>
-                        <option value="penutup" {{ $recipe->food_category == 'penutup' ? 'selected' : '' }}>Makanan Penutup</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="cuisine">Masakan Apa</label>
-                    <select id="cuisine" class="form-control" name="cuisine" required>
-                        <option value="" disabled>Pilih jenis masakan</option>
-                        <option value="cepat_saji" {{ $recipe->cuisine == 'cepat_saji' ? 'selected' : '' }}>Makanan Cepat Saji</option>
-                        <option value="internasional" {{ $recipe->cuisine == 'internasional' ? 'selected' : '' }}>Makanan Internasional</option>
-                        <option value="tradisional" {{ $recipe->cuisine == 'tradisional' ? 'selected' : '' }}>Makanan Tradisional</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="purpose">Tujuan</label>
-                    <select id="purpose" class="form-control" name="purpose" required>
-                        <option value="" disabled>Pilih tujuan</option>
-                        <option value="sehat" {{ $recipe->purpose == 'sehat' ? 'selected' : '' }}>Makanan Sehat / Diet</option>
-                        <option value="anak" {{ $recipe->purpose == 'anak' ? 'selected' : '' }}>Makanan Anak</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="image">Upload Gambar</label>
-                    <input type="file" class="form-control-file" id="image" name="image">
-                    <small class="form-text text-muted">Biarkan kosong jika tidak ingin mengubah gambar.</small>
-                </div>
-
-                <button type="submit" class="btn btn-primary">Update Resep</button>
-            </form>
+        <!-- Title -->
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title" value="{{ $recipe->title }}" required class="form-control">
         </div>
-    </div>
+
+        <!-- Description -->
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea name="description" id="description" class="form-control" rows="4">{{ $recipe->description }}</textarea>
+        </div>
+
+        <!-- Ingredients -->
+        <h4>Ingredients</h4>
+        <div id="ingredients-wrapper" class="form-group">
+            @foreach ($recipe->ingredients as $ingredient)
+                <div class="ingredient-group">
+                    <input type="text" name="ingredients[][name]" value="{{ $ingredient->name }}" placeholder="Ingredient Name" class="form-control mb-2">
+                    <input type="number" name="ingredients[][quantity]" value="{{ $ingredient->quantity }}" placeholder="Quantity" class="form-control mb-2">
+                    <select name="ingredients[][unit]" class="form-control mb-2">
+                        <option value="grams" {{ $ingredient->unit == 'grams' ? 'selected' : '' }}>grams</option>
+                        <option value="ml" {{ $ingredient->unit == 'ml' ? 'selected' : '' }}>ml</option>
+                        <option value="pieces" {{ $ingredient->unit == 'pieces' ? 'selected' : '' }}>pieces</option>
+                        <option value="cups" {{ $ingredient->unit == 'cups' ? 'selected' : '' }}>cups</option>
+                    </select>
+                </div>
+            @endforeach
+        </div>
+        <button type="button" class="btn btn-primary" onclick="addIngredient()">Add Ingredient</button>
+
+        <!-- Instructions -->
+        <h4>Instructions</h4>
+        <div class="form-group">
+            <label for="instructions">Instructions (each step on a new line)</label>
+            <textarea name="instructions" id="instructions" class="form-control" rows="6">{{ implode("\n", $recipe->instructions) }}</textarea>
+        </div>
+
+        <!-- Cook Time -->
+        <div class="form-group">
+            <label for="cook_time">Cook Time (minutes)</label>
+            <input type="number" name="cook_time" id="cook_time" value="{{ $recipe->cook_time }}" class="form-control">
+        </div>
+
+        <!-- Image URL -->
+        <div class="form-group">
+            <label for="image">Image URL</label>
+            <input type="text" name="image" id="image" value="{{ $recipe->image }}" placeholder="Image URL" class="form-control">
+        </div>
+
+        <!-- Category -->
+        <label for="categorie_id">Category</label>
+        <select name="categorie_id" required class="form-control">
+            @foreach ($categories as $category)
+                <option value="{{ $category->id }}" {{ $recipe->categorie_id == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+            @endforeach
+        </select>
+
+        <button type="submit" class="btn btn-success">Update Recipe</button>
+    </form>
 </div>
 
-@section('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('add-ingredient').addEventListener('click', function() {
-            const ingredientsContainer = document.getElementById('ingredients-container');
-            const newIngredient = document.createElement('input');
-            newIngredient.type = 'text';
-            newIngredient.className = 'form-control mb-2';
-            newIngredient.name = 'ingredients[]';
-            newIngredient.placeholder = 'Bahan ' + (ingredientsContainer.children.length + 1);
-            newIngredient.required = true; // Pastikan input baru juga required
-            
-            // Tambahkan input baru ke kontainer
-            ingredientsContainer.appendChild(newIngredient);
-        });
-    });
+    function addIngredient() {
+        const wrapper = document.getElementById('ingredients-wrapper');
+        const ingredientGroup = document.createElement('div');
+        ingredientGroup.classList.add('ingredient-group');
+        ingredientGroup.innerHTML = `
+            <input type="text" name="ingredients[][name]" placeholder="Ingredient Name" class="form-control mb-2">
+            <input type="number" name="ingredients[][quantity]" placeholder="Quantity" class="form-control mb-2">
+            <select name="ingredients[][unit]" class="form-control mb-2">
+                <option value="grams">grams</option>
+                <option value="ml">ml</option>
+                <option value="pieces">pieces</option>
+                <option value="cups">cups</option>
+            </select>
+        `;
+        wrapper.appendChild(ingredientGroup);
+    }
 </script>
-@endsection
 @endsection

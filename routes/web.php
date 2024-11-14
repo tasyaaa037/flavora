@@ -27,7 +27,10 @@ Route::prefix('recipes')->name('recipes.')->group(function () {
         Route::get('/create', [RecipeController::class, 'create'])->name('create');
         Route::post('/', [RecipeController::class, 'store'])->name('store');
         Route::get('/{recipe}/edit', [RecipeController::class, 'edit'])->name('edit');
+        Route::delete('/{recipe}', [RecipeController::class, 'destroy'])->name('destroy'); 
+        Route::put('/recipes/{recipe}', [RecipeController::class, 'update'])->name('update');
     });
+
     Route::get('/{recipe}', [RecipeController::class, 'show'])->name('show');
     Route::get('/by-type/{type}', [RecipeController::class, 'showByType'])->name('byType');
     Route::get('/recommendation', [RecipeController::class, 'byRecommendation'])->name('byRecommendation');
@@ -66,4 +69,5 @@ Route::middleware('auth')->prefix('tips')->name('tips.')->group(function () {
 });
 
 // Ingredient route
-Route::get('/bahan', [RecipeController::class, 'showIngredients'])->name('bahan.index');
+Route::get('/ingredients', [RecipeController::class, 'showIngredients'])->name('ingredients.index');
+Route::get('/ingredients/{id}', [IngredientController::class, 'show'])->name('ingredients.show');
