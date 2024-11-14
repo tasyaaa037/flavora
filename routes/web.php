@@ -3,7 +3,7 @@
 use App\Http\Controllers\{
     RecipeController, CategorieController, CommentController, FavoriteController,
     Auth\LoginController, SearchController, Auth\RegisterController,
-    HomeController, SubcategoryController, ProfileController, TipController
+    HomeController, CategoriTypeController, ProfileController, TipController, IngredientController
 };
 use Illuminate\Support\Facades\Route;
 
@@ -70,4 +70,4 @@ Route::middleware('auth')->prefix('tips')->name('tips.')->group(function () {
 
 // Ingredient route
 Route::get('/ingredients', [RecipeController::class, 'showIngredients'])->name('ingredients.index');
-Route::get('/ingredients/{id}', [IngredientController::class, 'show'])->name('ingredients.show');
+Route::get('/ingredients/{ingredient}', [IngredientController::class, 'show'])->name('ingredients.show');

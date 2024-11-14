@@ -52,11 +52,10 @@ class RecipeController extends Controller
     // Menampilkan formulir untuk menambahkan resep baru
     public function create()
     {
-        // Mengambil semua kategori
-        $categories = Categorie::all();
-
-        return view('recipes.create', compact('categories'));
+        $categorieTypes = CategorieType::with('categories')->get(); // Assuming `CategorieType` is your model
+        return view('recipes.create', compact('categorieTypes'));
     }
+
 
 
     public function store(Request $request)
@@ -64,10 +63,14 @@ class RecipeController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'instructions' => 'required|string',
-            'ingredient' => 'required|string',
+            'instructions' => 'required|array',  // Ensures it's an array
+            'instructions.*' => 'required|string',
+            'ingredients' => 'required|array',  // Ensures it's an array
+            'ingredients.*.name' => 'required|string',  // Ingredient name is required and should be a string
+            'ingredients.*.quantity' => 'required|numeric',  // Quantity is required and should be a number
+            'ingredients.*.unit' => 'required|string',
             'cook_time' => 'nullable|integer',
-            'image' => 'nullable|image',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'cara_memasak_id' => 'required|exists:categories,id',
             'jenis_hidangan_id' => 'required|exists:categories,id',
             'kategori_khas_id' => 'required|exists:categories,id',
@@ -75,12 +78,14 @@ class RecipeController extends Controller
             'tujuan_makanan_id' => 'required|exists:categories,id',
         ]);
 
-        // Handle image upload
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('recipes', 'public');
-        } else {
-            $imagePath = null;
-        }
+        $request['instructions'] = json_encode($request->instructions);
+        
+       // Handle the file upload
+       if ($request->hasFile('image')) {
+        $file = $request->file('image');
+        $imageName = time() . '_' . $file->getClientOriginalName();
+        $file->move(public_path('images'), $imageName); // Save to public/images directory
+       }
 
         // Create the recipe
         Recipe::create([
@@ -89,7 +94,7 @@ class RecipeController extends Controller
             'instructions' => $request->instructions,
             'ingredient' => $request->ingredient,
             'cook_time' => $request->cook_time,
-            'image' => $imagePath,
+            'image_url' => '/images/' . $imageName, 
             'cara_memasak_id' => $request->cara_memasak_id,
             'jenis_hidangan_id' => $request->jenis_hidangan_id,
             'kategori_khas_id' => $request->kategori_khas_id,
@@ -304,19 +309,10 @@ class RecipeController extends Controller
     }
 
     // Menampilkan resep berdasarkan bahan yang tidak memiliki bahan tertentu
-    public function showIngredients(Request $request)
+    public function showIngredients()
     {
-        $recipes = Recipe::whereNotExists(function ($query) {
-            $query->select(DB::raw(1))
-                ->from('ingredients')
-                ->join('ingredient_recipe', 'ingredients.id', '=', 'ingredient_recipe.ingredient_id')
-                ->whereRaw('recipes.id = ingredient_recipe.recipe_id');
-        })->paginate(15);
-
-        $total = $recipes->total();
-        $ingredientName = $request->input('ingredient');
         $ingredients = Ingredient::all();
-
-        return view('ingredients.index', compact('recipes', 'total', 'ingredientName', 'ingredients'));
+        return view('Ingredients.index', compact('ingredients'));
     }
+
 }

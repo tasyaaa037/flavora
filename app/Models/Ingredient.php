@@ -12,9 +12,9 @@ class Ingredient extends Model
 
     protected $fillable = ['name', 'quantity', 'recipe_id'];
 
-    public function recipe()
+    public function recipes()
     {
-        return $this->belongsTo(Recipe::class);
+        return $this->belongsToMany(Recipe::class);
     }
 
 

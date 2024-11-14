@@ -27,6 +27,7 @@ class Recipe extends Model
 
     protected $casts = [
         'ingredients' => 'array',
+        'instructions' => 'array',
     ]; 
 
     /**
@@ -41,10 +42,10 @@ class Recipe extends Model
      * Get the ingredients for the recipe.
      */
    
-    public function ingredients()
-    {
-        return $this->hasMany(Ingredient::class);
-    }
+     public function ingredients()
+     {
+         return $this->belongsToMany(Ingredient::class);
+     }
 
     public function instructions()
     {

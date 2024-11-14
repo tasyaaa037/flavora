@@ -11,49 +11,56 @@
         </div>
         <ul id="ingredient-list">
             @php
-                // Map of ingredients categorized by the starting letter
                 $ingredientsMap = [
-                    'A' => ['Agar-Agar', 'Air Kelapa', 'Air Soda', 'Almond', 'Alpukat', 'Anggur', 'Apel', 'Asam Jawa', 'Asparagus', 'Ati Ampela', 'Ayam', 'Ayam Cincang'],
-                    'B' => ['Baby Corn', 'Bacon', 'Baking Powder', 'Bakso', 'Bakso Ikan', 'Basil', 'Bawang Bombay', 'Bawang Merah', 'Bawang Putih', 'Bayam', 'Belimbing', 'Belut', 'Bengkoang', 'Beras', 'Beras Ketan', 'Beras Merah', 'Bihun', 'Biskuit Oreo', 'Blewah', 'Blueberry', 'Brokoli', 'Buah Naga', 'Bubble Pearl', 'Bubuk Jelly', 'Buncis', 'Bunga Lawang/Pekak'],
-                    'C' => ['Cabai', 'Cabai Bubuk', 'Caju', 'Cake Flour', 'Cantaloupe', 'Capcay', 'Caramel', 'Cengkeh', 'Ceri', 'Coconut Cream', 'Cokelat', 'Cokelat Bubuk'],
-                    'D' => ['Daging Ayam', 'Daging Kambing', 'Daging Sapi', 'Daun Bawang', 'Daun Jeruk', 'Durian'],
-                    'E' => ['Es Batu', 'Edamame', 'Emping', 'Enoki', 'Elderberry'],
-                    'F' => ['Fennel', 'Fillet Ikan', 'Fish Sauce', 'Fusilli'],
-                    'G' => ['Garam', 'Gula', 'Ginger', 'Gulaman'],
-                    'H' => ['Havermut', 'Himalaya Salt', 'Honey', 'Horiatiki Salad', 'Hummus'],
-                    'I' => ['Ikan', 'Ikan Salmon', 'Ikan Tuna', 'Ikan Gurame', 'Ikan Lele', 'Ikan Kembung'],
-                    'J' => ['Jagung', 'Jamur', 'Jahe', 'Jeruk', 'Jelly', 'Jus', 'Jus Jeruk', 'Jus Mangga'],
-                    'K' => ['Kacang', 'Kacang Hijau', 'Kacang Merah', 'Kacang Tanah', 'Kacang Polong', 'Kepala Ikan', 'Kepala Udang', 'Kepala Ayam', 'Kecap', 'Kecap Manis', 'Kecap Asin', 'Kedondong', 'Kefir', 'Kembang Kol', 'Kembang Tahu', 'Kecambah'],
-                    'L' => ['Labu', 'Lemon', 'Lentil', 'Lobak', 'Lobster', 'Luwak Coffee', 'Lada Hitam', 'Lada Putih', 'Langka', 'Lettuce', 'Lidah Buaya'],
-                    'M' => ['Madu', 'Makaroni', 'Mangga', 'Mangga Muda', 'Mangga Manis', 'Marmalade', 'Melon', 'Mie', 'Miso', 'Mocca', 'Moringa'],
-                    'N' => ['Nanas', 'Nasi', 'Nasi Goreng', 'Nasi Kuning', 'Nasi Uduk', 'Nori', 'Nugget'],
-                    'O' => ['Oatmeal', 'Oregano', 'Olive', 'Olive Oil', 'Onion', 'Orange Juice', 'Oreo'],
-                    'P' => ['Pasta', 'Pepper', 'Peterseli', 'Pisang', 'Pudina', 'Puding', 'Puyuh', 'Puyuh Rebus', 'Puyuh Goreng', 'Puyuh Penyet', 'Puyuh Bakar', 'Puyuh Kecap'],
-                    'R' => ['Roti', 'Roti Bakar', 'Roti Maryam', 'Roti Manis', 'Roti Tawar', 'Roti Pizza', 'Roti Tortilla', 'Roti Pisang', 'Roti Ubi'],
-                    'Q' => [''],
-                    'S' => ['Salmon', 'Sambal', 'Sawi', 'Sawi Putih', 'Sawi Hijau', 'Sayur'],
-                    'T' => ['Tahu', 'Tahu Tempe', 'Telur', 'Tempe', 'Tepung', 'Tomat', 'Tumis', 'Tuna', 'Tumis Sayuran', 'Tumis Tempe'],
-                    'U' => ['Udang', 'Ubi', 'Ubi Jalar', 'Ubi Kuning', 'Ubi Manis', 'Umeshu'],
-                    'V' => ['Vanilla', 'Vegetable Oil', 'Vermicelli'],
-                    'W' => ['Wortel', 'Wortel Merah', 'Wortel Putih'],
+                    'A' => ['Agar-Agar', 'Air Kelapa', 'Air Soda', 'Almond', 'Alpukat', 'Anggur', 'Apel', 'Asam Jawa', 'Asparagus', 'Ati Ampela', 'Ayam', 'Ayam Cincang', 'Acar', 'Acar Mentimun'],
+                    'B' => ['Baby Corn', 'Bacon', 'Baking Powder', 'Bakso', 'Bakso Ikan', 'Basil', 'Bawang Bombay', 'Bawang Merah', 'Bawang Putih', 'Bayam', 'Belimbing', 'Belut', 'Bengkoang', 'Beras', 'Beras Ketan', 'Beras Merah', 'Bihun', 'Biskuit Oreo', 'Blewah', 'Blueberry', 'Brokoli', 'Buah Naga', 'Bubble Pearl', 'Bubuk Jelly', 'Buncis', 'Bunga Lawang/Pekak', 'Bay Leaf', 'Biji Wijen'],
+                    'C' => ['Cabai', 'Cabai Bubuk', 'Caju', 'Cake Flour', 'Cantaloupe', 'Capcay', 'Caramel', 'Cengkeh', 'Ceri', 'Coconut Cream', 'Cokelat', 'Cokelat Bubuk', 'Cakalang', 'Cumi-cumi', 'Cappuccino'],
+                    'D' => ['Daging Ayam', 'Daging Kambing', 'Daging Sapi', 'Daun Bawang', 'Daun Jeruk', 'Durian', 'Daun Salam', 'Duku', 'Dendeng'],
+                    'E' => ['Es Batu', 'Edamame', 'Emping', 'Enoki', 'Elderberry', 'Eel', 'Escargot'],
+                    'F' => ['Fennel', 'Fillet Ikan', 'Fish Sauce', 'Fusilli', 'Feta Cheese', 'Fudge'],
+                    'G' => ['Garam', 'Gula', 'Ginger', 'Gulaman', 'Gula Aren', 'Ginseng'],
+                    'H' => ['Havermut', 'Himalaya Salt', 'Honey', 'Horiatiki Salad', 'Hummus', 'Hazelnut'],
+                    'I' => ['Ikan', 'Ikan Salmon', 'Ikan Tuna', 'Ikan Gurame', 'Ikan Lele', 'Ikan Kembung', 'Ice Cream', 'Ikan Teri'],
+                    'J' => ['Jagung', 'Jamur', 'Jahe', 'Jeruk', 'Jelly', 'Jus', 'Jus Jeruk', 'Jus Mangga', 'Jeruk Nipis', 'Jeruk Bali'],
+                    'K' => ['Kacang', 'Kacang Hijau', 'Kacang Merah', 'Kacang Tanah', 'Kacang Polong', 'Kepala Ikan', 'Kepala Udang', 'Kepala Ayam', 'Kecap', 'Kecap Manis', 'Kecap Asin', 'Kedondong', 'Kefir', 'Kembang Kol', 'Kembang Tahu', 'Kecambah', 'Kacang Almond', 'Kacang Mete'],
+                    'L' => ['Labu', 'Lemon', 'Lentil', 'Lobak', 'Lobster', 'Luwak Coffee', 'Lada Hitam', 'Lada Putih', 'Langka', 'Lettuce', 'Lidah Buaya', 'Lemon Balm'],
+                    'M' => ['Madu', 'Makaroni', 'Mangga', 'Mangga Muda', 'Mangga Manis', 'Marmalade', 'Melon', 'Mie', 'Miso', 'Mocca', 'Moringa', 'Mentega', 'Mushroom'],
+                    'N' => ['Nanas', 'Nasi', 'Nasi Goreng', 'Nasi Kuning', 'Nasi Uduk', 'Nori', 'Nugget', 'Nutmeg'],
+                    'O' => ['Oatmeal', 'Oregano', 'Olive', 'Olive Oil', 'Onion', 'Orange Juice', 'Oreo', 'Oregano'],
+                    'P' => ['Pasta', 'Pepper', 'Peterseli', 'Pisang', 'Pudina', 'Puding', 'Puyuh', 'Puyuh Rebus', 'Puyuh Goreng', 'Puyuh Penyet', 'Puyuh Bakar', 'Puyuh Kecap', 'Paprika', 'Paprika Merah'],
+                    'R' => ['Roti', 'Roti Bakar', 'Roti Maryam', 'Roti Manis', 'Roti Tawar', 'Roti Pizza', 'Roti Tortilla', 'Roti Pisang', 'Roti Ubi', 'Rumput Laut', 'Rendang'],
+                    'S' => ['Salmon', 'Sambal', 'Sawi', 'Sawi Putih', 'Sawi Hijau', 'Sayur', 'Susu', 'Saus Tiram', 'Sereh'],
+                    'T' => ['Tahu', 'Tempe', 'Telur', 'Tempe', 'Tepung', 'Tomat', 'Tumis', 'Tuna', 'Tumis Sayuran', 'Tumis Tempe', 'Terasi', 'Tepung Roti'],
+                    'U' => ['Udang', 'Ubi', 'Ubi Jalar', 'Ubi Kuning', 'Ubi Manis', 'Umeshu', 'Udang Rebus'],
+                    'V' => ['Vanilla', 'Vegetable Oil', 'Vermicelli', 'Vinegar'],
+                    'W' => ['Wortel', 'Wortel Merah', 'Wortel Putih', 'Wagyu'],
                     'X' => ['Xanthan Gum'],
-                    'Y' => ['Yam', 'Yogurt'],
+                    'Y' => ['Yam', 'Yogurt', 'Yakult'],
                     'Z' => ['Zaitun', 'Zucchini'],
                 ];
             @endphp
-            
+
             @foreach(range('A', 'Z') as $char)
                 <h3 class="font-bold mb-2">{{ $char }}</h3>
                 <ul class="mb-4">
-                    @foreach($ingredientsMap[$char] as $ingredient)
-                        <li class="flex items-center mb-2">
-                            <span class="flex-1">{{ $ingredient }}</span>
-                            <input type="checkbox" id="ingredient-{{ strtolower($ingredient) }}" onchange="updateSelectedCount()" />
-                        </li>
+                    @if(isset($ingredientsMap[$char]) && count($ingredientsMap[$char]) > 0)
+                    @foreach ($ingredients as $ingredient)
+                        <a href="{{ route('ingredients.show', ['ingredient' => $ingredient->id]) }}">View Ingredient</a>
                     @endforeach
+
+                    @else
+                        <li class="text-gray-500">No ingredients available for {{ $char }}</li>
+                    @endif
                 </ul>
             @endforeach
+
         </ul>
+
+        <!-- Ingredient Form -->
+        <form id="ingredient-form" action="{{ route('ingredients.show') }}" method="GET">
+            <input type="hidden" name="ingredients[]" id="ingredients-input" />
+            <button type="submit" class="btn btn-primary mt-4">Cari Resep</button>
+        </form>
     </div>
 
     <div class="col-md-8 d-flex flex-column align-items-center justify-content-center" style="min-height: 70vh; margin: auto;">
@@ -70,8 +77,12 @@
 <script>
     function updateSelectedCount() {
         const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-        const selectedCount = Array.from(checkboxes).filter(checkbox => checkbox.checked).length;
-        document.getElementById('selected-count').innerText = `${selectedCount} bahan telah terpilih`;
+        const selectedIngredients = Array.from(checkboxes)
+            .filter(checkbox => checkbox.checked)
+            .map(checkbox => checkbox.id.replace('ingredient-', '').replace(/-/g, ' '));
+
+        document.getElementById('selected-count').innerText = `${selectedIngredients.length} bahan telah terpilih`;
+        document.getElementById('ingredients-input').value = JSON.stringify(selectedIngredients);
     }
 </script>
 @endsection

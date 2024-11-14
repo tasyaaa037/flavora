@@ -6,12 +6,17 @@ use Illuminate\Http\Request;
 
 class IngredientSController extends Controller
 {
+    public function index() {
+        $ingredients = Ingredient::all();
+        return view('ingredients.index', compact('ingredients'));
+    }
+    
     public function show($id)
     {
         $ingredient = Ingredient::findOrFail($id);
-        $recipes = $ingredient->recipes; // Assuming Ingredient has a 'recipes' relationship
-
-        return view('ingredients.show', compact('ingredient', 'recipes'));
+        return view('ingredients.show', compact('ingredient'));
     }
+    
+
 
 }
