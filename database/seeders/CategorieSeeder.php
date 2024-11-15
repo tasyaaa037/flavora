@@ -55,6 +55,10 @@ class CategorieSeeder extends Seeder
             ['nama' => 'Makanan Diet', 'categorie_type_id' => 5],
             ['nama' => 'Makanan Balita', 'categorie_type_id' => 5],
             ['nama' => 'Makanan Ringan', 'categorie_type_id' => 5],
+
+            // Tipe Kategori: Rekomendasi Resep (tipe_kategori_id = 6)
+            ['nama' => 'Resep Terpopuler', 'categorie_type_id' => 6],
+            ['nama' => 'Resep Terbaru', 'categorie_type_id' => 6],
         ];
 
         foreach ($categories as $category) {

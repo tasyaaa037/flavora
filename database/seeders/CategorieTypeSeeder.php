@@ -18,6 +18,7 @@ class CategorieTypeSeeder extends Seeder
             ['nama' => 'Kategori Khas'],
             ['nama' => 'Bahan Utama'],
             ['nama' => 'Tujuan Makanan'],
+            ['nama' => 'Rekomendasi Resep'],
         ];
 
         foreach ($types as $type) {

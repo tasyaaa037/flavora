@@ -2,7 +2,6 @@
 
 @section('content')
 <style>
-    /* Membuat responsive container */
     .container {
         display: flex;
         flex-direction: column;
@@ -42,14 +41,6 @@
         max-width: 800px;
     }
 
-    .icon-section {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        margin-top: 10px;
-        gap: 10px;
-    }
-
     .action-buttons {
         display: flex;
         gap: 10px;
@@ -82,37 +73,49 @@
         background-color: #dc3545;
     }
 
-    .tabs {
+    .recipe-section {
         width: 100%;
         margin-top: 20px;
     }
 
-    .tab-content {
-        margin-top: 20px;
+    .section-header {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 10px;
     }
 
-    .list-group {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 15px;
-        padding: 0;
-        list-style: none;
+    .section-content {
+        font-size: 1rem;
+        margin-bottom: 20px;
+    }
+
+    .recipe-info {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .recipe-info .section {
+        flex: 1;
+        min-width: 300px;
+    }
+
+    .comment {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .comment img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    .comment p {
+        font-size: 1rem;
         margin: 0;
-    }
-
-    .list-group-item {
-        padding: 10px;
-        border: 1px solid #ddd;
-        margin-bottom: 5px;
-        border-radius: 5px;
-        text-align: center;
-        background-color: #f9f9f9;
-        cursor: pointer;
-    }
-
-    .list-group-item:hover {
-        background-color: #007bff;
-        color: white;
     }
 </style>
 
@@ -127,9 +130,18 @@
                 <p>{{ $recipe->description }}</p>
             </div>
 
+            <div class="icon-section">
+                <div>
+                    <img src="{{ asset('delfood-1.0.0/images/jam.png') }}" alt="Waktu">
+                    <span>{{ $recipe->time }} menit</span>
+                </div>
+            </div>
+
             <!-- Action Buttons -->
             <div class="action-buttons">
-                <a href="{{ route('recipes.edit', ['recipe' => $recipe->id]) }}">Edit Recipe</a>
+                <a href="{{ route('recipes.edit', $recipe->id) }}" class="action-button">
+                    <i class="fa fa-pencil"></i> Edit Resep
+                </a>
 
                 <form action="{{ route('recipes.destroy', $recipe->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus resep ini?');">
                     @csrf
@@ -140,7 +152,7 @@
                 </form>
             </div>
 
-            <!-- Tabs for Bahan, Cara Memasak, and Diskusi -->
+
             <div class="tabs">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
@@ -156,12 +168,29 @@
 
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="bahan">
-                        <h2>Bahan-bahan</h2>
-                        <p>{{ $recipe->ingredient }}</p>
+                            <h2>Bahan-bahan</h2>
+                            <ul class="list-group">
+                                @if($recipe->ingredients && $recipe->ingredients->count())
+                                @foreach($recipe->ingredients as $ingredient)
+                                    <li class="list-group-item">{{ $ingredient->description }}</li>
+                                @endforeach
+                                @else
+                                    <li class="list-group-item">Bahan-bahan tidak tersedia.</li>
+                                @endif
+                            </ul>
                     </div>
                     <div class="tab-pane fade" id="cara-memasak">
-                        <h2>Cara Memasak</h2>
-                        <p>{{ $recipe->instructions }}</p> <!-- Displaying instructions directly without a separate table -->
+                            <h2>Cara Memasak</h2>
+                            <ul class="list-group">
+                                @if($recipe->steps && $recipe->steps->count())
+                                    
+                                @foreach($recipe->steps as $step)
+                                    <li class="list-group-item">{{ $step->description }}</li>
+                                @endforeach
+                                @else
+                                    <li class="list-group-item">Cara memasak tidak tersedia.</li>
+                                @endif
+                            </ul>
                     </div>
 
                     <div class="tab-pane fade" id="diskusi">
@@ -180,4 +209,4 @@
         </div>
     </div>
 </div>
-@endsection 
+@endsection

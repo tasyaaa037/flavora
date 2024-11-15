@@ -33,7 +33,7 @@ Route::prefix('recipes')->name('recipes.')->group(function () {
 
     Route::get('/{recipe}', [RecipeController::class, 'show'])->name('show');
     Route::get('/by-type/{type}', [RecipeController::class, 'showByType'])->name('byType');
-    Route::get('/recommendation', [RecipeController::class, 'byRecommendation'])->name('byRecommendation');
+    Route::get('/brecommendation/{recommendation}', [RecipeController::class, 'showByRecommendation'])->name('byRecommendation');
     Route::get('/by-method/{method}', [RecipeController::class, 'showByMethod'])->name('byMethod');
     Route::get('/by-cuisine/{cuisine}', [RecipeController::class, 'showByCuisine'])->name('byCuisine');
     Route::get('/by-ingredient/{ingredient}', [RecipeController::class, 'showByIngredient'])->name('byIngredient');

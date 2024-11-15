@@ -45,58 +45,72 @@
                   <div class="d-flex flex-row justify-content-between">
                     <div class="mr-3">
                       <h6 class="dropdown-header">Jenis Hidangan</h6>
-                      <a class="dropdown-item" href="{{ route('recipes.byType', 'Makanan Utama') }}">Makanan Utama</a>
-                      <a class="dropdown-item" href="{{ route('recipes.byType', 'Makanan Pembuka') }}">Makanan Pembuka</a>
-                      <a class="dropdown-item" href="{{ route('recipes.byType', 'Makanan Pendamping') }}">Makanan Pendamping</a>
-                      <a class="dropdown-item" href="{{ route('recipes.byType', 'Makanan Penutup') }}">Makanan Penutup</a>
+                      @foreach($categorieTypes as $type)
+                        @if($type->nama == 'Jenis Hidangan')
+                            @foreach($type->categories as $categorie)
+                                <a class="dropdown-item" href="{{ route('recipes.byType', $categorie->nama) }}">{{ $categorie->nama }}</a>
+                            @endforeach
+                        @endif
+                      @endforeach
+
                     </div>
 
                     <div class="mr-3">
                       <h6 class="dropdown-header">Cara Memasak</h6>
-                      <a class="dropdown-item" href="{{ route('recipes.byMethod', 'Serba Goreng') }}">Serba Goreng</a>
-                      <a class="dropdown-item" href="{{ route('recipes.byMethod', 'Serba Rebus') }}">Serba Rebus</a>
-                      <a class="dropdown-item" href="{{ route('recipes.byMethod', 'Serba Panggang & Bakar') }}">Serba Panggang & Bakar</a>
-                      <a class="dropdown-item" href="{{ route('recipes.byMethod', 'Serba Kukus') }}">Serba Kukus</a>
-                      <a class="dropdown-item" href="{{ route('recipes.byMethod', 'Serba Tumis') }}">Serba Tumis</a>
+                      @foreach($categorieTypes as $type)
+                        @if($type->nama == 'Cara Memasak')
+                            @foreach($type->categories as $categorie)
+                                <a class="dropdown-item" href="{{ route('recipes.byMethod', $categorie->nama) }}">{{ $categorie->nama }}</a>
+                            @endforeach
+                        @endif
+                      @endforeach
                     </div>
 
                     <div class="mr-3">
-                      <h6 class="dropdown-header">Bahan Makanan</h6>
-                      <a class="dropdown-item" href="{{ route('recipes.byIngredient', 'Ayam') }}">Ayam</a>
-                      <a class="dropdown-item" href="{{ route('recipes.byIngredient', 'Daging') }}">Daging</a>
-                      <a class="dropdown-item" href="{{ route('recipes.byIngredient', 'Sayuran') }}">Sayuran</a>
-                      <a class="dropdown-item" href="{{ route('recipes.byIngredient', 'Jamur') }}">Jamur</a>
-                      <a class="dropdown-item" href="{{ route('recipes.byIngredient', 'Ikan & Seafood') }}">Ikan & Seafood</a>
-                      <a class="dropdown-item" href="{{ route('recipes.byIngredient', 'Bebek') }}">Bebek</a>
-                      <a class="dropdown-item" href="{{ route('recipes.byIngredient', 'Nasi & Karbohidrat') }}">Nasi & Karbohidrat</a>
+                      <h6 class="dropdown-header">Bahan Utama</h6>
+                      @foreach($categorieTypes as $type)
+                        @if($type->nama == 'Bahan Utama')
+                            @foreach($type->categories as $categorie)
+                                <a class="dropdown-item" href="{{ route('recipes.byIngredient', $categorie->nama) }}">{{ $categorie->nama }}</a>
+                            @endforeach
+                        @endif
+                      @endforeach
                     </div>
 
                     <div class="mr-3">
                       <h6 class="dropdown-header">Kategori Khas</h6>
-                      <a class="dropdown-item" href="{{ route('recipes.byCuisine', 'Makanan Tradisional') }}">Makanan Tradisional</a>
-                      <a class="dropdown-item" href="{{ route('recipes.byCuisine', 'Makanan Internasional') }}">Makanan Internasional</a>
-                      <a class="dropdown-item" href="{{ route('recipes.byCuisine', 'Makanan Cepat Saji') }}">Makanan Cepat Saji</a>
-                    </div>
+                      @foreach($categorieTypes as $type)
+                        @if($type->nama == 'Kategori Khas')
+                            @foreach($type->categories as $categorie)
+                                <a class="dropdown-item" href="{{ route('recipes.byCuisine', $categorie->nama) }}">{{ $categorie->nama }}</a>
+                            @endforeach
+                        @endif
+                      @endforeach
+                  </div>
 
                     <div class="mr-3">
                       <h6 class="dropdown-header">Tujuan Makanan</h6>
-                      <a class="dropdown-item" href="{{ route('recipes.byPurpose', 'Makanan Diet/Sehat') }}">Makanan Diet/Sehat</a>
-                      <a class="dropdown-item" href="{{ route('recipes.byPurpose', 'Makanan Anak') }}">Makanan Anak</a>
+                      @foreach($categorieTypes as $type)
+                        @if($type->nama == 'Tujuan Makanan')
+                            @foreach($type->categories as $categorie)
+                                <a class="dropdown-item" href="{{ route('recipes.byPurpose', $categorie->nama) }}">{{ $categorie->nama }}</a>
+                            @endforeach
+                        @endif
+                      @endforeach
                     </div>
 
                     <div class="mr-3">
                       <h6 class="dropdown-header">Rekomendasi Resep</h6>
-                      <a class="dropdown-item" href="{{ route('recipes.byRecommendation', 'Resep Populer') }}">Resep Populer</a>
-                      <a class="dropdown-item" href="{{ route('recipes.byRecommendation', 'Resep Favorit') }}">Resep Favorit</a>
-                      <a class="dropdown-item" href="{{ route('recipes.byRecommendation', 'Resep Terbaru') }}">Resep Terbaru</a>
+                      @foreach($categorieTypes as $type)
+                        @if($type->nama == 'Rekomendasi Resep')
+                            @foreach($type->categories as $categorie)
+                                <a class="dropdown-item" href="{{ route('recipes.byRecommendation', $categorie->nama) }}">{{ $categorie->nama }}</a>
+                            @endforeach
+                        @endif
+                      @endforeach
                     </div>
                   </div>
                 </div>
-              </li>
-
-              <!-- Bahan Makanan -->
-              <li class="nav-item">
-                <a class="nav-link text-white" href="{{ url('/ingredients') }}">Bahan Makanan</a>
               </li>
 
               <!-- Kuliner -->
