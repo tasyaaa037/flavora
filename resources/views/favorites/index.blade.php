@@ -26,7 +26,7 @@
     <div class="bg-white p-6 rounded-lg shadow-md w-full lg:w-2/3 border-4 border-blue-800">
         <div class="flex justify-between items-center mb-4">
             <div class="text-sm text-gray-500">
-                <a href="{{ route('profile.show') }}" class="text-orange-500 hover:underline">Profil</a> &gt; Tersimpan
+            <a href="{{ route('profile.favorites') }}" class="text-orange-500 hover:underline">Profil</a> &gt; Tersimpan
             </div>
         </div>
         <h1 class="text-2xl font-bold mb-4">Tersimpan</h1>
@@ -35,8 +35,18 @@
         @else
             <ul>
                 @foreach($favorites as $favorite)
-                    <li class="py-2">
-                        <a href="{{ route('recipes.show', $favorite->recipe_id) }}" class="text-blue-500 hover:underline">{{ $favorite->recipe->name }}</a>
+                    <li class="py-2 flex justify-between items-center">
+                        <a href="{{ route('recipes.show', ['recipe' => $favorite->id]) }}" class="text-blue-600">{{ $favorite->title }}</a>
+                        
+                        <!-- Hapus from favorites button -->
+                        <form action="{{ route('profile.favorite.remove', ['recipe' => $favorite->id]) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-red-500 hover:underline">
+                                <i class="fas fa-trash-alt mr-2"></i> Hapus
+                            </button>
+                        </form>
+
                     </li>
                 @endforeach
             </ul>

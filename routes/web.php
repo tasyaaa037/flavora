@@ -28,17 +28,17 @@ Route::prefix('recipes')->name('recipes.')->group(function () {
         Route::post('/', [RecipeController::class, 'store'])->name('store');
         Route::get('/{recipe}/edit', [RecipeController::class, 'edit'])->name('edit');
         Route::delete('/{recipe}', [RecipeController::class, 'destroy'])->name('destroy'); 
-        Route::put('/recipes/{recipe}', [RecipeController::class, 'update'])->name('update');
+        Route::put('/{recipe}', [RecipeController::class, 'update'])->name('update');
     });
 
     Route::get('/{recipe}', [RecipeController::class, 'show'])->name('show');
     Route::get('/by-type/{type}', [RecipeController::class, 'showByType'])->name('byType');
-    Route::get('/brecommendation/{recommendation}', [RecipeController::class, 'showByRecommendation'])->name('byRecommendation');
+    Route::get('/by-recommendation/{recommendation}', [RecipeController::class, 'showByRecommendation'])->name('byRecommendation');
     Route::get('/by-method/{method}', [RecipeController::class, 'showByMethod'])->name('byMethod');
     Route::get('/by-cuisine/{cuisine}', [RecipeController::class, 'showByCuisine'])->name('byCuisine');
     Route::get('/by-ingredient/{ingredient}', [RecipeController::class, 'showByIngredient'])->name('byIngredient');
     Route::get('/by-purpose/{purpose}', [RecipeController::class, 'showByPurpose'])->name('byPurpose');
-    Route::get('/favorite-recipes', [RecipeController::class, 'favorite'])->name('favorite');
+    Route::get('/favorite/recipes', [FavoriteController::class, 'index'])->name('favorite.recipes');
 });
 
 // Categories and Subcategories routes
@@ -47,11 +47,30 @@ Route::prefix('kategori')->name('kategori.')->group(function () {
     Route::get('/{categorie}', [CategorieController::class, 'show'])->name('show');
 });
 
-// Favorites routes with auth middleware
+// Favorites routes (auth required)
 Route::middleware('auth')->prefix('favorites')->name('favorites.')->group(function () {
+    // Add a recipe to favorites
     Route::post('/{id}', [FavoriteController::class, 'store'])->name('store');
+    
+    // View all favorites
     Route::get('/', [FavoriteController::class, 'index'])->name('index');
+    
+    // Specific route to view favorite recipes
+    Route::get('/recipes', [FavoriteController::class, 'index'])->name('recipes');
 });
+
+Route::get('/favorite/recipes', [FavoriteController::class, 'index'])->name('favorite.recipes');
+Route::get('/favorite/recipes', [FavoriteController::class, 'index'])->middleware('auth')->name('favorite.recipes');
+Route::get('/profile/favorites', [ProfileController::class, 'favorites'])->name('profile.favorites');
+Route::post('/recipes/{recipe}/save', [RecipeController::class, 'saveRecipe'])->name('recipes.save');
+Route::get('recipes/{recipe}', [RecipeController::class, 'show'])->name('recipes.show');
+Route::post('/recipes/{id}/save', [RecipeController::class, 'save'])->name('recipes.save');
+Route::get('/favorite-recipes', [RecipeController::class, 'favoriteRecipes'])->name('favorites.index');
+Route::delete('/profile/favorite/{recipe}', [ProfileController::class, 'removeFavorite'])->name('profile.favorite.remove');
+Route::get('/profile/favorites', [ProfileController::class, 'favorites'])->name('favorites.index');
+Route::get('/profile/favorites', [ProfileController::class, 'favorites'])->name('favorites.index')->middleware('auth');
+Route::get('/profile/favorites', [ProfileController::class, 'favorites'])->name('profile.favorites');
+
 
 // Auth check and redirect URL setting
 Route::get('/check-auth', fn() => response()->json(['authenticated' => auth()->check()]));
@@ -71,3 +90,8 @@ Route::middleware('auth')->prefix('tips')->name('tips.')->group(function () {
 // Ingredient route
 Route::get('/ingredients', [RecipeController::class, 'showIngredients'])->name('ingredients.index');
 Route::get('/ingredients/{ingredient}', [IngredientController::class, 'show'])->name('ingredients.show');
+
+// Auth check and redirect URL setting
+Route::get('/check-auth', fn() => response()->json(['authenticated' => auth()->check()]));
+Route::post('/set-redirect-url', [LoginController::class, 'setRedirectUrl'])->name('set.redirect.url');
+

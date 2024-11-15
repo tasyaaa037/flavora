@@ -154,4 +154,16 @@ class Recipe extends Model
     
         return view('recipes.index', compact('recipes', 'total', 'ingredientName'));
     }
+
+    public function recipe()
+    {
+        return $this->belongsTo(Recipe::class);
+    }
+
+    public function usersFavorited()
+    {
+        return $this->belongsToMany(User::class, 'user_favorites', 'recipe_id', 'user_id');
+    }
+
+
 }

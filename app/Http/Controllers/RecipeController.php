@@ -40,14 +40,15 @@ class RecipeController extends Controller
 
         // Fetch the recipes related to the category
         $recipes = Recipe::where('categorie_id', $categorie->id)->get();
-
+        $recipe = Recipe::find($id);
+        $categorieTypes = CategorieType::all();
         // Check if the recipe exists
         if (!$recipe) {
             // Handle the case when the recipe is not found
             return redirect()->route('recipes.index')->with('error', 'Recipe not found');
         }
 
-        return view('recipes.show', compact('recipes', 'categorie', 'recipe'));
+        return view('recipes.show', compact('recipes', 'categorie', 'recipe', 'categorieTypes'));
     }
 
     // Menampilkan formulir untuk menambahkan resep baru
@@ -375,5 +376,51 @@ class RecipeController extends Controller
         $ingredients = Ingredient::all();
         return view('Ingredients.index', compact('ingredients'));
     }
+
+    public function saveRecipe($recipeId)
+    {
+        $user = Auth::user(); // Get the authenticated user
+        $recipe = Recipe::findOrFail($recipeId); // Find the recipe by ID
+
+        // Add the recipe to the user's favorites if not already saved
+        if (!$user->favorites->contains($recipe)) {
+            $user->favorites()->attach($recipe); // Attach the recipe to the user's favorites
+        }
+
+        // Redirect back with a success message
+        return redirect()->route('recipes.show', $recipeId)->with('success', 'Resep telah disimpan ke favorit.');
+    }
+
+    public function save($id)
+    {
+        // Menyimpan resep ke dalam daftar favorit pengguna
+        $recipe = Recipe::findOrFail($id);
+        Auth::user()->favorites()->attach($recipe); // Anda bisa menggunakan pivot table 'favorites'
+
+        // Mengarahkan ke halaman resep favorit
+        return redirect()->route('favorite.recipes')->with('success', 'Resep berhasil disimpan.');
+    }
+
+    public function favoriteRecipes()
+    {
+        $user = auth()->user(); // Get the authenticated user
+        $favorites = $user->favorites; // Get the user's favorite recipes
+        $recipes = Auth::user()->favorites;
+        
+        return view('favorites.index', compact('user', 'favorites', 'recipes')); // Pass the $user to the view
+    }
+    
+    public function removeFavorite(Recipe $recipe)
+    {
+        // Assuming the user is already authenticated and the recipe is already in favorites
+        $user = auth()->user();
+        
+        // Detach the recipe from the user's favorites
+        $user->favorites()->detach($recipe);
+
+        // Redirect back to the favorites page with a success message
+        return redirect()->route('profile.favorites')->with('success', 'Resep berhasil dihapus dari favorit');
+    }
+
 
 }

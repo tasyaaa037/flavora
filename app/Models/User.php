@@ -61,11 +61,12 @@ class User extends Authenticatable
     /**
      * Get the favorites associated with the user.
      */
+
     public function favorites()
     {
-        return $this->hasMany(Favorite::class);
+        return $this->belongsToMany(Recipe::class, 'user_favorites', 'user_id', 'recipe_id');
     }
 
-
+    
 }
 

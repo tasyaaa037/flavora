@@ -29,7 +29,7 @@
                     <div>                         
                         <h5 class="mb-1" style="font-size: 15px; font-weight: bold; color: #333;">{{ $recipe->title }}</h5> 
                         <p class="text-muted" style="font-size: 15px;">                              
-                            <i class="fa fa-clock-o"></i> {{ $recipe->prep_time }} menit                         
+                            <i class="fa fa-clock-o"></i> {{ $recipe->cook_time }} menit                         
                         </p>                     
                     </div>                     
                     <div class="d-flex align-items-center" style="margin-top: -8px;">

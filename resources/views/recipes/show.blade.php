@@ -150,7 +150,16 @@
                         <i class="fa fa-trash"></i> Hapus Resep
                     </button>
                 </form>
+
+                <!-- Save Recipe Button -->
+                <form action="{{ route('recipes.save', $recipe->id) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="action-button" style="background-color: #ffc107; color: white;">
+                        <i class="fa fa-heart"></i> Simpan Resep
+                    </button>
+                </form>
             </div>
+
 
 
             <div class="tabs">

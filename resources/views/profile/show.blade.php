@@ -17,12 +17,6 @@
                         <p class="text-gray-500">Halo,</p>
                         <p class="text-xl font-semibold">{{ $user->name }}</p>
                     </div>
-                    <button class="mt-4 bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded-lg shadow-sm flex items-center" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="fas fa-sign-out-alt mr-2"></i> Log out
-                    </button>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
                 </div>
             </div>
 
@@ -37,7 +31,16 @@
                         </div>
                         <a href="{{ route('favorite.recipes') }}" class="text-teal-500">Lihat semua</a>
                     </div>
-                    <p class="text-gray-500">Belum ada yang tersimpan. Tap <i class="fas fa-bookmark"></i> untuk menyimpan resep.</p>
+                    @if($favorites->count())
+                        @foreach($favorites as $favorite)
+                            <div class="recipe-item">
+                                <h3>{{ $favorite->title }}</h3>
+                                <!-- Info tentang resep, bisa tambah gambar atau deskripsi jika perlu -->
+                            </div>
+                        @endforeach
+                    @else
+                        <p class="text-gray-500">Belum ada yang tersimpan. Tap <i class="fas fa-bookmark"></i> untuk menyimpan resep.</p>
+                    @endif
                 </div>
 
                 <!-- Testimonials/Discussions Section -->

@@ -8,6 +8,15 @@ use App\Models\Favorite; // Import the Favorite model
 
 class FavoriteController extends Controller
 {
+    public function index()
+    {
+        // Retrieve the list of favorite recipes, assuming you have a 'favorites' table
+        $favorites = auth()->user()->favorites;
+        $user = auth()->user(); 
+
+        // Pass the favorites to the view
+        return view('favorites.index', compact('favorites','user'));
+    }
     // Menyimpan resep ke favorit
     public function store($id)
     {
@@ -27,12 +36,4 @@ class FavoriteController extends Controller
         return response()->json(['success' => true, 'message' => 'Resep berhasil ditambahkan ke favorit']);
     }
 
-    // Menampilkan daftar favorit pengguna
-    public function index()
-    {
-        $user = Auth::user();
-        $favorites = $user->favorites()->with('recipe')->get();
-
-        return view('favorites.index', compact('favorites'));
-    }
 }
