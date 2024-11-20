@@ -78,6 +78,18 @@ Route::get('/check-auth', fn() => response()->json(['authenticated' => auth()->c
 Route::post('/set-redirect-url', [LoginController::class, 'setRedirectUrl'])->name('set.redirect.url');
 
 // User comments route
+
+// Route dengan middleware auth
+Route::middleware('auth')->group(function () {
+    Route::get('/comments', [CommentController::class, 'index'])->name('comments.index');
+    Route::get('/recipes/{recipeId}/comments/create', [CommentController::class, 'create'])->name('comments.create');
+    Route::post('/recipes/{recipeId}/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::get('/comments/{id}/edit', [CommentController::class, 'edit'])->name('comments.edit');
+    Route::put('/comments/{id}', [CommentController::class, 'update'])->name('comments.update');
+    Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy');
+});
+
+//Route untuk komentar pengguna
 Route::get('/user-comments', [CommentController::class, 'index'])->name('user.comments');
 
 // Tips routes with auth middleware
@@ -91,6 +103,7 @@ Route::middleware('auth')->prefix('tips')->name('tips.')->group(function () {
 // Ingredient route
 Route::get('/ingredients', [RecipeController::class, 'showIngredients'])->name('ingredients.index');
 Route::get('/ingredients/{ingredient}', [IngredientController::class, 'show'])->name('ingredients.show');
+Route::get('ingredients/{ingredient}', [IngredientController::class, 'show'])->name('ingredients.show');
 
 // Auth check and redirect URL setting
 Route::get('/check-auth', fn() => response()->json(['authenticated' => auth()->check()]));

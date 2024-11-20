@@ -52,7 +52,16 @@
                         </div>
                         <a href="{{ route('user.comments') }}" class="text-teal-500">Lihat semua</a>
                     </div>
-                    <p class="text-gray-500">Belum ada aktifitas Testi / Diskusi kamu.</p>
+                    @if($comments->count())
+                        @foreach($comments as $comment)
+                            <div class="recipe-item">
+                                <h3>{{ $comment->recipe->title }}</h3>
+                                <!-- Info tentang komentar, bisa tambah gambar atau deskripsi jika perlu -->
+                            </div>
+                        @endforeach
+                    @else
+                        <p class="text-gray-500">Belum ada aktifitas Testi / Diskusi kamu.</p>
+                    @endif
                 </div>
             </div>
         </div>

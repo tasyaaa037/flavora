@@ -423,6 +423,32 @@ class RecipeController extends Controller
         ]);
     }
 
+    public function storeComment(Request $request, $recipeId)
+    {
+        $request->validate([
+            'content' => 'required|string|max:1000',
+        ]);
+
+        $recipe = Recipe::findOrFail($recipeId);
+
+        // Simpan komentar baru
+        $comment = new Comment();
+        $comment->user_id = auth()->user()->id;
+        $comment->recipe_id = $recipe->id;
+        $comment->content = $request->content;
+        $comment->save();
+
+        // Ambil data untuk dikirim kembali ke AJAX
+        $userProfileImage = $comment->user->profile_image ? asset('images/profile/' . $comment->user->profile_image) : asset('images/default-profile.png');
+        $userName = $comment->user->name;
+        $commentContent = $comment->content;
+
+        return response()->json([
+            'userProfileImage' => $userProfileImage,
+            'userName' => $userName,
+            'commentContent' => $commentContent
+        ]);
+    }
 
 
 }

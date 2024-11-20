@@ -113,6 +113,11 @@
                 </div>
               </li>
 
+                <!-- Bahan Makanan -->
+              <li class="nav-item">
+                <a class="nav-link text-white" href="{{ url('/ingredients') }}">Bahan Makanan</a>
+              </li>
+
               <!-- Kuliner -->
               <li class="nav-item">
                 <a class="nav-link text-white" href="{{ url('/tips') }}">Tips & Triks</a>

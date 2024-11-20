@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; 
 use App\Models\Favorite;
 use App\Models\User; 
+use App\Models\Comment;
 
 class ProfileController extends Controller
 {
@@ -13,8 +14,8 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         $favorites = $user->favorites()->with('recipe')->get(); // Ambil data favorit dan relasi resep
-
-        return view('profile.show', compact('user', 'favorites'));
+        $comments = Comment::where('user_id', $user->id)->with('recipe')->latest()->get(); 
+        return view('profile.show', compact('user', 'favorites', 'comments'));
     }
 
     public function removeFavorite($recipeId)
@@ -39,4 +40,16 @@ class ProfileController extends Controller
         return view('favorites.index', compact('favorites', 'user')); // Adjust view file as needed
     }
 
+    public function removeComment($commentId)
+    {
+        
+        $comment = Comment::where('id', $commentId)->where('user_id', auth()->id())->first();
+
+        if ($comment) {
+            $comment->delete();
+            return redirect()->route('profile.show')->with('success', 'Komentar telah dihapus');
+        }
+
+        return redirect()->route('profile.show')->with('error', 'Komentar tidak ditemukan');
+    }
 }

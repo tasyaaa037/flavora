@@ -6,9 +6,10 @@ use Illuminate\Http\Request;
 
 class IngredientSController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $ingredients = Ingredient::all();
-        return view('ingredients.index', compact('ingredients'));
+        return view('Ingredients.index', compact('ingredients'));
     }
     
     public function show($id)

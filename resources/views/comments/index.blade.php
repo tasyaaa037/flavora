@@ -22,15 +22,35 @@
         </div>
     </div>
 
-    <!-- Saved Items Section -->
+    <!-- Comments Section -->
     <div class="bg-white p-6 rounded-lg shadow-md w-full lg:w-2/3 border-4 border-blue-800">
         <div class="flex justify-between items-center mb-4">
             <div class="text-sm text-gray-500">
-                <a href="{{ route('profile.show') }}" class="text-orange-500 hover:underline">Profil</a> &gt; Aktivitas
+                <a href="{{ route('profile.show') }}" class="text-orange-500 hover:underline">Profil</a> &gt; Komentar
             </div>
         </div>
-        <h1 class="text-2xl font-bold mb-4">Tersimpan</h1>
-        <p class="text-gray-500">Belum ada yang tersimpan. Tap <i class="far fa-bookmark"></i> untuk menyimpan resep dan promo pertama Anda.</p>
+        <h1 class="text-2xl font-bold mb-4">Komentar Anda</h1>
+
+        @forelse ($comments as $comment)
+        <div class="mb-6 p-4 bg-gray-50 rounded-lg shadow-sm">
+            <div class="flex justify-between items-center">
+                <div>
+                    <p class="font-semibold text-gray-800">{{ $comment->recipe->title }}</p>
+                    <p class="text-sm text-gray-500">{{ $comment->created_at->format('d M Y') }}</p>
+                </div>
+                <div class="flex space-x-4">
+                    <form action="{{ route('comments.destroy', $comment->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus komentar ini?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="text-red-500 hover:underline">Hapus</button>
+                    </form>
+                </div>
+            </div>
+            <p class="mt-2 text-gray-700">{{ $comment->content }}</p>
+        </div>
+        @empty
+        <p class="text-gray-500">Anda belum memiliki komentar. Tambahkan komentar di resep favorit Anda!</p>
+        @endforelse
     </div>
 </div>
 @endsection

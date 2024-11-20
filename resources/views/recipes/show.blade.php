@@ -28,6 +28,7 @@
         .recipe-details {
             flex-direction: row;
         }
+
         .recipe-image {
             flex: 0 0 400px;
         }
@@ -159,23 +160,51 @@
                     <div class="tab-pane fade show active" id="bahan">
                         <h2>Bahan-bahan</h2>
                         <ul class="list-group">
-                        @php
-                            $ingredients = is_string($recipe->ingredients) ? json_decode($recipe->ingredients, true) : $recipe->ingredients;
-                        @endphp
-                        @if($ingredients && is_array($ingredients))
-                            @foreach($ingredients as $ingredient)
-                                <li class="list-group-item">
-                                    {{ $ingredient['name'] ?? 'Unknown' }} - {{ $ingredient['quantity'] ?? '' }} {{ $ingredient['unit'] ?? '' }}
-                                </li>
-                            @endforeach
-                        @else
-                            <li class="list-group-item">Bahan-bahan tidak tersedia.</li>
-                        @endif
-
+                            @php
+                                $ingredients = is_string($recipe->ingredients) ? json_decode($recipe->ingredients, true) : $recipe->ingredients;
+                            @endphp
+                            @if($ingredients && is_array($ingredients))
+                                @foreach($ingredients as $ingredient)
+                                    <li class="list-group-item">
+                                        {{ $ingredient['name'] ?? 'Unknown' }} - {{ $ingredient['quantity'] ?? '' }} {{ $ingredient['unit'] ?? '' }}
+                                    </li>
+                                @endforeach
+                            @else
+                                <li class="list-group-item">Bahan-bahan tidak tersedia.</li>
+                            @endif
                         </ul>
                     </div>
-                </div>
 
+                    <div class="tab-pane fade" id="cara-memasak">
+                        <h2>Cara Memasak</h2>
+                        <p>{{ $recipe->instructions }}</p>
+                    </div>
+
+                    <div class="tab-pane fade" id="diskusi">
+                        <h2>Komentar</h2>
+                        <div>
+                            @foreach($recipe->comments as $comment)
+                                <div class="comment">
+                                    <img src="{{ $comment->user->profile_image ? asset('images/profile/' . $comment->user->profile_image) : asset('images/default-profile.png') }}" alt="Profil" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
+                                    <p><strong>{{ $comment->user->name }}</strong>: {{ $comment->content }}</p>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <!-- Form to Add a New Comment -->
+                        @auth
+                        <form action="{{ route('comments.store', $recipe->id) }}" method="POST">
+                            @csrf
+                            <div class="form-group">
+                                <textarea name="content" class="form-control" placeholder="Tulis komentar..." required></textarea>
+                            </div>
+                            <button type="submit" class="add-comment-btn">Tambahkan Diskusi</button>
+                        </form>
+                        @else
+                        <p>Silakan <a href="{{ route('login') }}">login</a> untuk menambahkan komentar.</p>
+                        @endauth
+                    </div>
+                </div>
             </div>
         </div>
     </div>

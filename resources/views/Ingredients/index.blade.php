@@ -44,10 +44,11 @@
                 <h3 class="font-bold mb-2">{{ $char }}</h3>
                 <ul class="mb-4">
                     @if(isset($ingredientsMap[$char]) && count($ingredientsMap[$char]) > 0)
-                    @foreach ($ingredients as $ingredient)
-                        <a href="{{ route('ingredients.show', ['ingredient' => $ingredient->id]) }}">View Ingredient</a>
+                    @foreach($ingredients as $ingredient)
+                        <a href="{{ route('ingredients.show', ['ingredient' => $ingredient->id]) }}">
+                            {{ $ingredient->name }}
+                        </a>
                     @endforeach
-
                     @else
                         <li class="text-gray-500">No ingredients available for {{ $char }}</li>
                     @endif
