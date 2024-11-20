@@ -33,9 +33,9 @@
                         </p>                     
                     </div>                     
                     <div class="d-flex align-items-center" style="margin-top: -8px;">
-                        <button class="btn favorite-button" data-recipe-id="{{ $recipe->id }}">                             
-                            <i class="fa fa-bookmark-o"></i>                          
-                        </button>                     
+                        <button class="btn favorite-button" data-recipe-id="{{ $recipe->id }}">
+                            <i class="fa fa-bookmark-o"></i> 
+                        </button>        
                     </div>                  
                 </div>              
             </div>         
@@ -50,7 +50,7 @@
         document.querySelectorAll('.favorite-button').forEach(function (button) {
             button.addEventListener('click', function () {
                 const recipeId = this.getAttribute('data-recipe-id');
-                fetch(`/favorites/${recipeId}`, {
+                fetch(`/recipes/save-favorite/${recipeId}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -71,4 +71,5 @@
         });
     });
 </script>
+
 @endsection

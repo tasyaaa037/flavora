@@ -53,20 +53,23 @@
         <div class="mb-3">
             <label for="ingredient" class="form-label">Ingredients</label>
             <div id="ingredients-wrapper" class="mb-2">
-                <div class="ingredient-group">
-                    <input type="text" name="ingredients[0][name]" class="form-control mb-2" placeholder="Ingredient Name" required>
-                    <input type="number" name="ingredients[0][quantity]" class="form-control mb-2" placeholder="Quantity" required>
-                    <select name="ingredients[0][unit]" class="form-control mb-2" required>
-                        <option value="">Select Unit</option>
-                        <option value="grams">grams</option>
-                        <option value="ml">ml</option>
-                        <option value="pieces">pieces</option>
-                        <option value="cups">cups</option>
-                    </select>
-                </div>
+                @foreach($ingredients as $index => $ingredient)
+                    <div class="ingredient-group">
+                        <input type="text" name="ingredients[{{ $index }}][name]" class="form-control mb-2" value="{{ old('ingredients.' . $index . '.name', $ingredient['name']) }}" placeholder="Ingredient Name" required>
+                        <input type="number" name="ingredients[{{ $index }}][quantity]" class="form-control mb-2" value="{{ old('ingredients.' . $index . '.quantity', $ingredient['quantity']) }}" placeholder="Quantity" required>
+                        <select name="ingredients[{{ $index }}][unit]" class="form-control mb-2" required>
+                            <option value="grams" {{ old('ingredients.' . $index . '.unit', $ingredient['unit']) == 'grams' ? 'selected' : '' }}>grams</option>
+                            <option value="ml" {{ old('ingredients.' . $index . '.unit', $ingredient['unit']) == 'ml' ? 'selected' : '' }}>ml</option>
+                            <option value="pieces" {{ old('ingredients.' . $index . '.unit', $ingredient['unit']) == 'pieces' ? 'selected' : '' }}>pieces</option>
+                            <option value="cups" {{ old('ingredients.' . $index . '.unit', $ingredient['unit']) == 'cups' ? 'selected' : '' }}>cups</option>
+                        </select>
+                    </div>
+                @endforeach
             </div>
+
             <button type="button" class="btn btn-secondary" onclick="addIngredient()">Add Ingredient</button>
         </div>
+
 
         <div class="mb-3">
             <label for="cook_time" class="form-label">Cook Time (minutes)</label>
@@ -139,27 +142,26 @@
 </div>
 
 <script>
-    let ingredientIndex = 1;
-    let instructionIndex = 1;
-
     function addIngredient() {
-        const wrapper = document.getElementById('ingredients-wrapper');
-        const ingredientGroup = document.createElement('div');
-        ingredientGroup.classList.add('ingredient-group');
-        ingredientGroup.innerHTML = `
-            <input type="text" name="ingredients[${ingredientIndex}][name]" placeholder="Ingredient Name" class="form-control mb-2" required>
-            <input type="number" name="ingredients[${ingredientIndex}][quantity]" placeholder="Quantity" class="form-control mb-2" required>
+    let ingredientIndex = document.querySelectorAll('.ingredient-group').length;
+    let ingredientWrapper = document.getElementById('ingredients-wrapper');
+    
+    let newIngredientHTML = `
+        <div class="ingredient-group">
+            <input type="text" name="ingredients[${ingredientIndex}][name]" class="form-control mb-2" placeholder="Ingredient Name" required>
+            <input type="number" name="ingredients[${ingredientIndex}][quantity]" class="form-control mb-2" placeholder="Quantity" required>
             <select name="ingredients[${ingredientIndex}][unit]" class="form-control mb-2" required>
-                <option value="">Select Unit</option>
                 <option value="grams">grams</option>
                 <option value="ml">ml</option>
                 <option value="pieces">pieces</option>
                 <option value="cups">cups</option>
             </select>
-        `;
-        wrapper.appendChild(ingredientGroup);
-        ingredientIndex++; // Increment index for the next ingredient
-    }
+        </div>
+    `;
+    
+    ingredientWrapper.insertAdjacentHTML('beforeend', newIngredientHTML);
+}
+
 
     function addInstruction() {
         const wrapper = document.getElementById('instructions-wrapper');

@@ -99,24 +99,6 @@
         flex: 1;
         min-width: 300px;
     }
-
-    .comment {
-        display: flex;
-        align-items: center;
-        margin-bottom: 15px;
-    }
-
-    .comment img {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        margin-right: 10px;
-    }
-
-    .comment p {
-        font-size: 1rem;
-        margin: 0;
-    }
 </style>
 
 <div class="container">
@@ -133,7 +115,7 @@
             <div class="icon-section">
                 <div>
                     <img src="{{ asset('delfood-1.0.0/images/jam.png') }}" alt="Waktu">
-                    <span>{{ $recipe->time }} menit</span>
+                    <span>{{ $recipe->cook_time }} menit</span>
                 </div>
             </div>
 
@@ -160,8 +142,6 @@
                 </form>
             </div>
 
-
-
             <div class="tabs">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
@@ -177,43 +157,25 @@
 
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="bahan">
-                            <h2>Bahan-bahan</h2>
-                            <ul class="list-group">
-                                @if($recipe->ingredients && $recipe->ingredients->count())
-                                @foreach($recipe->ingredients as $ingredient)
-                                    <li class="list-group-item">{{ $ingredient->description }}</li>
-                                @endforeach
-                                @else
-                                    <li class="list-group-item">Bahan-bahan tidak tersedia.</li>
-                                @endif
-                            </ul>
-                    </div>
-                    <div class="tab-pane fade" id="cara-memasak">
-                            <h2>Cara Memasak</h2>
-                            <ul class="list-group">
-                                @if($recipe->steps && $recipe->steps->count())
-                                    
-                                @foreach($recipe->steps as $step)
-                                    <li class="list-group-item">{{ $step->description }}</li>
-                                @endforeach
-                                @else
-                                    <li class="list-group-item">Cara memasak tidak tersedia.</li>
-                                @endif
-                            </ul>
-                    </div>
-
-                    <div class="tab-pane fade" id="diskusi">
-                        <h2>Komentar</h2>
-                        <div>
-                            @foreach($recipe->comments as $comment)
-                                <div class="comment">
-                                    <img src="{{ $comment->user->profile_image ? asset('images/profile/' . $comment->user->profile_image) : asset('images/default-profile.png') }}" alt="Profil" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
-                                    <p><strong>{{ $comment->user->name }}</strong>: {{ $comment->content }}</p>
-                                </div>
+                        <h2>Bahan-bahan</h2>
+                        <ul class="list-group">
+                        @php
+                            $ingredients = is_string($recipe->ingredients) ? json_decode($recipe->ingredients, true) : $recipe->ingredients;
+                        @endphp
+                        @if($ingredients && is_array($ingredients))
+                            @foreach($ingredients as $ingredient)
+                                <li class="list-group-item">
+                                    {{ $ingredient['name'] ?? 'Unknown' }} - {{ $ingredient['quantity'] ?? '' }} {{ $ingredient['unit'] ?? '' }}
+                                </li>
                             @endforeach
-                        </div>
+                        @else
+                            <li class="list-group-item">Bahan-bahan tidak tersedia.</li>
+                        @endif
+
+                        </ul>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
