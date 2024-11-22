@@ -1,89 +1,126 @@
 @extends('layouts.bahan')
 
-@section('title', 'Bahan Masakan')
-
 @section('content')
-<div class="container">
-    <div class="sidebar">
-        <input placeholder="Bahan apa yang kamu punya?" type="text" class="p-2 border rounded" />
-        <div class="mt-4 p-2 bg-orange-100 text-orange-600 rounded-lg" id="selected-count">
-            0 bahan telah terpilih
-        </div>
-        <ul id="ingredient-list">
-            @php
-                $ingredientsMap = [
-                    'A' => ['Agar-Agar', 'Air Kelapa', 'Air Soda', 'Almond', 'Alpukat', 'Anggur', 'Apel', 'Asam Jawa', 'Asparagus', 'Ati Ampela', 'Ayam', 'Ayam Cincang', 'Acar', 'Acar Mentimun'],
-                    'B' => ['Baby Corn', 'Bacon', 'Baking Powder', 'Bakso', 'Bakso Ikan', 'Basil', 'Bawang Bombay', 'Bawang Merah', 'Bawang Putih', 'Bayam', 'Belimbing', 'Belut', 'Bengkoang', 'Beras', 'Beras Ketan', 'Beras Merah', 'Bihun', 'Biskuit Oreo', 'Blewah', 'Blueberry', 'Brokoli', 'Buah Naga', 'Bubble Pearl', 'Bubuk Jelly', 'Buncis', 'Bunga Lawang/Pekak', 'Bay Leaf', 'Biji Wijen'],
-                    'C' => ['Cabai', 'Cabai Bubuk', 'Caju', 'Cake Flour', 'Cantaloupe', 'Capcay', 'Caramel', 'Cengkeh', 'Ceri', 'Coconut Cream', 'Cokelat', 'Cokelat Bubuk', 'Cakalang', 'Cumi-cumi', 'Cappuccino'],
-                    'D' => ['Daging Ayam', 'Daging Kambing', 'Daging Sapi', 'Daun Bawang', 'Daun Jeruk', 'Durian', 'Daun Salam', 'Duku', 'Dendeng'],
-                    'E' => ['Es Batu', 'Edamame', 'Emping', 'Enoki', 'Elderberry', 'Eel', 'Escargot'],
-                    'F' => ['Fennel', 'Fillet Ikan', 'Fish Sauce', 'Fusilli', 'Feta Cheese', 'Fudge'],
-                    'G' => ['Garam', 'Gula', 'Ginger', 'Gulaman', 'Gula Aren', 'Ginseng'],
-                    'H' => ['Havermut', 'Himalaya Salt', 'Honey', 'Horiatiki Salad', 'Hummus', 'Hazelnut'],
-                    'I' => ['Ikan', 'Ikan Salmon', 'Ikan Tuna', 'Ikan Gurame', 'Ikan Lele', 'Ikan Kembung', 'Ice Cream', 'Ikan Teri'],
-                    'J' => ['Jagung', 'Jamur', 'Jahe', 'Jeruk', 'Jelly', 'Jus', 'Jus Jeruk', 'Jus Mangga', 'Jeruk Nipis', 'Jeruk Bali'],
-                    'K' => ['Kacang', 'Kacang Hijau', 'Kacang Merah', 'Kacang Tanah', 'Kacang Polong', 'Kepala Ikan', 'Kepala Udang', 'Kepala Ayam', 'Kecap', 'Kecap Manis', 'Kecap Asin', 'Kedondong', 'Kefir', 'Kembang Kol', 'Kembang Tahu', 'Kecambah', 'Kacang Almond', 'Kacang Mete'],
-                    'L' => ['Labu', 'Lemon', 'Lentil', 'Lobak', 'Lobster', 'Luwak Coffee', 'Lada Hitam', 'Lada Putih', 'Langka', 'Lettuce', 'Lidah Buaya', 'Lemon Balm'],
-                    'M' => ['Madu', 'Makaroni', 'Mangga', 'Mangga Muda', 'Mangga Manis', 'Marmalade', 'Melon', 'Mie', 'Miso', 'Mocca', 'Moringa', 'Mentega', 'Mushroom'],
-                    'N' => ['Nanas', 'Nasi', 'Nasi Goreng', 'Nasi Kuning', 'Nasi Uduk', 'Nori', 'Nugget', 'Nutmeg'],
-                    'O' => ['Oatmeal', 'Oregano', 'Olive', 'Olive Oil', 'Onion', 'Orange Juice', 'Oreo', 'Oregano'],
-                    'P' => ['Pasta', 'Pepper', 'Peterseli', 'Pisang', 'Pudina', 'Puding', 'Puyuh', 'Puyuh Rebus', 'Puyuh Goreng', 'Puyuh Penyet', 'Puyuh Bakar', 'Puyuh Kecap', 'Paprika', 'Paprika Merah'],
-                    'R' => ['Roti', 'Roti Bakar', 'Roti Maryam', 'Roti Manis', 'Roti Tawar', 'Roti Pizza', 'Roti Tortilla', 'Roti Pisang', 'Roti Ubi', 'Rumput Laut', 'Rendang'],
-                    'S' => ['Salmon', 'Sambal', 'Sawi', 'Sawi Putih', 'Sawi Hijau', 'Sayur', 'Susu', 'Saus Tiram', 'Sereh'],
-                    'T' => ['Tahu', 'Tempe', 'Telur', 'Tempe', 'Tepung', 'Tomat', 'Tumis', 'Tuna', 'Tumis Sayuran', 'Tumis Tempe', 'Terasi', 'Tepung Roti'],
-                    'U' => ['Udang', 'Ubi', 'Ubi Jalar', 'Ubi Kuning', 'Ubi Manis', 'Umeshu', 'Udang Rebus'],
-                    'V' => ['Vanilla', 'Vegetable Oil', 'Vermicelli', 'Vinegar'],
-                    'W' => ['Wortel', 'Wortel Merah', 'Wortel Putih', 'Wagyu'],
-                    'X' => ['Xanthan Gum'],
-                    'Y' => ['Yam', 'Yogurt', 'Yakult'],
-                    'Z' => ['Zaitun', 'Zucchini'],
-                ];
-            @endphp
-
-            @foreach(range('A', 'Z') as $char)
-                <h3 class="font-bold mb-2">{{ $char }}</h3>
-                <ul class="mb-4">
-                    @if(isset($ingredientsMap[$char]) && count($ingredientsMap[$char]) > 0)
-                    @foreach($ingredients as $ingredient)
-                        <a href="{{ route('ingredients.show', ['ingredient' => $ingredient->id]) }}">
-                            {{ $ingredient->name }}
-                        </a>
-                    @endforeach
-                    @else
-                        <li class="text-gray-500">No ingredients available for {{ $char }}</li>
-                    @endif
-                </ul>
-            @endforeach
-
-        </ul>
-
-        <!-- Ingredient Form -->
-        <form id="ingredient-form" action="{{ route('ingredients.show') }}" method="GET">
-            <input type="hidden" name="ingredients[]" id="ingredients-input" />
-            <button type="submit" class="btn btn-primary mt-4">Cari Resep</button>
-        </form>
+<div class="container mt-5">
+    <div class="description text-center">
+        <h3 class="fw-bold">Punya bahan apa di kulkas?</h3>
+        <p class="text-muted">Kami akan beri rekomendasi resep sesuai dengan bahan yang kamu punya.</p>
     </div>
+    <div class="row">
+        <!-- Kolom Kiri: Pencarian dan Bahan -->
+        <div class="col-md-4">
+            <form id="ingredient-form" class="p-4 bg-light rounded shadow">
+                @csrf
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Pilih Bahan:</label>
+                    <input type="text" id="search-box" class="form-control mb-3" placeholder="Cari bahan..." />
 
-    <div class="col-md-8 d-flex flex-column align-items-center justify-content-center" style="min-height: 70vh; margin: auto;">
-        <div class="illustration mb-3">
-            <img alt="Ilustrasi Perempuan Memasak" height="300" src="https://i.pinimg.com/736x/c6/6c/37/c66c3772afe98ae3c590340198ce01fc.jpg" width="300" class="img-fluid rounded" />
+                    <div id="ingredient-list" class="ingredient-list" style="max-height: 400px; overflow-y: auto;">
+                        @foreach ($groupedIngredients as $letter => $ingredientsGroup)
+                            <div class="mb-3 ingredient-group" data-letter="{{ $letter }}">
+                                <h5 class="fw-bold">{{ $letter }}</h5>
+                                <div class="row">
+                                    @foreach($ingredientsGroup as $ingredient)
+                                        <div class="col-12 mb-1">
+                                            <div class="form-check">
+                                                <input class="form-check-input ingredient-checkbox" type="checkbox" name="ingredients[]" value="{{ $ingredient->id }}" id="ingredient-{{ $ingredient->id }}">
+                                                <label class="form-check-label" for="ingredient-{{ $ingredient->id }}">
+                                                    {{ $ingredient->name }}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="description text-center">
-            <h3 class="fw-bold">Punya bahan apa di kulkas?</h3>
-            <p class="text-muted">Kami akan beri rekomendasi resep sesuai dengan bahan yang kamu punya.</p>
+
+        <!-- Kolom Kanan: Daftar Resep -->
+        <div class="col-md-8">
+            <div id="recipe-list" class="p-4 bg-white rounded shadow">
+                <p id="recipe-count" class="text-muted"></p> <!-- Teks jumlah resep -->
+                <div id="recipes">
+                    <!-- Resep akan muncul di sini -->
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    function updateSelectedCount() {
-        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-        const selectedIngredients = Array.from(checkboxes)
-            .filter(checkbox => checkbox.checked)
-            .map(checkbox => checkbox.id.replace('ingredient-', '').replace(/-/g, ' '));
+$(document).ready(function() {
+    // Event listener untuk input pencarian bahan
+    $('#search-box').on('input', function() {
+        let searchQuery = $(this).val().toLowerCase(); // Ambil query pencarian dalam huruf kecil
 
-        document.getElementById('selected-count').innerText = `${selectedIngredients.length} bahan telah terpilih`;
-        document.getElementById('ingredients-input').value = JSON.stringify(selectedIngredients);
-    }
+        if (searchQuery.length > 0) {
+            $.ajax({
+                url: '{{ route('ingredients.search') }}', // Route untuk mencari bahan
+                type: 'GET',
+                data: { search: searchQuery }, // Kirimkan query pencarian ke server
+                success: function(response) {
+                    // Menyembunyikan semua grup bahan terlebih dahulu
+                    $('.ingredient-group').each(function() {
+                        let groupName = $(this).data('letter').toLowerCase(); // Ambil huruf grup bahan
+                        if (groupName.indexOf(searchQuery) === -1) {
+                            $(this).hide(); // Sembunyikan grup jika tidak cocok
+                        } else {
+                            $(this).show(); // Tampilkan grup jika cocok
+                            // Menyembunyikan bahan dalam grup yang tidak cocok dengan pencarian
+                            $(this).find('.form-check').each(function() {
+                                let ingredientName = $(this).find('label').text().toLowerCase();
+                                if (ingredientName.indexOf(searchQuery) === -1) {
+                                    $(this).hide(); // Sembunyikan bahan yang tidak cocok
+                                } else {
+                                    $(this).show(); // Tampilkan bahan yang cocok
+                                }
+                            });
+                        }
+                    });
+                },
+                error: function() {
+                    // Menangani error pencarian
+                    console.log('Error searching ingredients');
+                }
+            });
+        } else {
+            // Jika input kosong, tampilkan semua bahan
+            $('.ingredient-group').show();
+            $('.form-check').show();
+        }
+    });
+
+    // Event listener untuk checkbox bahan
+    $('.ingredient-checkbox').on('change', function() {
+        let selectedIngredients = [];
+
+        // Mengumpulkan semua checkbox yang dicentang
+        $('.ingredient-checkbox:checked').each(function() {
+            selectedIngredients.push($(this).val());
+        });
+
+        // Kirim request ke server untuk mendapatkan resep berdasarkan bahan yang dipilih
+        $.ajax({
+            url: '{{ route('ingredients.search') }}', // Route untuk mencari resep
+            type: 'GET',
+            data: { ingredients: selectedIngredients }, // Data yang dikirim ke server
+            success: function(response) {
+                // Update jumlah resep
+                $('#recipe-count').text(`Menampilkan ${response.recipes.length} resep dari total ${response.total} untuk bahan yang dipilih`);
+
+                // Update daftar resep
+                $('#recipes').html(response.recipeHtml); // Pastikan respons berisi HTML untuk daftar resep
+            },
+            error: function() {
+                $('#recipe-count').text('Gagal memuat resep.');
+                $('#recipes').html('');
+            }
+        });
+    });
+});
 </script>
 @endsection

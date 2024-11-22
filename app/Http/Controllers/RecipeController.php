@@ -353,7 +353,8 @@ class RecipeController extends Controller
     public function showIngredients()
     {
         $ingredients = Ingredient::all();
-        return view('Ingredients.index', compact('ingredients'));
+        $categorieTypes = CategorieType::with('categories')->get();
+        return view('Ingredients.index', compact('ingredients', 'categorieTypes'));
     }
 
     public function saveRecipe($recipeId)
@@ -450,5 +451,23 @@ class RecipeController extends Controller
         ]);
     }
 
+    public function search(Request $request)
+    {
+        // Ambil bahan dari request
+        $ingredients = $request->input('ingredients');
+
+        // Cari resep yang cocok berdasarkan bahan
+        // Anda bisa menyesuaikan ini dengan logika pencarian resep
+        $recipes = Recipe::where(function($query) use ($ingredients) {
+            foreach ($ingredients as $ingredient) {
+                $query->orWhere('ingredients', 'LIKE', '%' . $ingredient . '%');
+            }
+        })->get();
+
+        return response()->json([
+            'recipes' => $recipes
+        ]);
+    }
+  
 
 }

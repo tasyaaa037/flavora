@@ -42,10 +42,6 @@ class Recipe extends Model
      * Get the ingredients for the recipe.
      */
    
-     public function ingredients()
-     {
-         return $this->belongsToMany(Ingredient::class);
-     }
 
     public function instructions()
     {
@@ -163,6 +159,11 @@ class Recipe extends Model
     public function usersFavorited()
     {
         return $this->belongsToMany(User::class, 'user_favorites', 'recipe_id', 'user_id');
+    }
+
+    public function ingredients()
+    {
+        return $this->belongsToMany(Ingredient::class, 'recipe_ingredient');
     }
 
 

@@ -1,25 +1,18 @@
+<!-- resources/views/ingredients/show.blade.php -->
 
-
-@extends('layouts.bahan')
-
-@section('title', 'Hasil Pencarian Resep')
+@extends('layouts.bahan')  <!-- Assuming you have a main layout file -->
 
 @section('content')
 <div class="container">
-    <h2 class="text-center mt-4">Resep dengan bahan: {{ implode(', ', $selectedIngredients) }}</h2>
+    <h1>Ingredient Details</h1>
 
-    @if($recipes->isEmpty())
-        <p class="text-center mt-4">Maaf, tidak ada resep yang cocok dengan bahan yang dipilih.</p>
-    @else
-        <div class="recipe-list mt-4">
-            @foreach($recipes as $recipe)
-                <div class="recipe-item p-3 mb-3 border rounded">
-                    <h4>{{ $recipe->name }}</h4>
-                    <p>{{ $recipe->description }}</p>
-                    <a href="{{ route('ingredients.show', ['id' => $ingredient->id]) }}">View Ingredient</a>
-                </div>
-            @endforeach
-        </div>
-    @endif
+    <div class="ingredient-details">
+        <h2>{{ $ingredient->name }}</h2>
+        <p><strong>Category:</strong> {{ $ingredient->categorie->name ?? 'No category' }}</p>
+        <p><strong>Description:</strong> {{ $ingredient->description ?? 'No description available' }}</p>
+        <!-- You can display other ingredient details here -->
+    </div>
+
+    <a href="{{ route('ingredients.index') }}" class="btn btn-primary">Back to List</a>
 </div>
 @endsection
