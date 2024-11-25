@@ -37,33 +37,6 @@ class IngredientController extends Controller
 
     public function search(Request $request)
     {
-        $ingredientIds = $request->input('ingredients', []);
-        $categorieTypes = CategorieType::all();
-    
-        // Cari resep berdasarkan bahan
-        $recipes = Recipe::whereHas('ingredients', function ($query) use ($ingredientIds) {
-            // Specify the table to avoid ambiguity
-            $query->whereIn('ingredients.id', $ingredientIds); // Change here
-        })->get();
-        $search = $request->input('search');
-
-        // Get ingredients based on search query
-        $ingredients = Ingredient::when($search, function ($query, $search) {
-            return $query->where('name', 'like', '%' . $search . '%');
-        })->get();
-    
-        // Group ingredients by the first letter
-        $groupedIngredients = $ingredients->groupBy(function ($ingredient) {
-            return strtoupper(substr($ingredient->name, 0, 1));
-        });
-    
-        // Check if the request is an AJAX request
-        if ($request->ajax()) {
-            return response()->json([
-                'ingredientsList' => view('ingredients.partials.ingredients_list', compact('groupedIngredients'))->render(),
-            ]);
-        }
-
         $searchQuery = $request->get('search');
         $ingredients = Ingredient::where('name', 'like', '%' . $searchQuery . '%')->get();
     
@@ -71,8 +44,6 @@ class IngredientController extends Controller
             'ingredients' => $ingredients,
             'ingredientsHtml' => view('ingredients.partials.list', compact('ingredients'))->render(),
         ]);
-    
-        return view('ingredients.results', compact('recipes', 'categorieTypes', 'groupedIngredients'));
     }
     
     public function showForm()

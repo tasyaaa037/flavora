@@ -15,7 +15,7 @@
                     <label class="form-label fw-bold">Pilih Bahan:</label>
                     <input type="text" id="search-box" class="form-control mb-3" placeholder="Cari bahan..." />
 
-                    <div id="ingredient-list" class="ingredient-list" style="max-height: 400px; overflow-y: auto;">
+                    <div class="ingredient-list" style="max-height: 400px; overflow-y: auto;">
                         @foreach ($groupedIngredients as $letter => $ingredientsGroup)
                             <div class="mb-3 ingredient-group" data-letter="{{ $letter }}">
                                 <h5 class="fw-bold">{{ $letter }}</h5>
@@ -57,69 +57,50 @@ $(document).ready(function() {
     $('#search-box').on('input', function() {
         let searchQuery = $(this).val().toLowerCase(); // Ambil query pencarian dalam huruf kecil
 
-        if (searchQuery.length > 0) {
-            $.ajax({
-                url: '{{ route('ingredients.search') }}', // Route untuk mencari bahan
-                type: 'GET',
-                data: { search: searchQuery }, // Kirimkan query pencarian ke server
-                success: function(response) {
-                    // Menyembunyikan semua grup bahan terlebih dahulu
-                    $('.ingredient-group').each(function() {
-                        let groupName = $(this).data('letter').toLowerCase(); // Ambil huruf grup bahan
-                        if (groupName.indexOf(searchQuery) === -1) {
-                            $(this).hide(); // Sembunyikan grup jika tidak cocok
-                        } else {
-                            $(this).show(); // Tampilkan grup jika cocok
-                            // Menyembunyikan bahan dalam grup yang tidak cocok dengan pencarian
-                            $(this).find('.form-check').each(function() {
-                                let ingredientName = $(this).find('label').text().toLowerCase();
-                                if (ingredientName.indexOf(searchQuery) === -1) {
-                                    $(this).hide(); // Sembunyikan bahan yang tidak cocok
-                                } else {
-                                    $(this).show(); // Tampilkan bahan yang cocok
-                                }
-                            });
-                        }
-                    });
-                },
-                error: function() {
-                    // Menangani error pencarian
-                    console.log('Error searching ingredients');
+        // Jika kotak pencarian kosong, tampilkan semua bahan dan grup huruf
+        if (searchQuery === '') {
+            $('.ingredient-group').show(); // Tampilkan semua grup huruf
+            $('.form-check').show(); // Tampilkan semua bahan
+            $('.ingredient-list').find('.text-muted').remove(); // Hapus pesan "Bahan tidak ditemukan" jika ada
+            return; // Hentikan fungsi di sini
+        }
+
+        let anyMatch = false; // Variabel untuk melacak apakah ada bahan yang cocok
+
+        // Loop untuk setiap grup bahan
+        $('.ingredient-group').each(function() {
+            let group = $(this);
+            let foundInGroup = false; // Untuk melacak bahan dalam grup ini
+
+            // Periksa setiap bahan dalam grup
+            group.find('.form-check').each(function() {
+                let ingredientName = $(this).find('label').text().toLowerCase();
+                if (ingredientName.indexOf(searchQuery) !== -1) {
+                    $(this).show(); // Tampilkan bahan yang cocok
+                    foundInGroup = true; // Set true jika ada bahan cocok dalam grup ini
+                } else {
+                    $(this).hide(); // Sembunyikan bahan yang tidak cocok
                 }
             });
-        } else {
-            // Jika input kosong, tampilkan semua bahan
-            $('.ingredient-group').show();
-            $('.form-check').show();
-        }
-    });
 
-    // Event listener untuk checkbox bahan
-    $('.ingredient-checkbox').on('change', function() {
-        let selectedIngredients = [];
-
-        // Mengumpulkan semua checkbox yang dicentang
-        $('.ingredient-checkbox:checked').each(function() {
-            selectedIngredients.push($(this).val());
-        });
-
-        // Kirim request ke server untuk mendapatkan resep berdasarkan bahan yang dipilih
-        $.ajax({
-            url: '{{ route('ingredients.search') }}', // Route untuk mencari resep
-            type: 'GET',
-            data: { ingredients: selectedIngredients }, // Data yang dikirim ke server
-            success: function(response) {
-                // Update jumlah resep
-                $('#recipe-count').text(`Menampilkan ${response.recipes.length} resep dari total ${response.total} untuk bahan yang dipilih`);
-
-                // Update daftar resep
-                $('#recipes').html(response.recipeHtml); // Pastikan respons berisi HTML untuk daftar resep
-            },
-            error: function() {
-                $('#recipe-count').text('Gagal memuat resep.');
-                $('#recipes').html('');
+            // Tampilkan grup hanya jika ada bahan yang cocok di dalamnya
+            if (foundInGroup) {
+                group.show(); // Tampilkan grup ini
+                anyMatch = true; // Set true jika ada bahan yang cocok
+            } else {
+                group.hide(); // Sembunyikan grup ini jika tidak ada bahan cocok
             }
         });
+
+        // Tampilkan pesan jika tidak ada bahan yang cocok di seluruh grup
+        if (!anyMatch) {
+            // Hapus pesan sebelumnya agar tidak ada duplikat
+            $('.ingredient-list').find('.text-muted').remove();
+            $('.ingredient-list').append('<p class="text-center text-muted">Bahan tidak ditemukan. Coba kata kunci yang lain, ya.</p>');
+        } else {
+            // Hapus pesan jika ada bahan yang cocok
+            $('.ingredient-list').find('.text-muted').remove();
+        }
     });
 });
 </script>
