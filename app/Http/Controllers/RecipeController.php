@@ -37,7 +37,7 @@ class RecipeController extends Controller
     {
         // Find the recipe by ID
         $recipe = Recipe::findOrFail($id);
-
+        $recipe = Recipe::with('ingredients')->findOrFail($id);
         // Fetch the recipes related to the category
         $recipes = Recipe::where('categorie_id', $categorie->id)->get();
         $recipe = Recipe::find($id);
@@ -91,13 +91,13 @@ class RecipeController extends Controller
     public function edit($id)
     {
         $recipe = Recipe::findOrFail($id);
-        $categories = Categorie::all();
-        $categories = Categorietype::with('categories')->get(); 
         $categorieTypes = CategorieType::with('categories')->get();
-        return view('recipes.edit', compact('recipe', 'categories', 'categorieTypes'));
+        $categories = CategorieType::with('categories')->get(); 
+        $ingredients = explode(',', $recipe->ingredient);
+        $instructions = explode(',', $recipe->instructions);
+        return view('recipes.edit', compact('recipe', 'categorieTypes', 'categories', 'ingredients', 'instructions'));
     }
-
-    // Update the recipe in the database
+    
     public function update(Request $request, $id)
     {
         // Validasi bahwa ingredients dan instructions adalah array
@@ -115,23 +115,9 @@ class RecipeController extends Controller
         $recipe->cook_time = $request->input('cook_time');
         
         // Proses bahan-bahan dan langkah-langkah memasak menjadi string yang dipisah koma
-        $recipe->ingredient = implode(',', $request->input('ingredients'));
+        $recipe->ingredients = implode(',', $request->input('ingredients'));
         $recipe->instructions = implode(',', $request->input('instructions'));
     
-      // Extract ingredients from the request
-        $ingredients = request('ingredients'); // Array of ingredients
-
-        foreach ($ingredients as $ingredientName) {
-            // Trim and clean the ingredient name
-            $ingredientName = trim($ingredientName);
-            
-            // Check if the ingredient exists
-            $ingredient = Ingredient::firstOrCreate(['name' => $ingredientName]);
-            
-            // Attach the ingredient to the recipe
-            $recipe->ingredients()->syncWithoutDetaching([$ingredient->id]);
-        }
-      
         // Jika ada gambar baru, upload gambar
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('recipes', 'public');
@@ -145,9 +131,8 @@ class RecipeController extends Controller
         return redirect()->route('recipes.index')->with('success', 'Recipe updated successfully!');
     }
     
-   
-   
-
+    
+    
     public function destroy($id)
     {
         $recipe = Recipe::findOrFail($id);

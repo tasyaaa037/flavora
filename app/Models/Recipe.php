@@ -41,7 +41,10 @@ class Recipe extends Model
     /**
      * Get the ingredients for the recipe.
      */
-   
+    public function ingredients() {
+        return $this->hasMany(Ingredient::class);
+    }
+    
 
     public function instructions()
     {
@@ -112,18 +115,19 @@ class Recipe extends Model
     protected static function booted()
     {
         static::saved(function ($recipe) {
-            // Process ingredients only
+            // Hapus semua bahan sebelumnya
+            $recipe->ingredients()->delete();
+            
+            // Ambil bahan-bahan dari input dan buat entri baru
             $ingredients = explode(",", $recipe->ingredients);
-            $recipe->ingredients()->delete(); 
             foreach ($ingredients as $ingredient) {
-                Ingredient::create([
-                    'recipe_id' => $recipe->id,
+                $recipe->ingredients()->create([
                     'name' => trim($ingredient),
-                    'quantity' => null, 
                 ]);
             }
         });
     }
+    
 
     /**
      * Scope a query to only include recipes with a specific ingredient.
@@ -161,10 +165,11 @@ class Recipe extends Model
         return $this->belongsToMany(User::class, 'user_favorites', 'recipe_id', 'user_id');
     }
 
-    public function ingredients()
-    {
-        return $this->belongsToMany(Ingredient::class, 'recipe_ingredient');
-    }
+   // public function ingredients()
+   // {
+     //   return $this->belongsToMany(Ingredient::class, 'recipe_ingredient');
+    //}
+    
 
 
 }

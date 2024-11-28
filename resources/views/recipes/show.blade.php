@@ -1,3 +1,4 @@
+
 @extends('layouts.resep')
 
 @section('content')
@@ -162,14 +163,9 @@
             <div id="Bahan" class="recipe-section">
                 <h2 class="section-header">Bahan-bahan</h2>
                 <div class="section-content">
-                    @foreach(explode("\n", $recipe->ingredient) as $ingredient)
-                    <div class="ingredient-item" style="display: flex; align-items: center; margin-bottom: 10px;">
-                        <svg viewBox="0 0 200 200" focusable="false" class="chakra-icon">
-                            <path fill="currentColor" d="M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0"></path>
-                        </svg>
-                        <p style="margin: 0;">{{ $ingredient }}</p>
-                    </div>
-                    @endforeach
+                        @foreach(explode("\n", $recipe->ingredients) as $ingredient)
+                        <li>{{ $ingredient }}</li>
+                        @endforeach
                 </div>
             </div>
 

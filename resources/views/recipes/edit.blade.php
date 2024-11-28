@@ -45,6 +45,7 @@
         </div>
 
        <!-- Bahan-bahan -->
+        <!-- Bahan-bahan -->
         <div class="form-group">
             <label for="ingredients">Bahan-bahan</label>
             <textarea class="form-control" id="ingredients" name="ingredients[]" rows="5" placeholder="Pisahkan setiap bahan dengan baris baru" required>{{ isset($recipe) ? implode("\n", explode(',', $recipe->ingredient)) : '' }}</textarea>
@@ -92,7 +93,7 @@
     </form>
 </div>
 <script>
-  $(document).ready(function() {
+$(document).ready(function() {
     var ingredientsList = [];
     var instructionsList = [];
 
@@ -146,6 +147,7 @@
         $('input[name="instructions[]"]').val(instructionsList.join(','));
     });
 });
+
 </script>
 
 @endsection
