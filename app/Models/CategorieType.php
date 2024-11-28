@@ -27,4 +27,5 @@ class CategorieType extends Model
     {
         return $this->belongsToMany(Recipe::class, 'categorie_type_recipe', 'categorie_type_id', 'recipe_id');
     }
+
 }

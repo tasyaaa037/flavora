@@ -66,10 +66,6 @@
         border-color: #007bff;
     }
 
-    .edit-btn {
-        background-color: #28a745;
-    }
-
     .delete-btn {
         background-color: #dc3545;
     }
@@ -77,6 +73,8 @@
     .recipe-section {
         width: 100%;
         margin-top: 20px;
+        padding-top: 20px;
+        border-top: 2px solid #e0e0e0;
     }
 
     .section-header {
@@ -90,15 +88,33 @@
         margin-bottom: 20px;
     }
 
-    .recipe-info {
+    .comment {
         display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
+        align-items: center;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 10px;
     }
 
-    .recipe-info .section {
-        flex: 1;
-        min-width: 300px;
+    .comment img {
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        margin-right: 10px;
+    }
+
+    .add-comment-btn {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    .add-comment-btn:hover {
+        background-color: #0056b3;
     }
 </style>
 
@@ -134,7 +150,6 @@
                     </button>
                 </form>
 
-                <!-- Save Recipe Button -->
                 <form action="{{ route('recipes.save', $recipe->id) }}" method="POST">
                     @csrf
                     <button type="submit" class="action-button" style="background-color: #ffc107; color: white;">
@@ -143,68 +158,56 @@
                 </form>
             </div>
 
-            <div class="tabs">
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#bahan" data-toggle="tab">Bahan</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#cara-memasak" data-toggle="tab">Cara Memasak</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#diskusi" data-toggle="tab">Testi Diskusi</a>
-                    </li>
-                </ul>
-
-                <div class="tab-content">
-                    <div class="tab-pane fade show active" id="bahan">
-                        <h2>Bahan-bahan</h2>
-                        <ul class="list-group">
-                            @php
-                                $ingredients = is_string($recipe->ingredients) ? json_decode($recipe->ingredients, true) : $recipe->ingredients;
-                            @endphp
-                            @if($ingredients && is_array($ingredients))
-                                @foreach($ingredients as $ingredient)
-                                    <li class="list-group-item">
-                                        {{ $ingredient['name'] ?? 'Unknown' }} - {{ $ingredient['quantity'] ?? '' }} {{ $ingredient['unit'] ?? '' }}
-                                    </li>
-                                @endforeach
-                            @else
-                                <li class="list-group-item">Bahan-bahan tidak tersedia.</li>
-                            @endif
-                        </ul>
+           <!-- Ingredients Section -->
+            <div id="Bahan" class="recipe-section">
+                <h2 class="section-header">Bahan-bahan</h2>
+                <div class="section-content">
+                    @foreach(explode("\n", $recipe->ingredient) as $ingredient)
+                    <div class="ingredient-item" style="display: flex; align-items: center; margin-bottom: 10px;">
+                        <svg viewBox="0 0 200 200" focusable="false" class="chakra-icon">
+                            <path fill="currentColor" d="M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0"></path>
+                        </svg>
+                        <p style="margin: 0;">{{ $ingredient }}</p>
                     </div>
-
-                    <div class="tab-pane fade" id="cara-memasak">
-                        <h2>Cara Memasak</h2>
-                        <p>{{ $recipe->instructions }}</p>
-                    </div>
-
-                    <div class="tab-pane fade" id="diskusi">
-                        <h2>Komentar</h2>
-                        <div>
-                            @foreach($recipe->comments as $comment)
-                                <div class="comment">
-                                    <img src="{{ $comment->user->profile_image ? asset('images/profile/' . $comment->user->profile_image) : asset('images/default-profile.png') }}" alt="Profil" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
-                                    <p><strong>{{ $comment->user->name }}</strong>: {{ $comment->content }}</p>
-                                </div>
-                            @endforeach
-                        </div>
-
-                        <!-- Form to Add a New Comment -->
-                        @auth
-                        <form action="{{ route('comments.store', $recipe->id) }}" method="POST">
-                            @csrf
-                            <div class="form-group">
-                                <textarea name="content" class="form-control" placeholder="Tulis komentar..." required></textarea>
-                            </div>
-                            <button type="submit" class="add-comment-btn">Tambahkan Diskusi</button>
-                        </form>
-                        @else
-                        <p>Silakan <a href="{{ route('login') }}">login</a> untuk menambahkan komentar.</p>
-                        @endauth
-                    </div>
+                    @endforeach
                 </div>
+            </div>
+
+            <!-- Cooking Instructions Section -->
+            <div id="CaraMemasak" class="recipe-section">
+                <h2 class="section-header">Cara Memasak</h2>
+                <div class="section-content">
+                    <ol>
+                        @foreach(explode("\n", $recipe->instructions) as $step)
+                        <li>{{ $step }}</li>
+                        @endforeach
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Comments Section -->
+            <div id="Komentar" class="recipe-section">
+                <h2 class="section-header">Komentar</h2>
+                <div class="section-content">
+                    @foreach($recipe->comments as $comment)
+                    <div class="comment">
+                        <img src="{{ $comment->user->profile_image ? asset('images/profile/' . $comment->user->profile_image) : asset('images/default-profile.png') }}" alt="Profil">
+                        <p><strong>{{ $comment->user->name }}</strong>: {{ $comment->content }}</p>
+                    </div>
+                    @endforeach
+                </div>
+
+                @auth
+                <form action="{{ route('comments.store', $recipe->id) }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <textarea name="content" class="form-control" placeholder="Tulis komentar..." required></textarea>
+                    </div>
+                    <button type="submit" class="add-comment-btn">Tambahkan Diskusi</button>
+                </form>
+                @else
+                <p>Silakan <a href="{{ route('login') }}">login</a> untuk menambahkan komentar.</p>
+                @endauth
             </div>
         </div>
     </div>

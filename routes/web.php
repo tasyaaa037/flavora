@@ -32,6 +32,7 @@ Route::prefix('recipes')->name('recipes.')->group(function () {
         Route::put('/{recipe}', [RecipeController::class, 'update'])->name('update');
         Route::delete('/{recipe}', [RecipeController::class, 'destroy'])->name('destroy'); 
         Route::post('/{id}/save', [RecipeController::class, 'save'])->name('save');
+        Route::post('/get-recipes', [RecipeController::class, 'filterRecipes']);
     });
     Route::get('/{recipe}', [RecipeController::class, 'show'])->name('show');
     Route::get('/by-type/{type}', [RecipeController::class, 'showByType'])->name('byType');

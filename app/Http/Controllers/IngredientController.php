@@ -12,6 +12,7 @@ class IngredientController extends Controller
     {
         // This ensures that $request is available for use
         $ingredients = Ingredient::all();
+        $recipes = Recipe::all();
         $categorieTypes = CategorieType::with('categories')->get();
     
         // Fetch the search query from the request
@@ -31,7 +32,7 @@ class IngredientController extends Controller
             return strtoupper(substr($ingredient->name, 0, 1));
         });
     
-        return view('ingredients.index', compact('ingredients', 'groupedIngredients', 'categorieTypes'));
+        return view('ingredients.index', compact('ingredients', 'groupedIngredients', 'categorieTypes', 'recipes'));
     }
     
 
@@ -58,11 +59,13 @@ class IngredientController extends Controller
         return view('ingredients.form', compact('groupedIngredients'));
     }
 
-    // In IngredientController.php
     public function show($id)
     {
         $ingredient = Ingredient::findOrFail($id);
-        return view('ingredients.show', compact('ingredient'));
+        $recipes = $ingredient->recipes; // Ambil semua resep yang menggunakan bahan ini
+
+        return view('ingredients.show', compact('ingredient', 'recipes'));
     }
+
 
 }

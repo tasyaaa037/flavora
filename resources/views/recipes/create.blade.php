@@ -51,25 +51,12 @@
         </div>
 
         <div class="mb-3">
-            <label for="ingredient" class="form-label">Ingredients</label>
-            <div id="ingredients-wrapper" class="mb-2">
-                @foreach($ingredients as $index => $ingredient)
-                    <div class="ingredient-group">
-                        <input type="text" name="ingredients[{{ $index }}][name]" class="form-control mb-2" value="{{ old('ingredients.' . $index . '.name', $ingredient['name']) }}" placeholder="Ingredient Name" required>
-                        <input type="number" name="ingredients[{{ $index }}][quantity]" class="form-control mb-2" value="{{ old('ingredients.' . $index . '.quantity', $ingredient['quantity']) }}" placeholder="Quantity" required>
-                        <select name="ingredients[{{ $index }}][unit]" class="form-control mb-2" required>
-                            <option value="grams" {{ old('ingredients.' . $index . '.unit', $ingredient['unit']) == 'grams' ? 'selected' : '' }}>grams</option>
-                            <option value="ml" {{ old('ingredients.' . $index . '.unit', $ingredient['unit']) == 'ml' ? 'selected' : '' }}>ml</option>
-                            <option value="pieces" {{ old('ingredients.' . $index . '.unit', $ingredient['unit']) == 'pieces' ? 'selected' : '' }}>pieces</option>
-                            <option value="cups" {{ old('ingredients.' . $index . '.unit', $ingredient['unit']) == 'cups' ? 'selected' : '' }}>cups</option>
-                        </select>
-                    </div>
-                @endforeach
-            </div>
-
+        <div class="form-group">
+            <label for="ingredients">Bahan-bahan</label>
+            <textarea name="ingredients" id="ingredients" class="form-control" required>{{ $recipe->ingredient }}</textarea>
+        </div>
             <button type="button" class="btn btn-secondary" onclick="addIngredient()">Add Ingredient</button>
         </div>
-
 
         <div class="mb-3">
             <label for="cook_time" class="form-label">Cook Time (minutes)</label>
@@ -81,58 +68,19 @@
             <input type="file" name="image" id="image" class="form-control" required>
         </div>
 
-        <!-- Category Dropdowns -->
-        <div class="mb-3">
-            <label for="cara_memasak" class="form-label">Cara Memasak</label>
-            <select name="cara_memasak_id" id="cara_memasak" class="form-control">
-                @foreach ($categorieTypes->where('nama', 'Cara Memasak')->first()->categories as $category)
-                    <option value="{{ $category->id }}" {{ old('cara_memasak_id') == $category->id ? 'selected' : '' }}>
-                        {{ $category->nama }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="mb-3">
-            <label for="jenis_hidangan" class="form-label">Jenis Hidangan</label>
-            <select name="jenis_hidangan_id" id="jenis_hidangan" class="form-control">
-                @foreach ($categorieTypes->where('nama', 'Jenis Hidangan')->first()->categories as $category)
-                    <option value="{{ $category->id }}" {{ old('jenis_hidangan_id') == $category->id ? 'selected' : '' }}>
-                        {{ $category->nama }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="mb-3">
-            <label for="kategori_khas" class="form-label">Kategori Khas</label>
-            <select name="kategori_khas_id" id="kategori_khas" class="form-control">
-                @foreach ($categorieTypes->where('nama', 'Kategori Khas')->first()->categories as $category)
-                    <option value="{{ $category->id }}" {{ old('kategori_khas_id') == $category->id ? 'selected' : '' }}>
-                        {{ $category->nama }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="mb-3">
-            <label for="bahan_utama" class="form-label">Bahan Utama</label>
-            <select name="bahan_utama_id" id="bahan_utama" class="form-control">
-                @foreach ($categorieTypes->where('nama', 'Bahan Utama')->first()->categories as $category)
-                    <option value="{{ $category->id }}" {{ old('bahan_utama_id') == $category->id ? 'selected' : '' }}>
-                        {{ $category->nama }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="mb-3">
-            <label for="tujuan_makanan" class="form-label">Tujuan Makanan</label>
-            <select name="tujuan_makanan_id" id="tujuan_makanan" class="form-control">
-                @foreach ($categorieTypes->where('nama', 'Tujuan Makanan')->first()->categories as $category)
-                    <option value="{{ $category->id }}" {{ old('tujuan_makanan_id') == $category->id ? 'selected' : '' }}>
-                        {{ $category->nama }}
-                    </option>
+        <!-- Pilihan Kategori -->
+        <div class="form-group">
+            <label for="categorie">Kategori Resep</label>
+            <select name="categorie_id" class="form-control" required>
+                @foreach($categories as $type) <!-- Looping Categorietype -->
+                    <optgroup label="{{ $type->nama }}"> <!-- Nama tipe kategori -->
+                        @foreach($type->categories as $categorie) <!-- Looping Categorie berdasarkan tipe -->
+                            <option value="{{ $categorie->id }}"
+                                @if(isset($recipe) && $recipe->categorie_id == $categorie->id) selected @endif>
+                                {{ $categorie->nama }}
+                            </option>
+                        @endforeach
+                    </optgroup>
                 @endforeach
             </select>
         </div>
@@ -142,26 +90,27 @@
 </div>
 
 <script>
+    let ingredientIndex = 1;
+    let instructionIndex = 1;
+
     function addIngredient() {
-    let ingredientIndex = document.querySelectorAll('.ingredient-group').length;
-    let ingredientWrapper = document.getElementById('ingredients-wrapper');
-    
-    let newIngredientHTML = `
-        <div class="ingredient-group">
-            <input type="text" name="ingredients[${ingredientIndex}][name]" class="form-control mb-2" placeholder="Ingredient Name" required>
-            <input type="number" name="ingredients[${ingredientIndex}][quantity]" class="form-control mb-2" placeholder="Quantity" required>
+        const wrapper = document.getElementById('ingredients-wrapper');
+        const ingredientGroup = document.createElement('div');
+        ingredientGroup.classList.add('ingredient-group');
+        ingredientGroup.innerHTML = `
+            <input type="text" name="ingredients[${ingredientIndex}][name]" placeholder="Ingredient Name" class="form-control mb-2" required>
+            <input type="number" name="ingredients[${ingredientIndex}][quantity]" placeholder="Quantity" class="form-control mb-2" required>
             <select name="ingredients[${ingredientIndex}][unit]" class="form-control mb-2" required>
+                <option value="">Select Unit</option>
                 <option value="grams">grams</option>
                 <option value="ml">ml</option>
                 <option value="pieces">pieces</option>
                 <option value="cups">cups</option>
             </select>
-        </div>
-    `;
-    
-    ingredientWrapper.insertAdjacentHTML('beforeend', newIngredientHTML);
-}
-
+        `;
+        wrapper.appendChild(ingredientGroup);
+        ingredientIndex++; // Increment index for the next ingredient
+    }
 
     function addInstruction() {
         const wrapper = document.getElementById('instructions-wrapper');

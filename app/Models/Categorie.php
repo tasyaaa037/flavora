@@ -35,4 +35,5 @@ class Categorie extends Model
         return $this->hasMany(CategorieType::class); // Or the appropriate relation type
     }
 
+
 }
