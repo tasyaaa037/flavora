@@ -1,4 +1,3 @@
-
 @extends('layouts.resep')
 
 @section('content')
@@ -159,51 +158,68 @@
                 </form>
             </div>
 
-           <!-- Ingredients Section -->
-            <div id="Bahan" class="recipe-section">
-                <h2 class="section-header">Bahan-bahan</h2>
-                <div class="section-content">
-                        @foreach(explode("\n", $recipe->ingredients) as $ingredient)
-                        <li>{{ $ingredient }}</li>
-                        @endforeach
-                </div>
-            </div>
+            <div class="tabs">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#bahan" data-toggle="tab">Bahan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#cara-memasak" data-toggle="tab">Cara Memasak</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#diskusi" data-toggle="tab">Testi Diskusi</a>
+                    </li>
+                </ul>
 
-            <!-- Cooking Instructions Section -->
-            <div id="CaraMemasak" class="recipe-section">
-                <h2 class="section-header">Cara Memasak</h2>
-                <div class="section-content">
-                    <ol>
-                        @foreach(explode("\n", $recipe->instructions) as $step)
-                        <li>{{ $step }}</li>
-                        @endforeach
-                    </ol>
-                </div>
-            </div>
-
-            <!-- Comments Section -->
-            <div id="Komentar" class="recipe-section">
-                <h2 class="section-header">Komentar</h2>
-                <div class="section-content">
-                    @foreach($recipe->comments as $comment)
-                    <div class="comment">
-                        <img src="{{ $comment->user->profile_image ? asset('images/profile/' . $comment->user->profile_image) : asset('images/default-profile.png') }}" alt="Profil">
-                        <p><strong>{{ $comment->user->name }}</strong>: {{ $comment->content }}</p>
+                <!-- Tab Content -->
+                <div class="tab-content">
+                    <!-- Ingredients Section -->
+                    <div class="tab-pane fade show active" id="bahan">
+                        <h2>Bahan-bahan</h2>
+                        <div class="section-content">
+                            @foreach(explode("\n", $recipe->ingredients) as $ingredient)
+                                <li>{{ $ingredient }}</li>
+                            @endforeach
+                        </div>
                     </div>
-                    @endforeach
-                </div>
 
-                @auth
-                <form action="{{ route('comments.store', $recipe->id) }}" method="POST">
-                    @csrf
-                    <div class="form-group">
-                        <textarea name="content" class="form-control" placeholder="Tulis komentar..." required></textarea>
+                    <!-- Cooking Instructions Section -->
+                    <div class="tab-pane fade" id="cara-memasak">
+                        <h2>Cara Memasak</h2>
+                        <div class="section-content">
+                            <ol>
+                                @foreach(explode("\n", $recipe->instructions) as $step)
+                                    <li>{{ $step }}</li>
+                                @endforeach
+                            </ol>
+                        </div>
                     </div>
-                    <button type="submit" class="add-comment-btn">Tambahkan Diskusi</button>
-                </form>
-                @else
-                <p>Silakan <a href="{{ route('login') }}">login</a> untuk menambahkan komentar.</p>
-                @endauth
+
+                    <!-- Comments Section -->
+                    <div class="tab-pane fade" id="diskusi">
+                        <h2>Komentar</h2>
+                        <div class="section-content">
+                            @foreach($recipe->comments as $comment)
+                                <div class="comment">
+                                    <img src="{{ $comment->user->profile_image ? asset('images/profile/' . $comment->user->profile_image) : asset('images/default-profile.png') }}" alt="Profil">
+                                    <p><strong>{{ $comment->user->name }}</strong>: {{ $comment->content }}</p>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        @auth
+                        <form action="{{ route('comments.store', $recipe->id) }}" method="POST">
+                            @csrf
+                            <div class="form-group">
+                                <textarea name="content" class="form-control" placeholder="Tulis komentar..." required></textarea>
+                            </div>
+                            <button type="submit" class="add-comment-btn">Tambahkan Diskusi</button>
+                        </form>
+                        @else
+                        <p>Silakan <a href="{{ route('login') }}">login</a> untuk menambahkan komentar.</p>
+                        @endauth
+                    </div>
+                </div>
             </div>
         </div>
     </div>
