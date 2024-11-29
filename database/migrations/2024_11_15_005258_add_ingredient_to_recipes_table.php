@@ -14,8 +14,8 @@ class AddIngredientToRecipesTable extends Migration
     public function up()
     {
         Schema::table('recipes', function (Blueprint $table) {
-            // Menambahkan kolom 'ingredient'
-            $table->text('ingredient')->nullable(); // bisa sesuaikan tipe data sesuai kebutuhan
+            // Modifikasi kolom 'ingredient' jika kolom sudah ada
+            $table->text('ingredient')->nullable()->change();
         });
     }
 
@@ -27,8 +27,8 @@ class AddIngredientToRecipesTable extends Migration
     public function down()
     {
         Schema::table('recipes', function (Blueprint $table) {
-            // Menghapus kolom 'ingredient' jika rollback
-            $table->dropColumn('ingredient');
+            // Mengembalikan kolom 'ingredient' ke tipe sebelumnya jika rollback
+            $table->string('ingredient')->nullable()->change();
         });
     }
 }

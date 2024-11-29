@@ -34,12 +34,10 @@
         }
     }
 
-    .img-fluid {
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        width: 100%;
+    .recipe-image {
+        width: 1000%;
         height: auto;
-        max-width: 800px;
+        max-width: 1000px; 
     }
 
     .action-buttons {
@@ -116,12 +114,20 @@
     .add-comment-btn:hover {
         background-color: #0056b3;
     }
+
+    .icon-section img {
+        width: 35px;  
+        height: 35px; 
+        margin-right: 0px;
+    }
 </style>
 
 <div class="container">
     <div class="recipe-details">
         <div class="recipe-image">
-            <img src="{{ asset('delfood-1.0.0/images/' . $recipe->image) }}" alt="{{ $recipe->title }}" class="img-fluid">
+            <img src="{{ asset('storage/' . $recipe->image) }}" 
+                 alt="{{ $recipe->title }}" 
+                 style="height: 450px; object-fit: cover; border-radius: 10px;"> 
         </div>
         <div>
             <h1>{{ $recipe->title }}</h1>
@@ -150,8 +156,8 @@
                     </button>
                 </form>
 
-                 <!-- Save Recipe Button -->
-                 <form action="{{ route('recipes.save', $recipe->id) }}" method="POST">
+                <!-- Save Recipe Button -->
+                <form action="{{ route('recipes.save', $recipe->id) }}" method="POST">
                     @csrf
                     <button type="submit" class="action-button" style="background-color: #ffc107; color: white;">
                         <i class="fa fa-heart"></i> Simpan Resep
@@ -192,7 +198,6 @@
                             @foreach(explode("\n", is_array($recipe->instructions) ? implode("\n", $recipe->instructions) : $recipe->instructions) as $step)
                                 <li>{{ $step }}</li>
                             @endforeach
-
                             </ol>
                         </div>
                     </div>

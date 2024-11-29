@@ -18,10 +18,10 @@
         <div class="col-md-3 mb-4">             
             <a href="{{ route('recipes.show', $recipe->id) }}">                
                 <div class="card shadow-sm rounded-lg" style="border: none;">                     
-                    <img src="{{ asset('delfood-1.0.0/images/' . $recipe->image) }}"                           
-                         alt="{{ $recipe->title }}"                           
-                         class="card-img-top"                           
-                         style="height: 200px; object-fit: cover; border-radius: 10px;">                 
+                    <img src="{{ asset('storage/' . $recipe->image) }}" 
+                    alt="{{ $recipe->title }}" 
+                    class="card-img-top" 
+                    style="height: 200px; object-fit: cover; border-radius: 10px;">                 
                 </div>             
             </a>              
             <div class="mt-2">                 

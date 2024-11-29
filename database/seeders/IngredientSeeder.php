@@ -4,11 +4,13 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Ingredient;
+use App\Models\Recipe;  // Pastikan model Recipe dimasukkan
 
 class IngredientSeeder extends Seeder
 {
     public function run()
     {
+        // Daftar bahan
         $ingredients = [
             'Agar-Agar', 'Air Kelapa', 'Air Soda', 'Almond', 'Alpukat', 'Anggur', 'Apel', 'Asam Jawa', 'Asparagus', 'Ati Ampela', 'Ayam', 'Ayam Cincang',
             'Baby Corn', 'Bacon', 'Baking Powder', 'Bakso', 'Bakso Ikan', 'Basil', 'Bawang Bombay', 'Bawang Merah', 'Bawang Putih', 'Bayam', 'Belimbing', 'Belut', 'Bengkoang', 'Beras', 'Beras Ketan', 'Beras Merah', 'Bihun', 'Biskuit Oreo', 'Blewah', 'Blueberry', 'Brokoli', 'Buah Naga', 'Bubble Pearl', 'Bubuk Jelly', 'Buncis', 'Bunga Lawang/Pekak',
@@ -35,8 +37,15 @@ class IngredientSeeder extends Seeder
             'Zucchini'
         ];
 
+        // Ambil ID resep yang sudah ada
+        $recipeIds = Recipe::all()->pluck('id');
+
+        // Tambahkan bahan-bahan ke dalam tabel ingredients
         foreach ($ingredients as $ingredient) {
-            Ingredient::create(['name' => $ingredient]);
+            Ingredient::create([
+                'name' => $ingredient,
+                'recipe_id' => $recipeIds->random()  // Pilih ID resep secara acak
+            ]);
         }
     }
 }

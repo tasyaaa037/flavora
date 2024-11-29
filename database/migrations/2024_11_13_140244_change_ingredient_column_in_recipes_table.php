@@ -9,16 +9,14 @@ class ChangeIngredientColumnInRecipesTable extends Migration
     public function up()
     {
         Schema::table('recipes', function (Blueprint $table) {
-            $table->json('ingredients')->nullable()->change();
+            $table->json('ingredient')->nullable()->change(); // Pastikan nama kolom sesuai
         });
     }
-
 
     public function down()
     {
         Schema::table('recipes', function (Blueprint $table) {
-            // Mengembalikan kolom ingredients ke string dengan nullable
-            $table->string('ingredient')->nullable()->change();
+            $table->text('ingredient')->nullable()->change(); // Kembali ke tipe text jika rollback
         });
     }
 }
