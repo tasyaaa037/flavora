@@ -70,6 +70,7 @@ Route::delete('/profile/favorite/{recipe}', [ProfileController::class, 'removeFa
 Route::get('/profile/favorites', [ProfileController::class, 'favorites'])->name('favorites.index');
 Route::get('/profile/favorites', [ProfileController::class, 'favorites'])->name('favorites.index')->middleware('auth');
 Route::get('/profile/favorites', [ProfileController::class, 'favorites'])->name('profile.favorites');
+Route::post('/recipes/save-favorite/{recipeId}', [RecipeController::class, 'saveFavorite'])->name('recipes.save.favorite');
 
 
 // Auth check and redirect URL setting
