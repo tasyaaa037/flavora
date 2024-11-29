@@ -54,38 +54,46 @@ class RecipeController extends Controller
     // Menampilkan formulir untuk menambahkan resep baru
     public function create()
     {
-        $categories = Categorie::all(); // Assuming categories are nested types
-        return view('recipes.create', compact('categories'));
+        $categorieTypes = CategorieType::with('categories')->get();
+        return view('recipes.create', compact('categorieTypes'));
     }
-
-    // Store the new recipe in the database
+    
     public function store(Request $request)
     {
-        $request->validate([
+        // Validate the input data
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'instructions' => 'required|array',
+            'cook_time' => 'required|integer',
             'ingredients' => 'required|array',
-            'cook_time' => 'required|integer|min:1',
-            'image' => 'required|image|max:2048',
-            'categorie_id' => 'required|exists:categories,id',
+            'instructions' => 'required|array',
+            'image' => 'nullable|image|max:2048',
+            'categorie_id' => 'required|integer',
         ]);
-
-        // Handle image upload
-        $imagePath = $request->file('image')->store('recipes', 'public');
-
-        Recipe::create([
-            'title' => $request->input('title'),
-            'description' => $request->input('description'),
-            'instructions' => implode('|', $request->input('instructions')),
-            'ingredient' => implode('|', $request->input('ingredients')),
-            'cook_time' => $request->input('cook_time'),
-            'image' => $imagePath,
-            'categorie_id' => $request->input('categorie_id'),
-        ]);
-
+    
+        // Create a new recipe instance
+        $recipe = new Recipe();
+        $recipe->title = $request->input('title');
+        $recipe->description = $request->input('description');
+        $recipe->cook_time = $request->input('cook_time');
+    
+        // Convert ingredients and instructions arrays to comma-separated strings
+        $recipe->ingredients = implode(',', $request->input('ingredients'));
+        $recipe->instructions = implode(',', $request->input('instructions'));
+    
+        // Handle image upload if provided
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('recipes', 'public');
+            $recipe->image = $imagePath;
+        }
+    
+        $recipe->categorie_id = $request->input('categorie_id');
+        $recipe->save();
+    
+        // Redirect with a success message
         return redirect()->route('recipes.index')->with('success', 'Recipe created successfully!');
     }
+    
 
     // Show the edit form
     public function edit($id)
@@ -271,7 +279,9 @@ class RecipeController extends Controller
         if (!auth()->check()) {
             return redirect()->route('login');
         }
-
+        $recipe = Recipe::find($id);
+        $user = auth()->user();
+        $user->favorites()->attach($recipe);
         $user = auth()->user();
         $favorites = $user->favorites;
         return view('favorites.index', compact('user', 'favorites'));
@@ -377,6 +387,8 @@ class RecipeController extends Controller
             'message' => 'Resep berhasil disimpan di favorit Anda.'
         ]);
     }
+
+    
 
     public function storeComment(Request $request, $recipeId)
     {

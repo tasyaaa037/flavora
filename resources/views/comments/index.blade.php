@@ -12,13 +12,6 @@
                 <p class="text-gray-500">Halo,</p>
                 <p class="text-xl font-semibold">{{ $user->name }}</p>
             </div>
-            <button class="mt-4 bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded-lg shadow-sm flex items-center" 
-                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                <i class="fas fa-sign-out-alt mr-2"></i> Log out
-            </button>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                @csrf
-            </form>
         </div>
     </div>
 

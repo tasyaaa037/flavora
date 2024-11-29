@@ -150,7 +150,8 @@
                     </button>
                 </form>
 
-                <form action="{{ route('recipes.save', $recipe->id) }}" method="POST">
+                 <!-- Save Recipe Button -->
+                 <form action="{{ route('recipes.save', $recipe->id) }}" method="POST">
                     @csrf
                     <button type="submit" class="action-button" style="background-color: #ffc107; color: white;">
                         <i class="fa fa-heart"></i> Simpan Resep
@@ -188,9 +189,10 @@
                         <h2>Cara Memasak</h2>
                         <div class="section-content">
                             <ol>
-                                @foreach(explode("\n", $recipe->instructions) as $step)
-                                    <li>{{ $step }}</li>
-                                @endforeach
+                            @foreach(explode("\n", is_array($recipe->instructions) ? implode("\n", $recipe->instructions) : $recipe->instructions) as $step)
+                                <li>{{ $step }}</li>
+                            @endforeach
+
                             </ol>
                         </div>
                     </div>

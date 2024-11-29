@@ -6,7 +6,7 @@
 <div class="container mt-5">
     <h2 class="text-center mb-4">Create New Recipe</h2>
 
-    <!-- Displaying General Error Messages -->
+    <!-- Display validation errors -->
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -17,21 +17,10 @@
         </div>
     @endif
 
-    <!-- Displaying Success or Error Messages from Session -->
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
-
+    <!-- Form to create a new recipe -->
     <form action="{{ route('recipes.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
+
         <div class="mb-3">
             <label for="title" class="form-label">Recipe Title</label>
             <input type="text" name="title" id="title" class="form-control" value="{{ old('title') }}" required>
@@ -42,20 +31,14 @@
             <textarea name="description" id="description" class="form-control" rows="3" required>{{ old('description') }}</textarea>
         </div>
 
-        <div class="mb-3">
-            <label for="instructions" class="form-label">Instructions</label>
-            <div id="instructions-wrapper" class="mb-2">
-                <input type="text" name="instructions[]" class="form-control mb-2" placeholder="Instruction Step" required>
-            </div>
-            <button type="button" class="btn btn-secondary" onclick="addInstruction()">Add Step</button>
+        <div class="form-group">
+            <label for="ingredients">Ingredients</label>
+            <textarea class="form-control" id="ingredients" name="ingredients[]" rows="5" placeholder="Enter each ingredient on a new line" required>{{ old('ingredients') }}</textarea>
         </div>
 
-        <div class="mb-3">
         <div class="form-group">
-            <label for="ingredients">Bahan-bahan</label>
-            <textarea name="ingredients" id="ingredients" class="form-control" required>{{ $recipe->ingredient }}</textarea>
-        </div>
-            <button type="button" class="btn btn-secondary" onclick="addIngredient()">Add Ingredient</button>
+            <label for="instructions">Instructions</label>
+            <textarea class="form-control" id="instructions" name="instructions[]" rows="5" placeholder="Enter each step on a new line" required>{{ old('instructions') }}</textarea>
         </div>
 
         <div class="mb-3">
@@ -64,63 +47,25 @@
         </div>
 
         <div class="mb-3">
-            <label for="image">Recipe Image</label>
-            <input type="file" name="image" id="image" class="form-control" required>
+            <label for="image" class="form-label">Recipe Image</label>
+            <input type="file" name="image" id="image" class="form-control">
         </div>
 
-        <!-- Pilihan Kategori -->
+        <!-- Category selection -->
         <div class="form-group">
-            <label for="categorie">Kategori Resep</label>
+            <label for="categorie">Category</label>
             <select name="categorie_id" class="form-control" required>
-                @foreach($categories as $type) <!-- Looping Categorietype -->
-                    <optgroup label="{{ $type->nama }}"> <!-- Nama tipe kategori -->
-                        @foreach($type->categories as $categorie) <!-- Looping Categorie berdasarkan tipe -->
-                            <option value="{{ $categorie->id }}"
-                                @if(isset($recipe) && $recipe->categorie_id == $categorie->id) selected @endif>
-                                {{ $categorie->nama }}
-                            </option>
+                @foreach($categorieTypes as $type)
+                    <optgroup label="{{ $type->nama }}">
+                        @foreach($type->categories as $categorie)
+                            <option value="{{ $categorie->id }}">{{ $categorie->nama }}</option>
                         @endforeach
                     </optgroup>
                 @endforeach
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-3">Save Recipe</button>
+        <button type="submit" class="btn btn-primary mt-3">Create Recipe</button>
     </form>
 </div>
-
-<script>
-    let ingredientIndex = 1;
-    let instructionIndex = 1;
-
-    function addIngredient() {
-        const wrapper = document.getElementById('ingredients-wrapper');
-        const ingredientGroup = document.createElement('div');
-        ingredientGroup.classList.add('ingredient-group');
-        ingredientGroup.innerHTML = `
-            <input type="text" name="ingredients[${ingredientIndex}][name]" placeholder="Ingredient Name" class="form-control mb-2" required>
-            <input type="number" name="ingredients[${ingredientIndex}][quantity]" placeholder="Quantity" class="form-control mb-2" required>
-            <select name="ingredients[${ingredientIndex}][unit]" class="form-control mb-2" required>
-                <option value="">Select Unit</option>
-                <option value="grams">grams</option>
-                <option value="ml">ml</option>
-                <option value="pieces">pieces</option>
-                <option value="cups">cups</option>
-            </select>
-        `;
-        wrapper.appendChild(ingredientGroup);
-        ingredientIndex++; // Increment index for the next ingredient
-    }
-
-    function addInstruction() {
-        const wrapper = document.getElementById('instructions-wrapper');
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.name = 'instructions[]';
-        input.placeholder = 'Instruction Step';
-        input.classList.add('form-control', 'mb-2');
-        wrapper.appendChild(input);
-    }
-
-</script>
 @endsection
