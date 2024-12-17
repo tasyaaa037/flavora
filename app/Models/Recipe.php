@@ -92,7 +92,7 @@ class Recipe extends Model
     // Relasi dengan kategori umum
     public function categorie()
     {
-        return $this->belongsTo(Categorie::class, 'categorie_id');
+        return $this->belongsToMany(Categorie::class, 'categorie_id');
     }
 
 
@@ -157,7 +157,7 @@ class Recipe extends Model
 
     public function recipe()
     {
-        return $this->belongsTo(Recipe::class);
+        return $this->belongsToMany(Recipe::class);
     }
 
     public function usersFavorited()

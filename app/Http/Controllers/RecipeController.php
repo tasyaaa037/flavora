@@ -58,43 +58,34 @@ class RecipeController extends Controller
         return view('recipes.create', compact('categorieTypes'));
     }
     
-    public function store(Request $request)
-    {
-        // Validate the input data
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'cook_time' => 'required|integer',
-            'ingredients' => 'required|array',
-            'instructions' => 'required|array',
-            'image' => 'nullable|image|max:2048',
-            'categorie_id' => 'required|integer',
-        ]);
-    
-        // Create a new recipe instance
-        $recipe = new Recipe();
-        $recipe->title = $request->input('title');
-        $recipe->description = $request->input('description');
-        $recipe->cook_time = $request->input('cook_time');
-    
-        // Convert ingredients and instructions arrays to comma-separated strings
-        $recipe->ingredients = implode(',', $request->input('ingredients'));
-        $recipe->instructions = implode(',', $request->input('instructions'));
-    
-        // Handle image upload if provided
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('recipes', 'public');
-            $recipe->image = $imagePath;
-        }
-    
-        $recipe->categorie_id = $request->input('categorie_id');
-        $recipe->save();
-    
-        // Redirect with a success message
-        return redirect()->route('recipes.index')->with('success', 'Recipe created successfully!');
-    }
-    
+public function store(Request $request)
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'required|string',
+        'ingredients' => 'required|array',
+        'ingredients.*' => 'required|string',
+        'instructions' => 'required|array',
+        'instructions.*' => 'required|string',
+        'cook_time' => 'required|integer',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+        'categorie_ids' => 'required|array', // Validasi untuk kategori
+    ]);
 
+    // Simpan resep
+    $recipe = Recipe::create([
+        'title' => $request->title,
+        'description' => $request->description,
+        'cook_time' => $request->cook_time,
+        'image' => $request->file('image') ? $request->file('image')->store('recipes') : null,
+    ]);
+
+    // Attach kategori yang dipilih
+    $recipe->categories()->sync($request->categorie_ids);
+
+    return redirect()->route('recipes.index')->with('success', 'Recipe created successfully');
+}
+    
     // Show the edit form
     public function edit($id)
     {

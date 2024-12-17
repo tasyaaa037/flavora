@@ -52,18 +52,19 @@
         </div>
 
         <!-- Category selection -->
-        <div class="form-group">
-            <label for="categorie">Category</label>
-            <select name="categorie_id" class="form-control" required>
-                @foreach($categorieTypes as $type)
-                    <optgroup label="{{ $type->nama }}">
-                        @foreach($type->categories as $categorie)
-                            <option value="{{ $categorie->id }}">{{ $categorie->nama }}</option>
-                        @endforeach
-                    </optgroup>
-                @endforeach
-            </select>
-        </div>
+        @foreach($categorieTypes as $type)
+            <div class="form-group mb-4">
+                <label for="categorie_{{ $type->id }}" class="form-label">{{ $type->nama }}</label>
+                <select name="categorie_ids[]" id="categorie_{{ $type->id }}" class="form-select" multiple>
+                    <option value="" disabled>Select categories</option>
+                    @foreach($type->categories as $categorie)
+                        <option value="{{ $categorie->id }}" {{ in_array($categorie->id, old('categorie_ids', [])) ? 'selected' : '' }}>
+                            {{ $categorie->nama }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        @endforeach
 
         <button type="submit" class="btn btn-primary mt-3">Create Recipe</button>
     </form>
